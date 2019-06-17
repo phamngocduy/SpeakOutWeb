@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 14 for Web
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakOutWeb", "WebApplication\SpeakOutWeb.csproj", "{761FA6AC-614B-4E2F-9882-9A6A7510D4E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakOutWeb.Tests", "SpeakOut.Tests\SpeakOutWeb.Tests.csproj", "{46346C68-4246-45AF-AD02-5CACA15CEC01}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{761FA6AC-614B-4E2F-9882-9A6A7510D4E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{761FA6AC-614B-4E2F-9882-9A6A7510D4E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{761FA6AC-614B-4E2F-9882-9A6A7510D4E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{761FA6AC-614B-4E2F-9882-9A6A7510D4E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46346C68-4246-45AF-AD02-5CACA15CEC01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46346C68-4246-45AF-AD02-5CACA15CEC01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46346C68-4246-45AF-AD02-5CACA15CEC01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46346C68-4246-45AF-AD02-5CACA15CEC01}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
