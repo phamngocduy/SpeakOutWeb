@@ -196,8 +196,24 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\atlas-solid.svg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\logo-readout.png" />
+    <Content Include="Content\logo-vlu-6.png" />
+    <Content Include="Content\mic-animate.gif" />
+    <Content Include="Content\mic-record.gif" />
+    <Content Include="Content\mic-slash.gif" />
+    <Content Include="Content\mic.gif" />
+    <Content Include="Content\out-pause.png" />
+    <Content Include="Content\out-play.png" />
+    <Content Include="Content\out-stop.png" />
+    <Content Include="Content\rec-download.png" />
+    <Content Include="Content\rec-play.png" />
+    <Content Include="Content\sky-blue-backgrounds.jpg" />
+    <Content Include="Content\style.css" />
+    <Content Include="Content\uk.png" />
+    <Content Include="Content\us.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -213,6 +229,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\notify.js" />
+    <Content Include="Scripts\p5.js" />
+    <Content Include="Scripts\p5.min.js" />
+    <Content Include="Scripts\p5.sound.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
