@@ -35,11 +35,8 @@
         <button id="@playButton" class="btn" title="Replay" data-toggle="popover" data-trigger="hover" data-content="Click to replay your voice" style="display:none"><img class="icon" src="~/Content/rec-play.png"></button>
         <button id="@stopButton" class="btn" title="Stop" data-toggle="popover" data-trigger="hover" data-content="Click to Stop" style="display:none"><img class="icon" src="~/Content/out-stop.png"></button>
         <button id="@saveButton" class="btn" title="Download" data-toggle="popover" data-trigger="hover" data-content="Click to Download" style="display:none"><img class="icon" src="~/Content/rec-download.png"></button>
-
     </div>
-
 </div>
-
 
 <div class="well">
     <div class="container">
@@ -62,9 +59,7 @@
             }
         }
     </div>
-
 </div>
-
 
 <style>
     span.line:hover {
@@ -132,9 +127,10 @@
     /*
     Get voices from google
     */
+   
     function populateVoiceList() {
         var voices = speechSynthesis.getVoices();
-        var voiceSelect = $(@speechVoices)[0];
+         var voiceSelect = $(@speechVoices)[0];
         voiceSelect.innerHTML = '';
         for (i = 0; i < voices.length; i++) {
             if (voices[i].lang == "en-US" || voices[i].lang == "en-GB") {
@@ -204,10 +200,12 @@
     */
     $("#@pauseButton").click(function () { // handle pause button
         $(this).hide();
+         $(@resumeButton).show();
         speechSynthesis.pause();
     });
     $("#@resumeButton").click(function () { // handle resume button
         $(this).hide();
+         $(@pauseButton).show();
         speechSynthesis.resume();
     });
     $("#@cancelButton").click(function () { // handle cancel button
@@ -228,9 +226,12 @@
     function speakText1() {
         isSpeaking = true;
         $('.line').removeClass('blue');
+
         $(spanContent[0]).addClass('blue');
-        speakText2($(spanContent[0]).text());
-        spanContent.reverse();
+        //$(spanContent[0]).parent().find('span.bold').removeClass('bold').parent('span.line').removeClass('underline');
+        let speakText = $(spanContent[0]).children('span').removeAttr('data-content');
+        speakText2($(speakText).text());
+           spanContent.reverse();
         spanContent.pop();
         spanContent.reverse();
     }
@@ -322,7 +323,7 @@
             context: this,
             success: function (result, status, xhr) {
                 var wordSplit = result.split("|");
-                $(this).attr('data-content', '<div style="background-color: rgb(241,241,241);margin:-10px -10px 4px;font-size:14px;border-style:gridge; padding:5px 5px" >' + wordSplit[0] +'<a href="#" style="float: right">'+'<i class="far fa-save"></i>'+'</a>'+ '</div>' + '<span>'+wordSplit[1]+'</span>');
+                $(this).attr('data-content', '<div id="pronunciation" style="background-color: rgb(241,241,241);margin:-10px -10px 4px;font-size:14px;border-style:gridge; padding:5px 5px" >' + wordSplit[0] +'<a href="#" style="float: right">'+'<i class="far fa-save"></i>'+'</a>'+ '</div>' + '<span>'+wordSplit[1]+'</span>');
                 $(this).attr('data-html', true);
                 $(this).popover('show');
                 oldText = findWord;
