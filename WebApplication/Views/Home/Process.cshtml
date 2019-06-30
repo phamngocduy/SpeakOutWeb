@@ -14,93 +14,95 @@
 
 }
 <br />
+<link href="~/Content/style.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<div class="container body-content pageProcess">
+    <div class="row">
+        <div class="col-sm-3 form-inline">
+            <select class="form-control" id="@speechVoices"></select>
+            <input type="range" data-slider-min="0.5" data-slider-max="2" data-slider-value="1" data-slider-step="0.1" id="@speechRate">
+        </div>
 
-<div class="row">
-    <div class="col-sm-3 form-inline">
-        <select class="form-control" id="@speechVoices"></select>
-        <input type="range" data-slider-min="0.5" data-slider-max="2" data-slider-value="1" data-slider-step="0.1" id="@speechRate">
+        <div class="col-sm-4 form-inline">
+            <button id="@speakButton" class="btn" title="Listening" data-toggle="popover" data-trigger="hover" data-content="Click to listen your text"><img class="icon" src="@Url.Content("~/Content/out-play.png")" /></button>
+            <button id="@resumeButton" class="btn" title="Resume" data-toggle="popover" data-trigger="hover" data-content="Click to Resume" style="display:none"><img class="icon" src="@Url.Content("~/Content/out-play.png")" /></button>
+            <button id="@pauseButton" class="btn" title="Pause" data-toggle="popover" data-trigger="hover" data-content="Click to Pause" style="display:none"><img class="icon" src="@Url.Content("~/Content/out-pause.png")"></button>
+            <button id="@cancelButton" class="btn" title="Stop" data-toggle="popover" data-trigger="hover" data-content="Click to Stop" style="display:none"><img class="icon" src="@Url.Content("~/Content/out-stop.png")"></button>
+        </div>
+
+        <div class="col-sm-5 form-inline">
+            <button id="btn_record" class="btn" onclick="startButton(event)">
+                <img alt="Start" id="img_record" class="icon img-circle" src="@Url.Content("~/Content/mic-record.gif")">
+            </button>
+            <button id="@playButton" class="btn" title="Replay" data-toggle="popover" data-trigger="hover" data-content="Click to replay your voice" style="display:none"><img class="icon" src="~/Content/rec-play.png"></button>
+            <button id="@stopButton" class="btn" title="Stop" data-toggle="popover" data-trigger="hover" data-content="Click to Stop" style="display:none"><img class="icon" src="~/Content/out-stop.png"></button>
+            <button id="@saveButton" class="btn" title="Download" data-toggle="popover" data-trigger="hover" data-content="Click to Download" style="display:none"><img class="icon" src="~/Content/rec-download.png"></button>
+        </div>
     </div>
 
-    <div class="col-sm-4 form-inline">
-        <button id="@speakButton" class="btn" title="Listening" data-toggle="popover" data-trigger="hover" data-content="Click to listen your text"><img class="icon" src="@Url.Content("~/Content/out-play.png")" /></button>
-        <button id="@resumeButton" class="btn" title="Resume" data-toggle="popover" data-trigger="hover" data-content="Click to Resume" style="display:none"><img class="icon" src="@Url.Content("~/Content/out-play.png")" /></button>
-        <button id="@pauseButton" class="btn" title="Pause" data-toggle="popover" data-trigger="hover" data-content="Click to Pause" style="display:none"><img class="icon" src="@Url.Content("~/Content/out-pause.png")"></button>
-        <button id="@cancelButton" class="btn" title="Stop" data-toggle="popover" data-trigger="hover" data-content="Click to Stop" style="display:none"><img class="icon" src="@Url.Content("~/Content/out-stop.png")"></button>
-    </div>
-
-    <div class="col-sm-5 form-inline">
-        <button id="btn_record" class="btn" onclick="startButton(event)">
-            <img alt="Start" id="img_record" class="icon img-circle" src="@Url.Content("~/Content/mic-record.gif")">
-        </button>
-        <button id="@playButton" class="btn" title="Replay" data-toggle="popover" data-trigger="hover" data-content="Click to replay your voice" style="display:none"><img class="icon" src="~/Content/rec-play.png"></button>
-        <button id="@stopButton" class="btn" title="Stop" data-toggle="popover" data-trigger="hover" data-content="Click to Stop" style="display:none"><img class="icon" src="~/Content/out-stop.png"></button>
-        <button id="@saveButton" class="btn" title="Download" data-toggle="popover" data-trigger="hover" data-content="Click to Download" style="display:none"><img class="icon" src="~/Content/rec-download.png"></button>
-    </div>
-</div>
-
-<div class="well">
-    <div class="container">
-        @foreach (var text in Model)
-        {
-            if (String.IsNullOrEmpty(text))
+    <div class="well">
+        <div class="container">
+            @foreach (var text in Model)
             {
-                <br /><br />
+                if (String.IsNullOrEmpty(text))
+                {
+                    <br /><br />
+                }
+                else
+                {
+                    <span class="line">
+                        @MvcHtmlString.Create("<!--")
+                        @foreach (var word in Regex.Split(text, "([a-zA-Z]+)"))
+                        {
+                            @MvcHtmlString.Create("-->")<span class="@(Regex.IsMatch(word, "[a-zA-Z]+") ? "word" : word.Contains('.') ? "dot" : null)">@word</span>@MvcHtmlString.Create("<!--")
+                        }
+                        @MvcHtmlString.Create("-->")
+                    </span>
+                }
             }
-            else
-            {
-                <span class="line">
-                    @MvcHtmlString.Create("<!--")
-                    @foreach (var word in Regex.Split(text, "([a-zA-Z]+)"))
-                    {
-                        @MvcHtmlString.Create("-->")<span class="@(Regex.IsMatch(word, "[a-zA-Z]+") ? "word" : word.Contains('.') ? "dot" : null)">@word</span>@MvcHtmlString.Create("<!--")
-                    }
-                    @MvcHtmlString.Create("-->")
-                </span>
-            }
+        </div>
+    </div>
+
+    <style>
+        span.line:hover {
+            text-decoration: underline;
         }
-    </div>
-</div>
 
-<style>
-    span.line:hover {
-        text-decoration: underline;
-    }
+        span.bold {
+            font-weight: bold;
+        }
 
-    span.bold {
-        font-weight: bold;
-    }
+        span.italic {
+            font-style: italic;
+        }
 
-    span.italic {
-        font-style: italic;
-    }
+        span.underline {
+            text-decoration: underline;
+        }
 
-    span.underline {
-        text-decoration: underline;
-    }
+        span.overline {
+            border-top: dashed 1px;
+        }
 
-    span.overline {
-        border-top: dashed 1px;
-    }
+        span.word {
+            cursor: pointer;
+        }
 
-    span.word {
-        cursor: pointer;
-    }
+        span.red {
+            color: red;
+        }
 
-    span.red {
-        color: red;
-    }
+        span.green {
+            color: green;
+        }
 
-    span.green {
-        color: green;
-    }
+        span.blue {
+            color: blue;
+        }
+    </style>
 
-    span.blue {
-        color: blue;
-    }
-</style>
-
-@section Script1 {
-    <script>
+    @section Script1 {
+        <script>
     $(function () {
         $('span.word').click(function () {
             $('span.bold').removeClass('bold').parent('span.line').removeClass('underline');
@@ -127,7 +129,7 @@
     /*
     Get voices from google
     */
-   
+
     function populateVoiceList() {
         var voices = speechSynthesis.getVoices();
          var voiceSelect = $(@speechVoices)[0];
@@ -308,6 +310,10 @@
             html: true,
             placement: "bottom"
         });
+        //Variable for save current word information
+        var spelling = '';
+        var vietnamMeaning = '';
+        var englishWord = '';
         $(this).popover('show').addClass('overline');
         utterThis = new SpeechSynthesisUtterance(findWord);
         utterThis.voice = listVoices[$(@speechVoices).val()];
@@ -323,17 +329,66 @@
             context: this,
             success: function (result, status, xhr) {
                 var wordSplit = result.split("|");
-                $(this).attr('data-content', '<div id="pronunciation" style="background-color: rgb(241,241,241);margin:-10px -10px 4px;font-size:14px;border-style:gridge; padding:5px 5px" >' + wordSplit[0] +'<a href="#" style="float: right">'+'<i class="far fa-save"></i>'+'</a>'+ '</div>' + '<span>'+wordSplit[1]+'</span>');
+                $(this).attr('data-content', '<div id="pronunciation" style="background-color: rgb(241,241,241);margin:-10px -10px 4px;font-size:14px;border-style:gridge; padding:5px 5px" >' + wordSplit[0] + '  ' + wordSplit[2] +'<a href="#" style="float: right" id="saveWordButton">'+'<i class="far fa-save"></i>'+'</a>'+ '</div>' + '<span>'+wordSplit[1]+'</span>');
                 $(this).attr('data-html', true);
                 $(this).popover('show');
-                oldText = findWord;
+                spelling = wordSplit[0] + ' '+wordSplit[2];
+                vietnamMeaning = wordSplit[1];
+                englishWord = findWord;
+                $('#pronunciation').find('#saveWordButton').on('click', function () {
+                    saveDictionary();
+                    //loadDictionary();
+                });
             },
             error: function (xhr, status, error) {
                 alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
             }
         });
         return false;
-    });
+        });
+        //Function save dictionary
+        function saveDictionary() {
+            $.ajax({
+                type: "POST",
+                url: "/Vocabulary/SaveEntity",
+                data: {
+                    Id: 0,
+                    EngWord: englishWord,
+                    VnWord: vietnamMeaning,
+                    Spelling: spelling,
+
+                },
+                dataType: "json",
+                success: function (response) {
+                    $.notify(response, "info");
+                },
+                error: function (xhr, status, error) {
+                    alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+                }
+            });
+        }
+        //Function Load Dictionary
+        function loadDictionary() {
+            $.ajax({
+                type: "GET",
+                url: "/Vocabulary/getVocabularies",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    $.each(response, function (i, item) {
+                        item.VnWord = item.VnWord.replace(/<br\s*\/?>/gi, ' ');
+                        let wsRegex = /^\s*\s*$/; // Change this line
+                        let result = item.VnWord.replace(wsRegex, ''); // Change this line
+                        console.log(result + ' ' + item.EngWord + ' ' + item.spelling);
+                        allList += item.EngWord + ' ' + item.spelling + '<br>' + ' ' + result;
+                    });
+                    $('#wordLibrary').html(allList);
+                },
+                error: function (xhr, status, error) {
+                    alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+                }
+            });
+        }
     $('html').on('click', function (e) {
         if (typeof $(e.target).data('original-title') == 'undefined') {
             $('[data-original-title]').popover('hide');
@@ -342,27 +397,27 @@
     $('span.word.bold').ready(function () {
         $('[data-toggle="popover"]').popover();
     });
-    </script>
+        </script>
 
-    <script src="~/Scripts/notify.js"></script>
+        <script src="~/Scripts/notify.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/p5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/addons/p5.sound.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/p5.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/addons/p5.sound.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css" rel="stylesheet" />
-}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css" rel="stylesheet" />
+    }
 
-<nav id="info" class="navbar navbar-default navbar-fixed-bottom" style="min-height:0">
-    <div class="container">
-        <div class="navbar-header">
-            <span id="interim" style="font-size:larger;color:darkmagenta"></span>
+    <nav id="info" class="navbar navbar-default navbar-fixed-bottom" style="min-height:0">
+        <div class="container">
+            <div class="navbar-header">
+                <span id="interim" style="font-size:larger;color:darkmagenta"></span>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-@section Script2 {
-    <script>
+    @section Script2 {
+        <script>
     var is_final = false;
     var check_index1 = 0;
     var check_index2 = 0;
@@ -528,14 +583,15 @@
             info.style.visibility = 'hidden';
         }
     }
-    </script>
-}
+        </script>
+    }
 
-@section Scripts {
-    <script>
+    @section Scripts {
+        <script>
     $(function () {
         if ('@ViewBag.Type' == 'Speak')
             $(@speakButton).trigger('click');
     });
-    </script>
-}
+        </script>
+    }
+</div>

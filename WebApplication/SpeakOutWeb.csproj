@@ -68,6 +68,8 @@
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -186,12 +188,31 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\VocabulariesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Model1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vocabulary.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -202,8 +223,25 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\Model1.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Model1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -216,6 +254,44 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Library\css\style.css" />
+    <Content Include="Library\css\svg-icons.css" />
+    <Content Include="Library\css\webslides.css" />
+    <Content Include="Library\images\background1.jpg" />
+    <Content Include="Library\images\background2.png" />
+    <Content Include="Library\images\backgroundSignIn.png" />
+    <Content Include="Library\images\closeCheckbg.png" />
+    <Content Include="Library\images\closeCheckbg2.png" />
+    <Content Include="Library\images\favicons\favicon-120.png" />
+    <Content Include="Library\images\favicons\favicon-152.png" />
+    <Content Include="Library\images\favicons\favicon-180.png" />
+    <Content Include="Library\images\favicons\favicon-192.png" />
+    <Content Include="Library\images\favicons\favicon-32.png" />
+    <Content Include="Library\images\favicons\favicon-76.png" />
+    <Content Include="Library\images\favicons\favicon.png" />
+    <Content Include="Library\images\game.jpg" />
+    <Content Include="Library\images\game1.png" />
+    <Content Include="Library\images\game2.png" />
+    <Content Include="Library\images\hung.png" />
+    <Content Include="Library\images\img1.png" />
+    <Content Include="Library\images\logos\airbnb.svg" />
+    <Content Include="Library\images\logos\apple.svg" />
+    <Content Include="Library\images\logos\facebook.svg" />
+    <Content Include="Library\images\logos\google.svg" />
+    <Content Include="Library\images\logos\instagram.svg" />
+    <Content Include="Library\images\logos\logo-full.png" />
+    <Content Include="Library\images\logos\logo.png" />
+    <Content Include="Library\images\logos\logo.svg" />
+    <Content Include="Library\images\logos\microsoft.svg" />
+    <Content Include="Library\images\logos\netflix.svg" />
+    <Content Include="Library\images\logos\nyt.svg" />
+    <Content Include="Library\images\logos\thetimes.svg" />
+    <Content Include="Library\images\swipe.svg" />
+    <Content Include="Library\images\VanLang2.png" />
+    <Content Include="Library\js\myScript.js" />
+    <Content Include="Library\js\svg-icons.js" />
+    <Content Include="Library\js\webslides.js" />
+    <Content Include="Library\js\webslides.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -251,6 +327,11 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Process.cshtml" />
+    <Content Include="Views\Vocabularies\Create.cshtml" />
+    <Content Include="Views\Vocabularies\Delete.cshtml" />
+    <Content Include="Views\Vocabularies\Details.cshtml" />
+    <Content Include="Views\Vocabularies\Edit.cshtml" />
+    <Content Include="Views\Vocabularies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -262,6 +343,9 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

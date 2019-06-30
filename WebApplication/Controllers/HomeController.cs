@@ -120,6 +120,7 @@ namespace SpeakOutWeb.Controllers
                 HtmlDocument document = htmlWeb.Load("https://dictionary.cambridge.org/vi/dictionary/english-vietnamese/" + findWord);
                 var threadItems = document.DocumentNode.QuerySelectorAll(".di-body.normal-entry-body .pos-body .def-block .def-body .trans").ToList();
                 var threadItems1 = document.DocumentNode.QuerySelectorAll("div.di-head.normal-entry .di-info .pron").ToList();
+                var threadItems2 = document.DocumentNode.QuerySelectorAll("div.di-head.normal-entry .di-info .posgram .pos").ToList();
                 foreach (var item in threadItems1)
                 {
                     foundWord += item.InnerText + " ";
@@ -132,6 +133,11 @@ namespace SpeakOutWeb.Controllers
                         foundWord += item.InnerText + "<br/>";
                         count++;
                     }
+                }
+                foundWord += "|";
+                foreach (var item in threadItems2)
+                {
+                    foundWord += item.InnerText + " ";
                 }
                 return foundWord;
             }

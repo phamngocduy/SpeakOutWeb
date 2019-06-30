@@ -1,34 +1,409 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-<style>
-    .jumbotron {
-        position: relative;
-        background: rgb(204, 204, 204); /* Fallback for older browsers without RGBA-support */
-        background: rgba(204, 204, 204, 0.5);
-    }
-
-    #Textarea {
-        max-width: 100%;
-        position: relative;
-        background: rgb(204, 204, 204); /* Fallback for older browsers without RGBA-support */
-        background: rgba(255, 255, 255, 0.5);
-    }
-</style>
-<div class="jumbotron">
-    <div class="form-group">
+<!-- class="vertical" -->
+<article id="webslides" class="vertical">
+    <section class="bg-white">
+        <span class="background bg1" style="background-image:url('/Library/images/background1.jpg')"></span>
         @using (Html.BeginForm())
         {
             @Html.Hidden("Type")
-            <label for="Textarea"><i>Practice your English with</i> <a href="#">Read-Out!</a></label>
-            <input type="submit" class="btn btn-primary pull-right" value="Next" />
-            <button class="btn" onclick="Practice(event, 'Speak')" title="Practice Listening"><img class="icon" src="@Url.Content("~/Content/out-play.png")" /></button>
-            <textarea name="Text" class="form-control" id="Textarea" rows="8" placeholder="Type, paste, and edit text here."></textarea>
+            <div class="wrap size-60 fadeInUp">
+                <h4>
+                    Luyện tập tiếng anh của bạn với
+                    <strong>
+                        <a href="">
+                            Read out
+                            <svg class="fa-play-circle"><use xlink:href="#fa-play-circle"></use></svg>
+                        </a>
+                    </strong>
+                </h4>
+                <pre>
+                <textarea name="Text" class="form-control" id="Textarea" cols="30" rows="8" placeholder="Type, paste, and edit text here."></textarea>
+                <p><button class="btn button radius" onclick="Practice(event, 'Speak')" title="Practice Listening">Next</button></p>
+					</pre>
+            </div>
         }
-    </div>
-</div>
+    </section>
+    <!-- Slide 1 -->
+    <section class="aligncenter">
+        <span class="background bg1" style="background-image:url('/Library/images/background2.png')"></span>
+        <!--.wrap = container (width: 90%) -->
+        <div class="wrap">
+            <div class="grid sm">
+                <div class="column slideInLeft">
+                    <h4>Ứng dụng học tiếng anh trực tuyến của ĐH Văn Lang với hơn <strong>40 tính năng</strong> phù hợp với mọi lớp học</h4>
+                    <hr>
+                    <ul class="flexblock features">
+                        <li>
+                            <div>
+                                <h2>
+                                    <span>40<sup>+</sup></span>
+                                    Tính năng mới
+                                </h2>
+                                đã được cập nhật
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="column zoomIn">
+                    <img src="~/Library/images/img1.png" style="height: 50rem; width: 45rem" alt="" class="flexblock blink image1">
+                </div>
+            </div>
+            <!--end .grid -->
+        </div>
+        <!-- .end .wrap -->
+    </section>
+
+    <section>
+        <span class="background-right-top" style="background-image:url('/Library/images/closeCheckbg.png')"></span>
+        <div class="wrap">
+            <div class="content-left fadeIn">
+                <h3 class="textContentVLU">
+                    <svg class="fa-times-circle iconVLU" style="color: red;">
+                        <use xlink:href="#fa-times-circle"></use>
+                    </svg>Bạn có cảm thấy
+                </h3>
+                <ul class="flexblock specs">
+                    <li>
+                        <div>
+                            <h2>
+                                <svg class="fa-times">
+                                    <use xlink:href="#fa-times"></use>
+                                </svg>
+                                Tự ti, hồi hộp
+                            </h2>
+                            Hay xấu hổ khi phải giao tiếp bằng tiếng Anh?
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <h2>
+                                <svg class="fa-times">
+                                    <use xlink:href="#fa-times"></use>
+                                </svg>
+                                Muốn “xách ba-lô lên và đi”
+                            </h2>
+                            Nhưng sợ không giao tiếp được khi ở nước ngoài?
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <h2>
+                                <svg class="fa-times">
+                                    <use xlink:href="#fa-times"></use>
+                                </svg>
+                                Quá bận rộn
+                            </h2>
+                            Để cam kết thời gian cố định và học phí để học tiếng Anh theo phương pháp truyền thống?
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-right fadeIn">
+                <h3 class="textContentVLU">
+                    <svg class="fa-times-circle iconVLU" style="color: green;">
+                        <use xlink:href="#fa-check-circle"></use>
+                    </svg>Bạn muốn
+                </h3>
+                <ul class="flexblock specs">
+                    <li>
+                        <div>
+                            <h2>
+                                <svg class="fa-check">
+                                    <use xlink:href="#fa-check"></use>
+                                </svg>
+                                Tự tin
+                            </h2>
+                            Nói tiếng Anh “như gió” – vừa rõ vừa hay
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <h2>
+                                <svg class="fa-check">
+                                    <use xlink:href="#fa-check"></use>
+                                </svg>
+                                Học lúc mình rảnh
+                            </h2>
+                            Tại bất kể nơi nào mình muốn, với học phí tối ưu nhất.
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <h2>
+                                <svg class="fa-check">
+                                    <use xlink:href="#fa-check"></use>
+                                </svg>
+                                Nắm bắt những cơ hội
+                            </h2>
+                            Thăng tiến trong sự nghiệp; làm việc cho những công ty lớn hoặc những tập đoàn đa quốc gia; tăng thu nhập từ 48% - 100%; bán hàng hay kêu gọi đầu tư trên toàn cầu.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- .end .wrap -->
+    </section>
+    <section>
+        <span class="background-right-bottom" style="background-image:url('/Library/images/closeCheckbg2.png')"></span>
+        <!--.wrap = container (width: 90%) -->
+        <div class="wrap">
+            <div class="content-left slideInLeft">
+                <h2>Luyện nói tiếng anh cho <strong style="color: #d51c29">Sinh viên</strong> không chuyên &rarr; dạn dĩ hơn</h2>
+            </div>
+            <div class="content-left slideInRight">
+                <p>như là gia sư bản địa <strong>trực tuyến</strong> của riêng bạn, luôn sẵn sàng giúp bạn luyện tập <strong>24/7</strong> với phản hồi tức thì và hướng dẫn chính xác tuyệt dối.</p>
+            </div>
+            <ul class="flexblock features fadeInUp">
+                <li>
+                    <div>
+                        <h2>
+                            <span>&rarr;</span>
+                            Đơn giản
+                        </h2>
+                        Thao tác đơn giản, dễ sử dụng
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h2>
+                            <svg class="fa-link">
+                                <use xlink:href="#fa-link"></use>
+                            </svg>
+                            Tiện ích
+                        </h2>
+                        Nhiều tính năng phòng học, giải trí,..
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h2>
+                            <svg class="fa-clock o">
+                                <use xlink:href="#fa-clock-o"></use>
+                            </svg>
+                            Nhanh chóng
+                        </h2>
+                        Tiết kiệm thời gian.
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- .end .wrap -->
+    </section>
+    <section>
+        <div class="wrap fadeInUp">
+            <h3>Lộ trình học với <strong style="color: #d51c29">Speakout</strong></h3>
+            <ul class="flexblock steps">
+                <!-- li>a? Add blink = <ul class="flexblock steps blink">-->
+                <li>
+                    <span>
+                        <svg class="fa-keyboard-o">
+                            <use xlink:href="#fa-keyboard-o"></use>
+                        </svg>
+                    </span>
+                    <h2>01. Nhập văn bản</h2>
+                    <p>When you're really passionate about your job, you can change the world.</p>
+                </li>
+                <li>
+                    <div class="process step-2"></div>
+                    <span>
+                        <svg class="fa-headphones">
+                            <use xlink:href="#fa-headphones"></use>
+                        </svg>
+                    </span>
+                    <h2>02. Nhấn nghe</h2>
+                    <p>Why does this business exist? How are you different? Why matters?</p>
+                </li>
+                <li>
+                    <div class="process step-3"></div>
+                    <span>
+                        <svg class="fa-book">
+                            <use xlink:href="#fa-book"></use>
+                        </svg>
+                    </span>
+                    <h2>03. Đọc văn bản</h2>
+                    <p>Leadership through usefulness, openness, empathy, and good taste.</p>
+                </li>
+                <li>
+                    <div class="process step-4"></div>
+                    <span>
+                        <svg class="fa-microphone">
+                            <use xlink:href="#fa-microphone"></use>
+                        </svg>
+                    </span>
+                    <h2>04. Thu âm</h2>
+                    <ul>
+                        <li>Useful</li>
+                        <li>Easy</li>
+                        <li>Fast</li>
+                        <li>Beautiful</li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="process step-4"></div>
+                    <span>
+                        <svg class="fa-check" style="color: green">
+                            <use xlink:href="#fa-check"></use>
+                        </svg>
+                    </span>
+                    <h2 class="textContentVLU">05. Thực hiện lại nhiều lần chơ tới khi bạn cảm thấy <strong style="color: #d51c29">OK</strong></h2>
+                </li>
+            </ul>
+        </div>
+        <!-- .end .wrap -->
+    </section>
+    <!-- Start Game -->
+    <section>
+        <span class="background light" style="background-image:url('/Library/images/game.jpg')"></span>
+        <div class="wrap fadeInUp">
+            <h2>Trò chơi</h2>
+            <p><code>Vừa học vừa chơi</code></p>
+            <ul class="flexblock clients">
+                <li>
+                    <a href="#" title="Client">
+                        <figure>
+                            <img class="blacklogo" src="~/Library/images/game1.png" alt="Memory Game">
+                            <figcaption>
+                                <h3>Memory Game</h3>
+                                <p>Game lật hình giúp nhanh chóng lưu nhớ từ vựng tiếng anh và thú vị.</p>
+                            </figcaption>
+                        </figure>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="Client">
+                        <figure>
+                            <img class="blacklogo" src="~/Library/images/game2.png" alt="Word">
+                            <figcaption>
+                                <h3>Brand</h3>
+                                <p>Game nối từ tiếng việt vs tiếng anh đồng nghĩa</p>
+                            </figcaption>
+                        </figure>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+        <!-- .end .wrap -->
+    </section>
+    <!-- End Game -->
+    <section>
+        <div class="wrap fadeInUp">
+            <img class="alignleft size-50" src="~/Library/images/VanLang2.png" alt="iPhone">
+            <h2>Trường Đại học Văn Lang</h2>
+            <p>Là cơ sở đào tạo nguồn nhân lực có chất lượng cao, đáp ứng yêu cầu của thị trường lao động và đóng góp tích cực vào sự thay đổi lối sống, cách suy nghĩ và làm việc của con người thông qua giáo dục, nghiên cứu và phục vụ cộng đồng..</p>
+            <p><strong>Xây dựng Trường Đại học Văn Lang trở thành trường đại học</strong>:<br> Đa ngành, đa bậc học, đảm bảo chất lượng đào tạo là địa chỉ đáng tin cậy đối với người học; là đối tác tin cậy của các trường đại học, viện nghiên cứu, doanh nghiệp trong và ngoài nước về hợp tác đào tạo, nghiên cứu khoa học và chuyển giao công nghệ.</p>
+        </div>
+        <!-- .end .wrap -->
+    </section>
+    <!-- start dang nhap form -->
+    <section class="aligncenter">
+        <span class="background" style="background-image:url('/Library/images/backgroundSignIn.png')"></span>
+        <!--.wrap = container (width: 90%) -->
+        <div class="wrap aligncenter">
+            <h2><strong>Lên kế hoạch cho lớp học</strong></h2>
+            <p class="text-intro">Hoặc <a href="#slide=9">đăng ký</a> ngay để mở lớp học</p>
+            <form action="/" method="post" class="bg-white shadow">
+                <ul class="flexblock">
+                    <li><input type="email" tabindex="1" name="email" placeholder="your@email.com" required></li>
+                    <li><input type="password" tabindex="2" name="password" placeholder="Password" required></li>
+                    <li><button type="submit" class="radius" tabindex="3" title="Sign Up">Đăng Nhập &rsaquo;</button></li>
+                </ul>
+            </form>
+        </div>
+        <!-- .end .wrap -->
+    </section>
+    <!-- end dang nhap form -->
+    <!-- Start Dang ky form -->
+    <section class="aligncenter">
+        <span class="background" style="background-image:url('/Library/images/backgroundSignIn.png')"></span>
+        <!--.wrap = container (width: 90%) -->
+        <div class="wrap">
+            <div class="grid vertical-align">
+                <div class="column slideInLeft">
+                    <form action="/" method="post">
+                        <fieldset>
+                            <legend>Đăng ký tài khoản</legend>
+                            <p><input type="text" tabindex="1" name="username" placeholder="Username" required></p>
+                            <p><input type="email" tabindex="2" name="email" placeholder="your@email.com" required></p>
+                            <p><input type="password" tabindex="3" name="password" placeholder="Password" required></p>
+                            <p><button type="submit" tabindex="4" title="Sign Up">Đăng ký &rsaquo;</button></p>
+                        </fieldset>
+                    </form>
+                </div>
+                <!-- .end .column -->
+                <div class="column">
+                    <ul class="flexblock specs">
+                        <li>
+                            <div>
+                                <svg class="fa-heart-o">
+                                    <use xlink:href="#fa-heart-o"></use>
+                                </svg>
+                                <h2>Dễ sử dụng </h2>
+                                Chỉ cần vài thao tác đơn giản.
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <svg class="fa-bolt">
+                                    <use xlink:href="#fa-bolt"></use>
+                                </svg>
+                                <h2>Nhanh &amp; hiệu quả</h2>
+                                Chỉ cần 50s
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <svg class="fa-lock">
+                                    <use xlink:href="#fa-lock"></use>
+                                </svg>
+                                <h2>Bảo mật</h2>
+                                Chia sẻ thông tin đơn giản &amp; bảo mật.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- .end .column -->
+            </div>
+            <!-- .end .grid -->
+        </div>
+        <!-- .end .wrap -->
+    </section>
+    <!-- end dang ky form -->
+    <section>
+        <div class="wrap">
+            <h3 class="textContentVLU colorVLU"><strong>SPEAKOUT</strong> được sáng chế bởi</h3>
+            <hr>
+            <div class="grid">
+                <div class="column">
+                    <h3>.column 1</h3>
+                    <img class="avatar-300" src="~/Library/images/hung.png" alt="Avatar">
+                </div>
+                <div class="column">
+                    <h3>.column 2</h3>
+                    <img class="avatar-300" src="~/Library/images/hung.png" alt="Avatar">
+                </div>
+                <div class="column">
+                    <h3>.column 3</h3>
+                    <img class="avatar-300" src="~/Library/images/hung.png" alt="Avatar">
+                </div>
+            </div>
+            <!--end .grid -->
+        </div>
+        <!-- .end .wrap -->
+    </section>
+</article>
 
 @section Scripts {
+    <!-- Required -->
+    <script src="~/Library/js/webslides.js"></script>
+    <script>
+        window.ws = new WebSlides();
+    </script>
+    <!-- OPTIONAL - svg-icons.js (fontastic.me - Font Awesome as svg icons) -->
+    <script defer src="~/Library/js/svg-icons.js"></script>
+    <script src="~/Library/js/myScript.js"></script>
     <script src="~/Scripts/autogrow.js"></script>
     <script>
         $(function () {

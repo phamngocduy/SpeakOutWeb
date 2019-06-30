@@ -23,7 +23,9 @@ html {
     -ms-user-select: none; /* IE10+ */
     user-select: none;
 }
-
+div.pageProcess{
+    margin-top:90px;
+}
 div.well {
     position: relative;
     background: rgb(204, 204, 204); /* Fallback for older browsers without RGBA-support */
