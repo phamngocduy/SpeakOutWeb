@@ -32,8 +32,8 @@ div.well {
 .wordProcess {
     font-size: 62.5%;
 }
-.pageProcess {
-    line-height: 0.8rem;
+.btn{
+    height:60px;
 }
 
 body,
