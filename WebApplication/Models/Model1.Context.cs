@@ -13,10 +13,10 @@ namespace SpeakOutWeb.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class SpeakOutWebEntities : DbContext
+    public partial class SpeakOutEntities : DbContext
     {
-        public SpeakOutWebEntities()
-            : base("name=SpeakOutWebEntities")
+        public SpeakOutEntities()
+            : base("name=SpeakOutEntities")
         {
         }
     

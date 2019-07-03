@@ -13,7 +13,7 @@ namespace SpeakOutWeb.Controllers
 {
     public class VocabulariesController : Controller
     {
-        private SpeakOutWebEntities db = new SpeakOutWebEntities();
+        private SpeakOutEntities db = new SpeakOutEntities();
 
         // GET: Vocabularies
         public ActionResult Index()

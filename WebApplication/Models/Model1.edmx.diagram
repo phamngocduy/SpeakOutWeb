@@ -4,8 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6f642ccb721249ed8930cac81fd51d8b" Name="Diagram1">
-        <EntityTypeShape EntityType="SpeakOutWebModel.Vocabulary" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="012a0661a0b54612a46835a3030e504a" Name="Diagram1">
+        <EntityTypeShape EntityType="SpeakOutModel.Vocabulary" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
