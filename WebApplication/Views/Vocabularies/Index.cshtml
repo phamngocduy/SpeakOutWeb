@@ -3,61 +3,66 @@
 @{
     ViewBag.Title = "Index";
 }
+<link href="~/Library/css/dictionaryStyle.css" rel="stylesheet" />
+<article id="webslides" class="vertical">
+    <section class="bg-white">
+        <span class="background bg1" style="background-image:url('/Library/images/background1.jpg')"></span>
+        <table class="table">
+            <tr>
+                <th>
+                    Your vocabularies
+                </th>
+                <th>
+                    Your bookmarks
+                </th>
+            </tr>
 
-<h2>Index</h2>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.EngWord)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VnWord)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Spelling)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Bookmark)
-        </th>
-        <th></th>
-    </tr>
+                        <h2>@Html.DisplayFor(modelItem => item.EngWord)</h2>
+                        <button id="speakButton" class="btn speakButton" data-speak="@item.EngWord">
+                            <img src="~/Content/500px-Speaker_Icon.svg.png" />
+                        </button><br />
+                        <h5>@Html.DisplayFor(modelItem => item.Spelling)</h5><br />
+                        <h4>@Html.DisplayFor(modelItem => item.VnWord)</h4>
+                    </td>
+                    <td>
+                        @if (item.Bookmark == false)
+                        {
+                            <button type="submit" class="btn btn-primary" id="bookmarkedButton" data-id="@item.Id">Bookmark</button>
+                        }
+                     
+                    </td>
+                    
+                </tr>
+            }
+        </table>
+    </section>
+</article>
+@section Script1{
+    <script>
+        $('#bookmarkedButton').on('click', function () {
+            $.ajax({
+            type: 'POST',
+            url: '@Url.Action("../Vocabularies/UpdateBookmark")',
+            contentType: "application/json; charset=utf-8",
+            data: '{ "Id": "' + $(this).attr("data-id") + '" }',
+                success: function (result, status, xhr) {
+                    window.location.reload();
+            },
+            error: function (xhr, status, error) {
+                alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+            }
+        });
+        });
+        $('.speakButton').on('click', function () {
+            var synth = window.speechSynthesis;
+            var utterThis = new SpeechSynthesisUtterance($(this).attr("data-speak"));
+            synth.speak(utterThis);
+        });
+    </script>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EngWord)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.VnWord)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Spelling)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Bookmark)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
 }
-
-</table>

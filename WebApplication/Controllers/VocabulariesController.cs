@@ -13,12 +13,14 @@ namespace SpeakOutWeb.Controllers
 {
     public class VocabulariesController : Controller
     {
-        private SpeakOutWebEntities db = new SpeakOutWebEntities();
+        private SpeakOutEntities db = new SpeakOutEntities();
 
         // GET: Vocabularies
         public ActionResult Index()
         {
-            return View(db.Vocabularies.ToList());
+            var userId = HttpContext.User.Identity.GetUserId();
+            var vocab = db.Vocabularies.Where(s => s.UserId == userId).ToList();
+            return View(vocab);
         }
 
 
@@ -58,6 +60,10 @@ namespace SpeakOutWeb.Controllers
 
                 if (vocabulary.Id == 0)
                 {
+                    if(vocabulary.Spelling==null || (vocabulary.Spelling == "" && vocabulary.VnWord==""))
+                    {
+                        return Json("Không tìm thấy tư điển của bạn", JsonRequestBehavior.AllowGet);
+                    }
                     var listAvailable = db.Vocabularies.ToList();
                     foreach (var item in listAvailable)
                     {
@@ -84,7 +90,16 @@ namespace SpeakOutWeb.Controllers
                 return Json("Save successfully", JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult UpdateBookmark(int Id)
+        {
+            Vocabulary vocabulary = db.Vocabularies.Single(x => x.Id == Id);
+            vocabulary.Bookmark = true;
+            db.Entry(vocabulary).State = EntityState.Modified;
+            db.SaveChanges();
+            return Json("Save successfully", JsonRequestBehavior.AllowGet);
 
+        }
 
 
 
