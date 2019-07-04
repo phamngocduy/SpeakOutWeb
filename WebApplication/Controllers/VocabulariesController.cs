@@ -68,7 +68,7 @@ namespace SpeakOutWeb.Controllers
                     var listAvailable = db.Vocabularies.Where(x=>x.UserId== currentUser).ToList();
                     foreach (var item in listAvailable)
                     {
-                        if (item.EngWord == vocabulary.EngWord)
+                        if (item.EngWord == vocabulary.EngWord.ToLower())
                         {
                             return Json("Từ điển của bạn đã được lưu", JsonRequestBehavior.AllowGet);
                         }

@@ -129,3 +129,6 @@
     -o-transition: .3s;
     transition: .3s;
 }
+.fab-buttons__link {
+    text-decoration: none;
+}
