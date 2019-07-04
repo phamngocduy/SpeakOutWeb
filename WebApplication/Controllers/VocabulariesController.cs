@@ -49,6 +49,7 @@ namespace SpeakOutWeb.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult SaveEntity(Vocabulary vocabulary)
         {
+            var currentUser = User.Identity.GetUserId();
             db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
             {
@@ -64,7 +65,7 @@ namespace SpeakOutWeb.Controllers
                     {
                         return Json("Không tìm thấy tư điển của bạn", JsonRequestBehavior.AllowGet);
                     }
-                    var listAvailable = db.Vocabularies.ToList();
+                    var listAvailable = db.Vocabularies.Where(x=>x.UserId== currentUser).ToList();
                     foreach (var item in listAvailable)
                     {
                         if (item.EngWord == vocabulary.EngWord)
@@ -72,9 +73,10 @@ namespace SpeakOutWeb.Controllers
                             return Json("Từ điển của bạn đã được lưu", JsonRequestBehavior.AllowGet);
                         }
                     }
+                    vocabulary.VnWord = vocabulary.VnWord.Trim();
                     vocabulary.CreatedDate = DateTime.Now;
                     vocabulary.Bookmark = false;
-                    vocabulary.UserId = HttpContext.User.Identity.GetUserId();
+                    vocabulary.UserId = currentUser;
                     if (vocabulary.UserId == null)
                     {
                         return Json("Check your login!", JsonRequestBehavior.AllowGet);

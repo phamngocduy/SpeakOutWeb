@@ -68,7 +68,7 @@
             <ul class="fab-buttons">
                 <li class="fab-buttons__item">
                     <a href="#" class="fab-buttons__link" data-tooltip="Your dictionary">
-                        <span style="height:200px"> </span>
+                        <span style="height:200px;overflow-y:scroll"> </span>
                     </a>
                 </li>
             </ul>
@@ -77,6 +77,8 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <!--Main script-->
+    <script src="~/Library/js/main.js"></script>
     @RenderSection("script1", required: false)
     @RenderSection("script2", required: false)
     @RenderSection("scripts", required: false)

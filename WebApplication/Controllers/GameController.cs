@@ -32,6 +32,7 @@ namespace SpeakOutWeb.Controllers
         [HttpGet]
         public ActionResult GetRandomCard()
         {
+            var currentUser = User.Identity.GetUserId();
             var lstCard = db.Vocabularies.Where(x => x.UserId == User.Identity.GetUserId())
                 .Select(s => new Vocabulary
                 {
@@ -40,7 +41,7 @@ namespace SpeakOutWeb.Controllers
                     Spelling = s.Spelling
                 }).ToList();
             var newCard = lstCard.Take(8).ToList();
-            var countCard = db.Vocabularies.Where(x => x.UserId == User.Identity.GetUserId()).Count();
+            var countCard = db.Vocabularies.Where(x => x.UserId == currentUser).Count();
             if (countCard >= 9)
             {
                 Random rnd = new Random();
