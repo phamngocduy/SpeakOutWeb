@@ -18,7 +18,9 @@ namespace SpeakOutWeb.Controllers
         // GET: Vocabularies
         public ActionResult Index()
         {
-            return View(db.Vocabularies.Where(s=>s.UserId == HttpContext.User.Identity.GetUserId()).ToList());
+            var userId = HttpContext.User.Identity.GetUserId();
+            var vocab = db.Vocabularies.Where(s => s.UserId == userId).ToList();
+            return View(vocab);
         }
 
 
