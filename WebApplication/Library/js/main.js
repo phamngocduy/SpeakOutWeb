@@ -5,20 +5,23 @@ $(document).ready(function () {
 function loadDictionary() {
     $.ajax({
         type: "GET",
-        url: "/Vocabularies/getVocabularies",
+        url: "https://cntttest.vanlanguni.edu.vn:18081/SpeakOut/Vocabularies/getVocabularies",
         dataType: "json",
         success: function (response) {
             console.log(response);
-            var allList = '';
-            $.each(response, function (i, item) {
-                item.VnWord = item.VnWord.replace(/<br\s*\/?>/gi, ' ');
-                let wsRegex = /^\s*\s*$/; // Change this line
-                let result = item.VnWord.replace(wsRegex, ''); // Change this line
-                var res = result.split(";");
-                console.log(result + ' ' + item.EngWord + ' ' + item.Spelling);
-                allList += item.EngWord + ' ' + item.Spelling + '<br>' + ' ' + res[0]+'<br>';
-            });
-            $('#wordLibrary').html(allList);
+            if (response != "Không tìm thấy từ điển") {
+                var allList = '';
+                $.each(response, function (i, item) {
+                    item.VnWord = item.VnWord.replace(/<br\s*\/?>/gi, ' ');
+                    let wsRegex = /^\s*\s*$/; // Change this line
+                    let result = item.VnWord.replace(wsRegex, ''); // Change this line
+                    var res = result.split(";");
+                    console.log(result + ' ' + item.EngWord + ' ' + item.Spelling);
+                    allList += item.EngWord + ' ' + item.Spelling + '<br>' + ' ' + res[0] + '<br>';
+                });
+                $('#wordLibrary').html(allList);
+            }
+            
         },
         error: function (xhr, status, error) {
             alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)

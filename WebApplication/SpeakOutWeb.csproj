@@ -225,9 +225,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\500px-Speaker_Icon.svg.png" />
+    <Content Include="Content\atlas-solid.svg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\logo-readout.png" />
+    <Content Include="Content\logo-vlu-6.png" />
+    <Content Include="Content\mic-animate.gif" />
+    <Content Include="Content\mic-record.gif" />
+    <Content Include="Content\mic-slash.gif" />
+    <Content Include="Content\mic.gif" />
+    <Content Include="Content\out-pause.png" />
+    <Content Include="Content\out-play.png" />
+    <Content Include="Content\out-stop.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\rec-download.png" />
+    <Content Include="Content\rec-play.png" />
+    <Content Include="Content\sky-blue-backgrounds.jpg" />
+    <Content Include="Content\style.css" />
+    <Content Include="Content\uk.png" />
+    <Content Include="Content\us.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -244,6 +260,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\autogrow.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\Model1.edmx">
@@ -253,6 +270,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\CNTTTEST.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -262,6 +280,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\notify.js" />
+    <Content Include="Scripts\p5.js" />
+    <Content Include="Scripts\p5.min.js" />
+    <Content Include="Scripts\p5.sound.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -345,10 +367,10 @@
     <Content Include="Views\Vocabularies\Details.cshtml" />
     <Content Include="Views\Vocabularies\Edit.cshtml" />
     <Content Include="Views\Vocabularies\Index.cshtml" />
+    <Content Include="Views\Game\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Game\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
