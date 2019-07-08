@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using SpeakOutWeb.Models;
 using Microsoft.AspNet.Identity;
+using PagedList;
 
 namespace SpeakOutWeb.Controllers
 {
@@ -16,11 +17,39 @@ namespace SpeakOutWeb.Controllers
         private SpeakOutEntities db = new SpeakOutEntities();
 
         // GET: Vocabularies
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.VocabSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
             var userId = HttpContext.User.Identity.GetUserId();
-            var vocab = db.Vocabularies.Where(s => s.UserId == userId).ToList();
-            return View(vocab);
+            var vocab = db.Vocabularies.Where(s => s.UserId == userId);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                vocab = vocab.Where(s => s.EngWord.Contains(searchString)
+                                       || s.VnWord.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    vocab = vocab.OrderByDescending(s => s.EngWord);
+                    break;
+                default:  // Name ascending 
+                    vocab = vocab.OrderBy(s => s.EngWord);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(vocab.ToPagedList(pageNumber, pageSize));
         }
 
 
