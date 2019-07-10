@@ -157,6 +157,24 @@ if (document.readyState == 'loading') {
 function ready() {
     let mangTraVeTiengAnh = [];
     let mangTraVeTiengViet = [];
+    $.ajax({
+        type: "GET",
+        url: "../Game/GetRandomCard",
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if (response != "Không tìm thấy từ điển") {
+                $.each(response, function (i, item) {
+                    mangTraVeTiengAnh.push(item.EngWord);
+                    mangTraVeTiengViet.push(item.VnWord);
+                });
+            }
+
+        },
+        error: function (xhr, status, error) {
+            alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+        }
+    });
 
     for (let i = 0; i < mangTraVeTiengAnh.length; i++) {
         $(".game-container").append(
