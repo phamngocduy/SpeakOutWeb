@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using SpeakOutWeb.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -33,7 +32,7 @@ namespace SpeakOutWeb.Controllers
         public ActionResult GetRandomCard()
         {
             var currentUser = User.Identity.GetUserId();
-            var lstCard = db.Vocabularies.Where(x => x.UserId == User.Identity.GetUserId())
+            var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser)
                 .Select(s => new Vocabulary
                 {
                     EngWord = s.EngWord,
@@ -58,8 +57,7 @@ namespace SpeakOutWeb.Controllers
                 }
                 for (int i = 0; i < arr.Length; i++)
                 {
-                    
-                    newCard[i]= lstCard[arr[i]];
+                    newCard[i] = lstCard[arr[i]];
                 }
                 return Json(newCard, JsonRequestBehavior.AllowGet);
             }
@@ -67,6 +65,42 @@ namespace SpeakOutWeb.Controllers
             {
                 return Json(lstCard, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpGet]
+        public ActionResult GetListCard(int number)
+        {
+            var currentUser = User.Identity.GetUserId();
+            var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser)
+                .Select(s => new Vocabulary
+                {
+                    EngWord = s.EngWord,
+                    VnWord = s.VnWord,
+                    Spelling = s.Spelling
+                }).ToList();
+            var countCard = db.Vocabularies.Where(x => x.UserId == currentUser).Count();
+            var newCard = lstCard.Take(number).ToList();
+            if (countCard < number)
+            {
+                return Json("Bạn nhập quá số lượng từ", JsonRequestBehavior.AllowGet);
+            }
+            Random rnd = new Random();
+            int tmp;
+            int[] arr = new int[number];
+            for (int i = 0; i < number; i++)
+            {
+                tmp = rnd.Next(countCard);
+                while (IsDup(tmp, arr))
+                {
+                    tmp = rnd.Next(countCard);
+                }
+                arr[i] = tmp;
+            }
+            for (int i = 0; i < arr.Length; i++)
+            {
+                newCard[i] = lstCard[arr[i]];
+            }
+            return Json(newCard, JsonRequestBehavior.AllowGet);
         }
     }
 }
