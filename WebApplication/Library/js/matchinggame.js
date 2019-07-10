@@ -155,8 +155,8 @@ if (document.readyState == 'loading') {
 }
 
 function ready() {
-    let mangTraVeTiengAnh = [];
-    let mangTraVeTiengViet = [];
+    var mangTraVeTiengAnh = [];
+    var mangTraVeTiengViet = [];
     $.ajax({
         type: "GET",
         url: "../Game/GetRandomCard",
@@ -168,6 +168,44 @@ function ready() {
                     mangTraVeTiengAnh.push(item.EngWord);
                     mangTraVeTiengViet.push(item.VnWord);
                 });
+                for (let i = 0; i < mangTraVeTiengAnh.length; i++) {
+                    $(".game-container").append(
+                        '<div class="card" >' +
+                        '<div class="card-back card-face">' +
+                        '<img class="spider" src="../Library/Assets/Images/logo.png">' +
+                        '</div>' +
+
+                        '<div class="card-front card-face">' +
+                        '<span class="card-value" id=" ' + i + '">' + mangTraVeTiengAnh[i] + '</span>' +
+                        '</div>' +
+                        '</div>' +
+
+                        '<div class="card">' +
+                        '<div class="card-back card-face">' +
+                        '<img class="spider" src="../Library/Assets/Images/logo.png">' +
+                        '</div>' +
+                        '<div class="card-front card-face">' +
+                        '<span class="card-value" id=" ' + i + '">' + mangTraVeTiengViet[i] + '</span>' +
+                        '</div>' +
+                        '</div>');
+                }
+                let overlays = Array.from(document.getElementsByClassName('overlay-text'));
+                let cards = Array.from(document.getElementsByClassName('card'));
+                let game = new MixOrMatch(100, cards);
+
+                overlays.forEach(overlay => {
+                    overlay.addEventListener('click', () => {
+                        overlay.classList.remove('visible');
+                        game.startGame();
+                    });
+                });
+
+                cards.forEach(card => {
+
+                    card.addEventListener('click', () => {
+                        game.flipCard(card);
+                    });
+                });
             }
 
         },
@@ -176,42 +214,5 @@ function ready() {
         }
     });
 
-    for (let i = 0; i < mangTraVeTiengAnh.length; i++) {
-        $(".game-container").append(
-            '<div class="card" >' +
-            '<div class="card-back card-face">' +
-            '<img class="spider" src="../Library/Assets/Images/logo.png">' +
-            '</div>' +
 
-            '<div class="card-front card-face">' +
-            '<span class="card-value" id=" ' + i + '">' + mangTraVeTiengAnh[i] + '</span>' +
-            '</div>' +
-            '</div>' +
-
-            '<div class="card">' +
-            '<div class="card-back card-face">' +
-            '<img class="spider" src="../Library/Assets/Images/logo.png">' +
-            '</div>' +
-            '<div class="card-front card-face">' +
-            '<span class="card-value" id=" ' + i + '">' + mangTraVeTiengViet[i] + '</span>' +
-            '</div>' +
-            '</div>');
-    }
-    let overlays = Array.from(document.getElementsByClassName('overlay-text'));
-    let cards = Array.from(document.getElementsByClassName('card'));
-    let game = new MixOrMatch(100, cards);
-
-    overlays.forEach(overlay => {
-        overlay.addEventListener('click', () => {
-            overlay.classList.remove('visible');
-            game.startGame();
-        });
-    });
-
-    cards.forEach(card => {
-
-        card.addEventListener('click', () => {
-            game.flipCard(card);
-        });
-    });
 }

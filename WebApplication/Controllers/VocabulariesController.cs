@@ -78,7 +78,7 @@ namespace SpeakOutWeb.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult SaveEntity(Vocabulary vocabulary)
         {
-            var currentUser = User.Identity.GetUserId();
+            var currentUser = HttpContext.User.Identity.GetUserId();
             db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
             {
