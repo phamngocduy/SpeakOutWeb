@@ -16,6 +16,10 @@ namespace SpeakOutWeb.Controllers
         {
             return View();
         }
+        public ActionResult MatchingGame()
+        {
+            return View();
+        }
 
         public static bool IsDup(int tmp, int[] arr)
         {

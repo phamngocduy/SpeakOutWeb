@@ -248,8 +248,36 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Library\Assets\Audio\creepy.mp3" />
+    <Content Include="Library\Assets\Audio\everythingineed.mp3" />
+    <Content Include="Library\Assets\Audio\flip.wav" />
+    <Content Include="Library\Assets\Audio\gameOver.wav" />
+    <Content Include="Library\Assets\Audio\match.wav" />
+    <Content Include="Library\Assets\Audio\victory.wav" />
+    <Content Include="Library\Assets\Cursors\Ghost.cur" />
+    <Content Include="Library\Assets\Cursors\GhostHover.cur" />
+    <Content Include="Library\Assets\Fonts\fontawesome-webfont.svg" />
+    <Content Include="Library\Assets\Images\1080x624.jpg" />
+    <Content Include="Library\Assets\Images\1400x700.jpg" />
+    <Content Include="Library\Assets\Images\Aquaman.jpg" />
+    <Content Include="Library\Assets\Images\Bat.png" />
+    <Content Include="Library\Assets\Images\Bones.png" />
+    <Content Include="Library\Assets\Images\CardBack.png" />
+    <Content Include="Library\Assets\Images\Cauldron.png" />
+    <Content Include="Library\Assets\Images\Cobweb.png" />
+    <Content Include="Library\Assets\Images\CobwebGrey.png" />
+    <Content Include="Library\Assets\Images\Dracula.png" />
+    <Content Include="Library\Assets\Images\Eye.png" />
+    <Content Include="Library\Assets\Images\game1.png" />
+    <Content Include="Library\Assets\Images\Ghost.png" />
+    <Content Include="Library\Assets\Images\logo.png" />
+    <Content Include="Library\Assets\Images\Pumpkin.png" />
+    <Content Include="Library\Assets\Images\Skull.png" />
+    <Content Include="Library\Assets\Images\Spider.png" />
     <Content Include="Library\css\dictionaryStyle.css" />
+    <Content Include="Library\css\matchinggame.css" />
     <Content Include="Library\js\main.js" />
+    <Content Include="Library\js\matchinggame.js" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -270,6 +298,33 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Library\Assets\Fonts\Creepy.woff" />
+    <Content Include="Library\Assets\Fonts\Creepy.woff2" />
+    <Content Include="Library\Assets\Fonts\fontawesome-webfont.eot" />
+    <Content Include="Library\Assets\Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Library\Assets\Fonts\fontawesome-webfont.woff" />
+    <Content Include="Library\Assets\Fonts\fontawesome-webfont.woff2" />
+    <Content Include="Library\Assets\Fonts\FontAwesome.otf" />
+    <Content Include="Library\Assets\Fonts\Lato-Black.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-BlackItalic.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-Bold.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-BoldItalic.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-Hairline.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-HairlineItalic.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-Heavy.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-HeavyItalic.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-Italic.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-Light.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-LightItalic.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-Medium.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-MediumItalic.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-Regular.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-Semibold.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-SemiboldItalic.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-Thin.ttf" />
+    <Content Include="Library\Assets\Fonts\Lato-ThinItalic.ttf" />
+    <Content Include="Library\Assets\Fonts\Lunacy.woff" />
+    <Content Include="Library\Assets\Fonts\Lunacy.woff2" />
     <None Include="Properties\PublishProfiles\CNTTTEST.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -368,6 +423,7 @@
     <Content Include="Views\Vocabularies\Edit.cshtml" />
     <Content Include="Views\Vocabularies\Index.cshtml" />
     <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\Game\MatchingGame.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

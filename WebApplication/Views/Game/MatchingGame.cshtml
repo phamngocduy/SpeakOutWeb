@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "MatchingGame";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MatchingGame</h2>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="~/Library/css/matchinggame.css" rel="stylesheet">
+    <script src="~/Library/js/matchinggame.js" async></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Memory-Game</title>
+</head>
+<body>
+    <article id="webslides" class="vertical">
+        <section>
+            <h1 class="page-title">Memory Training</h1>
+            <div class="overlay-text visible">
+                Are you ready !
+                <!--<div class="numofwords">
+        <a href=""><img src="Assets/Images/logo.png" alt="4 từ"></a>
+        <a href=""><img src="Assets/Images/logo.png" alt="6 từ"></a>
+        <a href=""><img src="Assets/Images/logo.png" alt="8 từ"></a>
+        <a href=""><img src="Assets/Images/logo.png" alt="10 từ"></a>
+        <textarea name="" id="" cols="30" rows="10" placeholder="Nhập số lượng từ cần chơi"></textarea>
+    </div>-->
+            </div>
+            <div id="game-over-text" class="overlay-text">
+                GAME OVER
+                <span class="overlay-text-small">Click to Restart</span>
+            </div>
+            <div id="victory-text" class="overlay-text">
+                VICTORY
+                <span class="overlay-text-small">Click to Restart</span>
+            </div>
+
+            <div class="game-container">
+                <div class="game-info-container">
+                    <div class="game-info">
+                        Time <span id="time-remaining">100</span>
+                    </div>
+                    <div class="game-info">
+                        Flips <span id="flips">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </article>
+</body>
+</html>

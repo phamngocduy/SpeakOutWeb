@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * Name: WebSlides
  * Version: 1.5.0
  * Date: 2017-09-16
@@ -1820,7 +1820,7 @@ footer .column h3 {
 .clients li {
   -webkit-box-pack: inherit;
       -ms-flex-pack: inherit;
-          justify-content: inherit; }
+          justify-content: center; }
 
 .clients li img,
 .clients li svg {
@@ -3539,19 +3539,23 @@ LOGOS
 ====================== */
 /* --- Images (black logo/image) --- */
 img.blacklogo {
-  background: none;
+  
+  background: no-repeat center center;
   -webkit-filter: grayscale(100%) brightness(10%) contrast(100%);
           filter: grayscale(100%) brightness(10%) contrast(100%); }
 
 /* --- Images (gray logo/image) --- */
 img.graylogo {
-  -webkit-filter: grayscale(100%) brightness(10%) contrast(10%);
-          filter: grayscale(100%) brightness(10%) contrast(10%); }
+    -webkit-filter: grayscale(100%) brightness(10%) contrast(10%);
+    filter: grayscale(100%) brightness(10%) contrast(10%);
+}
 
 /* --- Images (white Logo/Image) --- */
 img.whitelogo {
-  -webkit-filter: brightness(0) invert(1);
-          filter: brightness(0) invert(1); }
+    text-align: center;
+    -webkit-filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1);
+}
 
 /* --- Logo/Images Hover --- */
 li:hover img.blacklogo,
