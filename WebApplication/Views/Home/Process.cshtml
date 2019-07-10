@@ -18,7 +18,7 @@
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 <article id="webslides" class="vertical">
     <section class="bg-white">
-        <span class="background bg1" style="background-image:url('./SpeakOut/Library/images/background1.jpg')"></span>
+        <span class="background bg1" style="background-image:url('https://cntttest.vanlanguni.edu.vn:18081/SpeakOut/Library/images/background1.jpg')"></span>
 
         <div class="container body-content pageProcess">
             <div class="row">
@@ -162,7 +162,7 @@
     /*
      Handle function to read Text
      */
-    var isSpeaking = false;
+     let isSpeaking = false;
     function speakText2(text) {
         utterThis = new SpeechSynthesisUtterance(text);
         utterThis.onend = function () {
@@ -199,6 +199,7 @@
         utterThis.rate = $(@speechRate).val();
         speechSynthesis.cancel();
         speechSynthesis.speak(utterThis);
+        
     }
     /*
     Handle resume, cancel and play to read
@@ -224,7 +225,7 @@
         spanContent = textContent.slice(0);
     });
     // handle play button
-    $("#@speakButton").click(function () {
+        $("#@speakButton").click(function () {
         if (spanContent.length > 0) {
             $(this).hide();
             speakText1();
@@ -233,14 +234,14 @@
     function speakText1() {
         isSpeaking = true;
         $('.line').removeClass('blue');
-
         $(spanContent[0]).addClass('blue');
         //$(spanContent[0]).parent().find('span.bold').removeClass('bold').parent('span.line').removeClass('underline');
         let speakText = $(spanContent[0]).children('span').removeAttr('data-content');
-        speakText2($(speakText).text());
-           spanContent.reverse();
-        spanContent.pop();
-        spanContent.reverse();
+            speakText2($(speakText).text());
+            spanContent.reverse();
+            spanContent.pop();
+            spanContent.reverse();
+
     }
     isOnclick = false; //to set run play
     function setup() { //Setup mic onload
@@ -604,10 +605,10 @@
 
             @section Scripts {
                 <script>
-    $(function () {
+    @*$(function () {
         if ('@ViewBag.Type' == 'Speak')
             $(@speakButton).trigger('click');
-    });
+    });*@
                 </script>
             }
         </div>
