@@ -275,7 +275,9 @@
     <Content Include="Library\Assets\Images\Skull.png" />
     <Content Include="Library\Assets\Images\Spider.png" />
     <Content Include="Library\css\dictionaryStyle.css" />
+    <Content Include="Library\css\guessingGame.css" />
     <Content Include="Library\css\matchinggame.css" />
+    <Content Include="Library\js\guessingGame.js" />
     <Content Include="Library\js\main.js" />
     <Content Include="Library\js\matchinggame.js" />
     <Content Include="Models\Model1.Context.tt">
@@ -424,6 +426,7 @@
     <Content Include="Views\Vocabularies\Index.cshtml" />
     <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\Game\MatchingGame.cshtml" />
+    <Content Include="Views\Game\WritingGame.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

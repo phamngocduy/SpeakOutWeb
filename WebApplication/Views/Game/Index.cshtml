@@ -1,4 +1,4 @@
-﻿
+﻿@model SpeakOutWeb.Models.Vocabulary
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,7 +6,29 @@
 
 <h2>Index</h2>
 
+@Styles.Render("~/Content/css")
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Nhập số lượng từ từ 1 đến @ViewBag.Count</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="hiddenNumber" value="@ViewBag.Count" />
+                <input type="number" min="1" max=@ViewBag.Count class="form-control" id="numberWord" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="submitButton">Go</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 <article id="webslides" class="vertical">
     <section>
         <span class="background light" style="background-image:url('https://cntttest.vanlanguni.edu.vn:18081/SpeakOut/Library/images/game.jpg')"></span>
@@ -26,7 +48,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" title="Client">
+                    <a title="Client" data-toggle="modal" href="#myModal">
                         <figure>
                             <img class="blacklogo" src="~/Library/images/game2.png" alt="Word">
                             <figcaption>
@@ -42,3 +64,15 @@
         <!-- .end .wrap -->
     </section>
 </article>
+@section Script1 {
+    <script>
+        //Validate type on input
+        $("[type='number']").keypress(function (evt) {
+            evt.preventDefault();
+        });
+        $('#submitButton').click(function () {
+             @ViewBag.NumberWord= $("[type='number']").val();
+            window.location.href = "./WritingGame";
+        });
+    </script>
+}

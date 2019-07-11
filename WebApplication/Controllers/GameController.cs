@@ -13,9 +13,15 @@ namespace SpeakOutWeb.Controllers
         // GET: Game
         public ActionResult Index()
         {
+            var userID = HttpContext.User.Identity.GetUserId();
+            ViewBag.Count = db.Vocabularies.Where(x => x.UserId == userID).Count();
             return View();
         }
         public ActionResult MatchingGame()
+        {
+            return View();
+        }
+        public ActionResult WritingGame()
         {
             return View();
         }
