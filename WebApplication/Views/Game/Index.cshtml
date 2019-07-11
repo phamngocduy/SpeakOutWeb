@@ -22,7 +22,7 @@
                 <input type="number" min="1" max=@ViewBag.Count class="form-control" id="numberWord" />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" id="submitButton">Go</button>
+                <button type="button" class="btn btn-danger" id="submitButton">Go</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -71,8 +71,9 @@
             evt.preventDefault();
         });
         $('#submitButton').click(function () {
-             @ViewBag.NumberWord= $("[type='number']").val();
-            window.location.href = "./WritingGame";
+            localStorage.setItem("numberWord", $("[type='number']").val());
+            localStorage.setItem("personalWord", $("#hiddenNumber").val());
+            window.location.href = "../Game/WritingGame";
         });
     </script>
 }

@@ -45,12 +45,13 @@ namespace SpeakOutWeb.Controllers
             var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser).ToList();
             var newCard = lstCard.Take(8).ToList();
             var countCard = db.Vocabularies.Where(x => x.UserId == currentUser).Count();
+            
             if (countCard >= 9)
             {
                 Random rnd = new Random();
                 int tmp;
-                int[] arr = new int[countCard];
-                for (int i = 0; i < countCard; i++)
+                int[] arr = new int[8];
+                for (int i = 0; i < 8; i++)
                 {
                     tmp = rnd.Next(countCard);
                     while (IsDup(tmp, arr))
@@ -75,14 +76,9 @@ namespace SpeakOutWeb.Controllers
         public ActionResult GetListCard(int number)
         {
             var currentUser = User.Identity.GetUserId();
-            var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser)
-                .Select(s => new Vocabulary
-                {
-                    EngWord = s.EngWord,
-                    VnWord = s.VnWord,
-                    Spelling = s.Spelling
-                }).ToList();
+            var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser).ToList();
             var countCard = db.Vocabularies.Where(x => x.UserId == currentUser).Count();
+            ViewBag.CountWord = countCard;
             var newCard = lstCard.Take(number).ToList();
             if (countCard < number)
             {
