@@ -199,7 +199,7 @@
         utterThis.rate = $(@speechRate).val();
         speechSynthesis.cancel();
         speechSynthesis.speak(utterThis);
-        
+
     }
     /*
     Handle resume, cancel and play to read
@@ -305,7 +305,27 @@
     let spelling = '';
     let vietnamMeaning = '';
     let englishWord = '';
-
+    //Function check Available word
+         function checkAvailable(checkWord) {
+             $.ajax({
+             type: 'GET',
+             url: '@Url.Action("../Vocabularies/CheckAvailable")',
+                 contentType: "application/json; charset=utf-8",
+                 data: {checkWord:checkWord},
+                 dataType: 'html',
+                 context: this,
+                 success: function (result, status, xhr) {
+                     if (result > 0) {
+                         return false;
+                     } else {
+                         return true;
+                     }
+                 },
+                 error: function (xhr, status, error) {
+                     alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+                 }
+             });
+         }
     $('span').find('.word').dblclick(function (e) {
         if (typeof $(e.target).data('original-title') == 'undefined') {
             $('[data-original-title]').popover('hide');
@@ -315,7 +335,6 @@
         $(this).on('selectstart', false);
         findWord = $(this).text();
         $(this).attr('data-content', "Loading...");
-        $(this).attr('data-trigger', 'click');
         $(this).popover({
             html: true,
             placement: "bottom"
@@ -328,6 +347,25 @@
         utterThis.rate = $(@speechRate).val();
         speechSynthesis.cancel();
         speechSynthesis.speak(utterThis);
+        var isAvaiable = -1;
+                 $.ajax({
+             type: 'GET',
+             url: '@Url.Action("../Vocabularies/CheckAvailable")',
+                 contentType: "application/json; charset=utf-8",
+                 data: { checkWord:  findWord },
+                 dataType: 'html',
+                     context: this,
+                 success: function (result, status, xhr) {
+                     if (result > 0) {
+                         isAvaiable=1;
+                     } else {
+                         isAvaiable = 0;
+                     }
+                 },
+                 error: function (xhr, status, error) {
+                     alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+                 }
+             });
         $.ajax({
             type: 'POST',
             url: '@Url.Action("../Home/Lookup")',
@@ -336,33 +374,56 @@
             dataType: 'html',
             context: this,
             success: function (result, status, xhr) {
-                var wordSplit = result.split("|");
-                $(this).attr('data-content', '<div id="pronunciation" style="background-color: rgb(241,241,241);margin:-10px -10px 4px;font-size:14px;border-style:gridge; padding:5px 5px" >' + wordSplit[0] + '  ' + wordSplit[2] +'<a href="#" style="float: right" id="saveWordButton">'+'<i class="far fa-save"></i>'+'</a>'+ '</div>' + '<span>'+wordSplit[1]+'</span>');
-                spelling = wordSplit[0] + ' ' + wordSplit[2];
-                //Format vietnam meaning
-                wordSplit[1] = wordSplit[1].replace(/<br\s*\/?>/gi, ' ');
-                let wsRegex = /^\s*\s*$/; // Change this line
-                vietnamMeaning = wordSplit[1].replace(wsRegex, ''); // Change this line;
-                englishWord = findWord;
+                //Set event has word
+                if (result == "||") {
+                    $(this).attr('data-content', '<div id="pronunciation" style="background-color: rgb(241,241,241);margin:-10px -10px 4px;font-size:14px;border-style:gridge; padding:5px 5px" >' + findWord + '</div>' + '<span> Không tìm thấy từ điển</span>');
+                }
+                else {
+                    var wordSplit = result.split("|");
+                    if (isAvaiable == 1) {
+                        var wordSplit = result.split("|");
+                        $(this).attr('data-content', '<div id="pronunciation" style="background-color: rgb(241,241,241);margin:-10px -10px 4px;font-size:14px;border-style:gridge; padding:5px 5px" >' + wordSplit[0] + '  ' + wordSplit[2] + '<a href="#" style="float: right">' + '<i class="fas fa-star"></i>' + '</a>' + '</div>' + '<span>' + wordSplit[1] + '</span>');
+                        spelling = wordSplit[0] + ' ' + wordSplit[2];
+                        //Format vietnam meaning
+                        wordSplit[1] = wordSplit[1].replace(/<br\s*\/?>/gi, ' ');
+                        let wsRegex = /^\s*\s*$/; // Change this line
+                        vietnamMeaning = wordSplit[1].replace(wsRegex, ''); // Change this line;
+                        englishWord = findWord;
+                    } else {
+                        $(this).attr('data-content', '<div id="pronunciation" style="background-color: rgb(241,241,241);margin:-10px -10px 4px;font-size:14px;border-style:gridge; padding:5px 5px" >' + wordSplit[0] + '  ' + wordSplit[2] + '<a href="#" style="float: right" id="saveWordButton">' + '<i class="far fa-star"></i>' + '</a>' + '</div>' + '<span>' + wordSplit[1] + '</span>');
+                        spelling = wordSplit[0] + ' ' + wordSplit[2];
+                        //Format vietnam meaning
+                        wordSplit[1] = wordSplit[1].replace(/<br\s*\/?>/gi, ' ');
+                        let wsRegex = /^\s*\s*$/; // Change this line
+                        vietnamMeaning = wordSplit[1].replace(wsRegex, ''); // Change this line;
+                        englishWord = findWord;
+                    }
+
+                }
+
                 $(this).attr('data-html', true);
                 $(this).popover('show');
-
+                $(this).removeAttr('data-content');
+                $(this).attr('data-content', "Please double click again");
                 $('#pronunciation').find('#saveWordButton').on('click', function () {
                     saveDictionary();
                     loadDictionary();
+
                 });
+                
             },
             error: function (xhr, status, error) {
                 alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
             }
         });
         return false;
-        });
+     });
+
         //Function save dictionary
         function saveDictionary() {
             $.ajax({
                 type: "POST",
-                url: "/Vocabularies/SaveEntity",
+                url: '@Url.Action("../Vocabularies/SaveEntity")',
                 data: {
                     Id: 0,
                     EngWord: englishWord,

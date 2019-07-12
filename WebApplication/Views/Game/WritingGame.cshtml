@@ -12,11 +12,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Nhập số lượng từ từ 1 đến @ViewBag.CountWord</h4>
+                <h4 class="modal-title">Nhập số lượng từ từ 1 đến <span id="countWord"></span></h4>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="hiddenNumber" value="@ViewBag.CountWord" />
-                <input type="number" min="1" max=@ViewBag.CountWord class="form-control" id="numberWord" />
+                <input type="number" min="1" max=@ViewBag.CountWord  id="numberWord" />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" id="submitButton">Go</button>
@@ -186,7 +186,12 @@
                             $(this).attr("disabled", false).css("background-color", "#d9534f");
                         }
                     });
+                    $("#countWord").text(localStorage.getItem("personalWord"));
                     //Validate type on input
+                    $("[type='number']").attr({
+                        "max": localStorage.getItem("personalWord"),        // substitute your own
+                        "min" : 2  
+                    });
                     $("[type='number']").keypress(function (evt) {
                         evt.preventDefault();
                     });

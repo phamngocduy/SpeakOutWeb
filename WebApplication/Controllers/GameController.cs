@@ -13,16 +13,28 @@ namespace SpeakOutWeb.Controllers
         // GET: Game
         public ActionResult Index()
         {
-            var userID = HttpContext.User.Identity.GetUserId();
+            if(HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var userID = HttpContext.User.Identity.GetUserName();
             ViewBag.Count = db.Vocabularies.Where(x => x.UserId == userID).Count();
             return View();
         }
         public ActionResult MatchingGame()
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
         public ActionResult WritingGame()
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
@@ -41,7 +53,7 @@ namespace SpeakOutWeb.Controllers
         [HttpGet]
         public ActionResult GetRandomCard()
         {
-            var currentUser = User.Identity.GetUserId();
+            var currentUser = User.Identity.GetUserName();
             var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser).ToList();
             var newCard = lstCard.Take(8).ToList();
             var countCard = db.Vocabularies.Where(x => x.UserId == currentUser).Count();
@@ -51,6 +63,10 @@ namespace SpeakOutWeb.Controllers
                 Random rnd = new Random();
                 int tmp;
                 int[] arr = new int[8];
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    arr[i] = -1;
+                }
                 for (int i = 0; i < 8; i++)
                 {
                     tmp = rnd.Next(countCard);
@@ -75,7 +91,7 @@ namespace SpeakOutWeb.Controllers
         [HttpGet]
         public ActionResult GetListCard(int number)
         {
-            var currentUser = User.Identity.GetUserId();
+            var currentUser = User.Identity.GetUserName();
             var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser).ToList();
             var countCard = db.Vocabularies.Where(x => x.UserId == currentUser).Count();
             ViewBag.CountWord = countCard;
@@ -87,6 +103,11 @@ namespace SpeakOutWeb.Controllers
             Random rnd = new Random();
             int tmp;
             int[] arr = new int[number];
+            //Set -1 for all element in array
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = -1;
+            }
             for (int i = 0; i < number; i++)
             {
                 tmp = rnd.Next(countCard);

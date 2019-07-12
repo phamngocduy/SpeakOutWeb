@@ -1,58 +1,101 @@
-.menuBar{
-	box-shadow: 0 10px 16px -8px rgba(0, 20, 80, 0.3);
+.navBar li.icon {
+    display: none;
 }
-.bg1{
-	opacity: 0.2;
+
+@media screen and (max-width: 992px) {
+    .navBar li:not(:first-child) {
+        display: none;
+    }
+
+    .navBar li.icon {
+        float: right;
+        display: block;
+    }
 }
-.image1{
-	margin-right: inherit;
+
+@media screen and (max-width: 992px) {
+    .navBar.responsive {
+        position: relative;
+    }
+
+        .navBar.responsive li.icon {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .navBar.responsive li {
+            float: none;
+            display: block;
+            text-align: left;
+        }
 }
-.iconVLU{
-	display: block;
-	margin: auto;
-	font-size: 10rem;
+
+
+.menuBar {
+    box-shadow: 0 10px 16px -8px rgba(0, 20, 80, 0.3);
 }
-.textContentVLU{
-	text-align: center;
+
+.bg1 {
+    opacity: 0.2;
 }
-.colorVLU{
-	color:#d51c29;
+
+.image1 {
+    margin-right: inherit;
 }
-.selectVLU{
-	width: 25%;
+
+.iconVLU {
+    display: block;
+    margin: auto;
+    font-size: 10rem;
 }
+
+.textContentVLU {
+    text-align: center;
+}
+
+.colorVLU {
+    color: #d51c29;
+}
+
+.selectVLU {
+    width: 25%;
+}
+
 .slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 15px;
-  border-radius: 5px;   
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
 }
 
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%; 
-  background: #d51c29;
-  cursor: pointer;
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #d51c29;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #d51c29;
+        cursor: pointer;
+    }
+
+.readoutVLU {
+    line-height: 0.8rem;
 }
 
-.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #d51c29;
-  cursor: pointer;
-}
-.readoutVLU{
-	line-height: 0.8rem;
-}
 .fab {
     position: fixed;
     width: 56px;
@@ -129,6 +172,7 @@
     -o-transition: .3s;
     transition: .3s;
 }
+
 .fab-buttons__link {
     text-decoration: none;
 }

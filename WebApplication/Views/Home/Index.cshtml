@@ -19,8 +19,8 @@
                     </strong>
                 </h4>
                 <pre>
-                <textarea name="Text" class="form-control" id="Textarea" cols="30" rows="8" placeholder="Type, paste, and edit text here."></textarea>
-                <p><button class="btn button radius" onclick="Practice(event, 'Speak')" title="Practice Listening">Next</button></p>
+                <textarea name="Text" class="form-control" id="Textarea" cols="30" rows="8" placeholder="Type, paste, and edit text here." required></textarea>
+                <p><button class="btn button radius" id="nextButton" onclick="Practice(event, 'Speak')" title="Practice Listening">Next</button></p>
 					</pre>
             </div>
         }
@@ -241,7 +241,6 @@
         <!-- .end .wrap -->
     </section>
     <!--Slide 4-->
-
     @*<section class="aligncenter">*@
     @*<span class="background bg1" style="background-image:url('https://cntttest.vanlanguni.edu.vn:18081/SpeakOut/Library/images/background2.png')"></span>*@
     <!--.wrap = container (width: 90%) -->
@@ -419,10 +418,13 @@
     <script>
         $(function () {
             $('#Textarea').autogrow();
+            
         });
+        //$('#nextButton').on('click', function () {
         function Practice(e, type) {
             $(Type).val(type);
             //e.preventDefault()11;
         }
+       
     </script>
 }

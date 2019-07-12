@@ -19,6 +19,10 @@ namespace SpeakOutWeb.Controllers
         // GET: Vocabularies
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             ViewBag.CurrentSort = sortOrder;
             ViewBag.VocabSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             if (searchString != null)
@@ -30,7 +34,7 @@ namespace SpeakOutWeb.Controllers
                 searchString = currentFilter;
             }
             ViewBag.CurrentFilter = searchString;
-            var userId = HttpContext.User.Identity.GetUserId();
+            var userId = HttpContext.User.Identity.GetUserName();
             var vocab = db.Vocabularies.Where(s => s.UserId == userId);
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -57,7 +61,7 @@ namespace SpeakOutWeb.Controllers
         public JsonResult getVocabularies()
         {
             db.Configuration.ProxyCreationEnabled = false;
-            var userName = User.Identity.GetUserId();
+            var userName = User.Identity.GetUserName();
             var dictionaries = db.Vocabularies.Select(p => new
             {
                 p.Id,
@@ -70,7 +74,7 @@ namespace SpeakOutWeb.Controllers
             }).Where(s => s.UserId == userName || s.Bookmark== false).OrderByDescending(x => x.Id).ToList();
             if (userName == null || userName == "")
             {
-                return Json("Không tìm thấy từ điển", JsonRequestBehavior.AllowGet);
+                return Json("Không tìm thấy từ điển của bạn", JsonRequestBehavior.AllowGet);
             }
 
             return Json(dictionaries, JsonRequestBehavior.AllowGet);
@@ -78,7 +82,7 @@ namespace SpeakOutWeb.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult SaveEntity(Vocabulary vocabulary)
         {
-            var currentUser = HttpContext.User.Identity.GetUserId();
+            var currentUser = HttpContext.User.Identity.GetUserName();
             db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
             {
@@ -92,17 +96,18 @@ namespace SpeakOutWeb.Controllers
                 {
                     if(vocabulary.Spelling==null || (vocabulary.Spelling == "" && vocabulary.VnWord==""))
                     {
-                        return Json("Không tìm thấy tư điển của bạn", JsonRequestBehavior.AllowGet);
+                        return Json("Không tìm thấy tư vựng của bạn", JsonRequestBehavior.AllowGet);
                     }
                     var listAvailable = db.Vocabularies.Where(x=>x.UserId== currentUser).ToList();
                     foreach (var item in listAvailable)
                     {
                         if (item.EngWord == vocabulary.EngWord.ToLower())
                         {
-                            return Json("Từ điển của bạn đã được lưu", JsonRequestBehavior.AllowGet);
+                            return Json("Từ vựng của bạn đã được lưu", JsonRequestBehavior.AllowGet);
                         }
                     }
                     vocabulary.VnWord = vocabulary.VnWord.Trim();
+                    vocabulary.EngWord = vocabulary.EngWord.ToLower();
                     vocabulary.CreatedDate = DateTime.Now;
                     vocabulary.Bookmark = false;
                     vocabulary.UserId = currentUser;
@@ -118,7 +123,7 @@ namespace SpeakOutWeb.Controllers
                     db.Entry(vocabulary).State = EntityState.Modified;
                 }
                 db.SaveChanges();
-                return Json("Save successfully", JsonRequestBehavior.AllowGet);
+                return Json("Lưu thành công", JsonRequestBehavior.AllowGet);
             }
         }
         [HttpPost, ValidateInput(false)]
@@ -128,12 +133,23 @@ namespace SpeakOutWeb.Controllers
             vocabulary.Bookmark = true;
             db.Entry(vocabulary).State = EntityState.Modified;
             db.SaveChanges();
-            return Json("Save successfully", JsonRequestBehavior.AllowGet);
+            return Json("Lưu thành công", JsonRequestBehavior.AllowGet);
 
         }
-
-
-
-
+        [HttpGet]
+        public ActionResult CheckAvailable(string checkWord)
+        {
+            var currentUser = User.Identity.GetUserName();
+            var listVocab = db.Vocabularies.Where(x => x.UserId == currentUser).ToList();
+            var countWord = 0;
+            foreach (var item in listVocab)
+            {
+                if (item.EngWord == checkWord.ToLower())
+                {
+                    countWord++;
+                }
+            }
+            return Json(countWord, JsonRequestBehavior.AllowGet);
+        }
     }
 }

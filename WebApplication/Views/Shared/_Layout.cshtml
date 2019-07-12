@@ -19,14 +19,35 @@
 </head>
 <body>
     <header class="bg-white menuBar">
+        <header class="bg-white menuBar">
+            <!--.wrap o <nav> = container 1200px -->
+            <nav class="navVLU">
+                <p class="logo"><a href="../index.html" title="VanLangUni">VanLangUni</a></p>
+                <ul class="navBar" id="myTopnav">
+                    <li><a href="@Url.Action("../Home/Index")"><strong>Trang chủ</strong></a></li>
+                    <li><a href="@Url.Action("../Vocabularies/Index")">Từ điển</a></li>
+                    <li><a href="#slide=8">Mở Lớp</a></li>
+                    <li><a href="@Url.Action("../Game/Index")">Trò chơi</a></li>
+                    <li><a href="#slide=7">Về SpeakOut</a></li>
+                    @Html.Partial("_LoginPartial")
+                    <li class="icon">
+                        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                            <svg class="fa-clock o">
+                                <use xlink:href="#fa-bars"></use>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
         <!--.wrap o <nav> = container 1200px -->
         <nav>
             <p class="logo"><a href="../index" title="VanLangUni">VanLangUni</a></p>
             <ul class="navBar" id="myTopnav">
-                <li><a href="#slide=1"><strong>Trang chủ</strong></a></li>
-                <li><a href="#slide=2">Từ điển</a></li>
+                <li><a href="@Url.Action("../Home/Index")"><strong>Trang chủ</strong></a></li>
+                <li><a href="@Url.Action("../Vocabularies/Index")">Từ điển</a></li>
                 <li><a href="#slide=8">Mở Lớp</a></li>
-                <li><a href="#slide=6">Trò chơi</a></li>
+                <li><a href="@Url.Action("../Game/Index")">Trò chơi</a></li>
                 <li><a href="#slide=7">Về SpeakOut</a></li>
                 @Html.Partial("_LoginPartial")
             </ul>

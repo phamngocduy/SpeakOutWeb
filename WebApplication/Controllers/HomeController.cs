@@ -1,5 +1,6 @@
 ﻿using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace SpeakOutWeb.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.Account = HttpContext.User.Identity.GetUserId();
             return View();
         }
 
