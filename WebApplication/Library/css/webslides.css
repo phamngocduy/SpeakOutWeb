@@ -3604,23 +3604,6 @@ Cards
 /*=========================================
 Tables
 =========================================== */
-table td,
-th,
-thead {
-  border: 1px solid rgba(0, 0, 0, 0.5); }
-
-thead {
-  background-color: rgba(0, 0, 0, 0.3); }
-
-tr:nth-child(even) > td {
-  background: rgba(0, 0, 0, 0.1); }
-
-tr > td {
-  border-top: 1px solid rgba(0, 0, 0, 0.5); }
-
-td:hover,
-tr:nth-child(even) > td:hover {
-  background-color: rgba(255, 255, 255, 0.5); }
 
 /*============================
 Browser (Screenshots)

@@ -25,6 +25,7 @@ namespace SpeakOutWeb.Controllers
             }
             ViewBag.CurrentSort = sortOrder;
             ViewBag.VocabSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
             if (searchString != null)
             {
                 page = 1;
@@ -45,6 +46,12 @@ namespace SpeakOutWeb.Controllers
             {
                 case "name_desc":
                     vocab = vocab.OrderByDescending(s => s.EngWord);
+                    break;
+                case "Date":
+                    vocab = vocab.OrderBy(s => s.CreatedDate);
+                    break;
+                case "date_desc":
+                    vocab = vocab.OrderByDescending(s => s.CreatedDate);
                     break;
                 default:  // Name ascending 
                     vocab = vocab.OrderBy(s => s.EngWord);

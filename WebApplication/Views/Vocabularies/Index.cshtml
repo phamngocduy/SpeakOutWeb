@@ -1,59 +1,64 @@
 ﻿@model PagedList.IPagedList<SpeakOutWeb.Models.Vocabulary>
-@using PagedList; 
+@using PagedList;
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Index";
 }
 <link href="~/Library/css/dictionaryStyle.css" rel="stylesheet" />
+@Styles.Render("~/Content/css")
 <article id="webslides" class="vertical">
     <section class="bg-white">
-        <span class="background bg1" style="background-image:url('/Library/images/background1.jpg')"></span>
-        @using (Html.BeginForm("Index", "Vocabularies", FormMethod.Get))
-        {
-            <p>
-                Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-                <input type="submit" value="Search" />
-            </p>
-        }
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.ActionLink("Your vocabularies", "Index", new { sortOrder = ViewBag.VocabSortParm, currentFilter = ViewBag.CurrentFilter })
-                </th>
-                <th>
-                    Your bookmarks
-                </th>
-            </tr>
-
-            @foreach (var item in Model)
+        <span class="background bg1" style="background-image:url('/Library/images/real-estate-background-images-6.jpg')"></span>
+        <div class="container">
+            @using (Html.BeginForm("Index", "Vocabularies", FormMethod.Get))
             {
-                <tr>
-                    <td>
-
-                        <h3>@Html.DisplayFor(modelItem => item.EngWord)</h3>
-                        <button id="speakButton" class="btn speakButton" data-speak="@item.EngWord">
-                            <img src="~/Content/500px-Speaker_Icon.svg.png" />
-                        </button><br />
-                        <h6>@Html.DisplayFor(modelItem => item.Spelling)</h6><br />
-                        <h4>@Html.DisplayFor(modelItem => item.VnWord)</h4>
-                    </td>
-                    <td>
-                        @if (item.Bookmark == false)
-                        {
-                            <button type="submit" class="btn btn-primary" id="bookmarkedButton" data-id="@item.Id">Bookmark</button>
-                        }
-
-                    </td>
-
-                </tr>
+            <p class="formSearch">
+                Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input type="submit" value="Search" id="submitSearch" />
+                <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("Sort by Created Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })</button>
+            </p>
             }
-        </table>
-        <br />
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            
+            <table class="table">
+                <tr>
+                    <th>
+                        <button id="sortButton" title="Click here to sort following name">@Html.ActionLink("YOUR VOCABULARIES", "Index", new { sortOrder = ViewBag.VocabSortParm, currentFilter = ViewBag.CurrentFilter })</button>
+                    </th>
+                    <th>
+                        Your bookmarks
+                    </th>
+                </tr>
 
-        @Html.PagedListPager(Model, page => Url.Action("Index",
-            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+
+                            <span id="engWord"><strong>@Html.DisplayFor(modelItem => item.EngWord)</strong></span>
+                            <span id="pronoun">@Html.DisplayFor(modelItem => item.Spelling)</span>
+                            <button id="speakButton" class="btn speakButton" data-speak="@item.EngWord">
+                                <img src="~/Content/500px-Speaker_Icon.svg.png" />
+                            </button><br />
+                            <span id="vnWord">@Html.DisplayFor(modelItem => item.VnWord)</span>
+                        </td>
+                        <td style="text-align:center;vertical-align: middle;">
+                            @if (item.Bookmark == false)
+                            {
+                                <button type="submit" class="btn btn-primary" id="bookmarkedButton" data-id="@item.Id"><i class="far fa-bookmark"></i></button>
+                            }
+
+                        </td>
+
+                    </tr>
+                }
+            </table>
+            <br />
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
     </section>
 </article>
 @section Script1{

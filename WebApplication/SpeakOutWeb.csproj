@@ -277,6 +277,7 @@
     <Content Include="Library\css\dictionaryStyle.css" />
     <Content Include="Library\css\guessingGame.css" />
     <Content Include="Library\css\matchinggame.css" />
+    <Content Include="Library\images\real-estate-background-images-6.jpg" />
     <Content Include="Library\js\guessingGame.js" />
     <Content Include="Library\js\main.js" />
     <Content Include="Library\js\matchinggame.js" />

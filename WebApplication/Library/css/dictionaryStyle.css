@@ -2,3 +2,42 @@
     width:20px;
     height:20px;
 }
+#speakButton {
+    display: inline-block;
+}
+#engWord{
+    font-size:25px;
+    padding-right:10px;
+}
+#vnWord {
+    font-size: 20px;
+    padding-right: 10px;
+    margin-top:5px;
+}
+#pronoun {
+    padding-right: 10px;
+}
+#submitSearch{
+    max-width:100px;
+}
+#bookmarkedButton {
+    max-width:100px;
+}
+#sortButton {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+#sortCreatedDateButton {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    display:inline-block;
+    float:right
+}
