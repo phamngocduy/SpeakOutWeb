@@ -69,21 +69,11 @@ namespace SpeakOutWeb.Controllers
         {
             db.Configuration.ProxyCreationEnabled = false;
             var userName = User.Identity.GetUserName();
-            var dictionaries = db.Vocabularies.Select(p => new
-            {
-                p.Id,
-                p.UserId,
-                p.VnWord,
-                p.EngWord,
-                p.Spelling,
-                p.CreatedDate,
-                p.Bookmark
-            }).Where(s => s.UserId == userName || s.Bookmark== false).OrderByDescending(x => x.Id).ToList();
             if (userName == null || userName == "")
             {
                 return Json("Không tìm thấy từ điển của bạn", JsonRequestBehavior.AllowGet);
             }
-
+            var dictionaries = db.Vocabularies.Where(s => s.UserId == userName && s.Bookmark== false).OrderByDescending(x => x.Id).ToList();
             return Json(dictionaries, JsonRequestBehavior.AllowGet);
         }
         [HttpPost, ValidateInput(false)]

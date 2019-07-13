@@ -5,20 +5,16 @@ $(document).ready(function () {
 function loadDictionary() {
     $.ajax({
         type: "GET",
-        url: "https://cntttest.vanlanguni.edu.vn:18081/SpeakOut/Vocabularies/getVocabularies",
+        url: '../Vocabularies/getVocabularies',
         dataType: "json",
         success: function (response) {
             console.log(response);
-            if (response != "Không tìm thấy từ điển") {
-                var allList = '';
+            if (response != "Không tìm thấy từ điển của bạn") {
+                var allList = '<ul class="tags">';
                 $.each(response, function (i, item) {
-                    item.VnWord = item.VnWord.replace(/<br\s*\/?>/gi, ' ');
-                    let wsRegex = /^\s*\s*$/; // Change this line
-                    let result = item.VnWord.replace(wsRegex, ''); // Change this line
-                    var res = result.split(";");
-                    console.log(result + ' ' + item.EngWord + ' ' + item.Spelling);
-                    allList += item.EngWord + ' ' + item.Spelling + '<br>' + ' ' + res[0] + '<br>';
+                    allList += '<li><a href="#" class="tag">'+item.EngWord+'</a></li>';
                 });
+                allList += "<ul>";
                 $('#wordLibrary').html(allList);
             }
             
