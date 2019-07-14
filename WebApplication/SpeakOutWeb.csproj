@@ -420,10 +420,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Process.cshtml" />
-    <Content Include="Views\Vocabularies\Create.cshtml" />
-    <Content Include="Views\Vocabularies\Delete.cshtml" />
-    <Content Include="Views\Vocabularies\Details.cshtml" />
-    <Content Include="Views\Vocabularies\Edit.cshtml" />
     <Content Include="Views\Vocabularies\Index.cshtml" />
     <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\Game\MatchingGame.cshtml" />

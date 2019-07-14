@@ -9,7 +9,7 @@
 @Styles.Render("~/Content/css")
 <article id="webslides" class="vertical">
     <section class="bg-white">
-        <span class="background bg1" style="background-image:url('/Library/images/real-estate-background-images-6.jpg')"></span>
+        <span class="background bg1" style="background-image:url('https://cntttest.vanlanguni.edu.vn:18081/SpeakOut/Library/images/real-estate-background-images-6.jpg')"></span>
         <div class="container">
             @using (Html.BeginForm("Index", "Vocabularies", FormMethod.Get))
             {
@@ -45,7 +45,7 @@
                         <td style="text-align:center;vertical-align: middle;">
                             @if (item.Bookmark == false)
                             {
-                                <button type="submit" class="btn btn-primary" id="bookmarkedButton" data-id="@item.Id"><i class="far fa-bookmark"></i></button>
+                                <button class="btn" type="submit" id="bookmarkedButton" data-id="@item.Id"><i class="far fa-bookmark"></i></button>
                             }
 
                         </td>

@@ -131,3 +131,7 @@
     text-align: left;
     margin-bottom: .5em;
 }
+.currentQuestion{
+    font-size:18px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

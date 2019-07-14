@@ -35,6 +35,10 @@ namespace SpeakOutWeb.Controllers
         [HttpPost, ActionName("Index")]
         public ActionResult Process(string text = "", string type = null)
         {
+            if (text.Trim() == "")
+            {
+                return View();
+            }
             ViewBag.Type = type;
             ViewBag.Text = text = text.Replace('“', '"').Replace('”', '"')
                                       .Replace('‘', '\'').Replace('’', '\'');
