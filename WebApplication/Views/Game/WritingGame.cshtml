@@ -134,7 +134,7 @@
         $(document).ready(function () {
             $.ajax({
                 type: "GET",
-                url: "../Game/GetListCard",
+                url: '@Url.Action("../Game/GetListCard")',
                 data: { number: localStorage.getItem("numberWord") },
                 dataType: "json",
                 success: function (response) {

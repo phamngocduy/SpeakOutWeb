@@ -442,6 +442,8 @@
     <Content Include="Views\UserGroups\Index.cshtml" />
     <Content Include="Views\UserGroups\StudentDetails.cshtml" />
     <Content Include="Views\UserGroups\RequestList.cshtml" />
+    <Content Include="Views\Shared\_SidebarPartial.cshtml" />
+    <Content Include="Views\Shared\_SidebarPartial1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

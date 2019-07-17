@@ -46,31 +46,30 @@
         </div>
     </div>
 </div>
-<span class="background" style="background-image:url('@Url.Content("~/Library/images/real-estate-background-images-6.jpg")'); filter: blur(2px)"></span>
 <article id="webslides" class="vertical">
     <section class="bg-white  ">
+        <span class="background bg1" style="background-image:url('@Url.Content("~/Library/images/real-estate-background-images-6.jpg")')"></span>
         <div class="container">
 
             <div>
 
                 @using (Html.BeginForm("Index", "UserGroups", FormMethod.Get, new { @class = "formSearch" }))
                 {
-                <p class="formSearch">
-                    Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-                    <input type="submit" value="Search" id="submitSearch" />
-                    @Html.ActionLink("Create New", "Create", null, new { @class = "createButton" })
-                </p>
+                    <p class="formSearch">
+                        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                        <input type="submit" value="Search" id="submitSearch" />
+                        <button id="sortCreatedDateButton">@Html.ActionLink("Create New", "Create", null, new { @class = "createButton" })</button>
+                    </p>
                 }
-
             </div>
-           
+
             <table class="table">
                 <tr>
                     <th>
                         Mã số nhóm
                     </th>
                     <th>
-                        @Html.ActionLink("Tên nhóm", "Index", new { sortOrder = ViewBag.VocabSortParm1, currentFilter = ViewBag.CurrentFilter1 })
+                        <button id="sortButton">@Html.ActionLink("  TÊN NHÓM", "Index", new { sortOrder = ViewBag.VocabSortParm1, currentFilter = ViewBag.CurrentFilter1 },new {@class= "glyphicon glyphicon-sort-by-alphabet" })</button>
                     </th>
                     <th>
                         Mô tả
@@ -79,8 +78,8 @@
                         Người thành lập
                     </th>
                     <th>
-                        @Html.ActionLink("Ngày tạo", "Index", new { sortOrder = ViewBag.DateSortParm1, currentFilter = ViewBag.CurrentFilter1 })
-                    </th>
+                        <button id="sortButton">@Html.ActionLink("   NGÀY TẠO ", "Index", new { sortOrder = ViewBag.DateSortParm1, currentFilter = ViewBag.CurrentFilter1 }, new { @class = "glyphicon glyphicon-sort-by-alphabet" })</button>
+</th>
                     <th>Tham gia</th>
                 </tr>
 
@@ -161,7 +160,7 @@
             var name = $('#txtName').val();
             $.ajax({
                 type: 'POST',
-                url: '../UserGroupsAcceptance/CreateRequest',
+                url: '@Url.Action("../UserGroupsAcceptance/CreateRequest")',
                 dataType: "json",
                 data: { name: name, idClass: idClass },
                 success: function (result, status, xhr) {

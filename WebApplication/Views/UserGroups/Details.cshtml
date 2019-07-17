@@ -5,8 +5,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @Styles.Render("~/Content/css")
+<style>
+    .studenInfo{
+        text-decoration:none !important;
+        color:white!important;
+    }
+    tr th {
+        color: white;
+        text-align: center;
+        vertical-align: middle;
+    }
+    tr {
+        background-color: black;
+        text-align:center;
+        vertical-align:middle;
+    }
+</style>
 <article id="webslides" class="vertical">
-    <section  class="bg-white background " style="background-image:url('@Url.Content("~/Library/images/real-estate-background-images-6.jpg")')">
+    <section class="bg-white background " style="background-image:url('@Url.Content("~/Library/images/backgroundSignIn.png")')">
+        @Html.Partial("_SidebarPartial");
         <div class="container">
             <input type="hidden" data-id="@Model.Id" />
             <table class="table">
@@ -26,7 +43,7 @@
 
                 @foreach (var item in Model.UserGroupDetails)
                 {
-                    <tr>
+                    <tr class="active">
                         <td>
                             @item.StudentName
                         </td>
@@ -37,7 +54,7 @@
                             @item.CreatedDate
                         </td>
                         <td>
-                            <button class="btn btn-danger" data-id="@item.StudentEmail">@Html.ActionLink("StduentDetails", "StudentDetails", new { classId = item.GroupId, studentId=item.StudentEmail })</button>
+                            <button class="btn btn-danger" data-id="@item.StudentEmail">@Html.ActionLink("StduentDetails", "StudentDetails", new { classId = item.GroupId, studentId = item.StudentEmail }, new { @class = "studenInfo" })</button>
                         </td>
                     </tr>
                 }
