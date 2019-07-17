@@ -15,14 +15,63 @@ namespace SpeakOutWeb.Controllers
         private SpeakOutEntities db = new SpeakOutEntities();
 
         // GET: UserGroups
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
             {
                 return RedirectToAction("Login", "Account");
             }
-            var userID = HttpContext.User.Identity.GetUserName();
-            return View(db.UserGroups.ToList());
+            ViewBag.CurrentSort1 = sortOrder;
+            ViewBag.VocabSortParm1 = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm1 = sortOrder == "Date" ? "date_desc" : "Date";
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter1 = searchString;
+            var userId = HttpContext.User.Identity.GetUserName();
+            var classRooms = db.UserGroups.Where(x => x.GroupName != null);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var search = searchString;
+                int numberParse;
+                bool isNumber= Int32.TryParse(search, out numberParse);
+                if (isNumber)
+                {
+                    classRooms = classRooms.Where(x => x.Id == numberParse);
+                }
+                else
+                {
+                    classRooms = classRooms.Where(s => s.GroupName.Contains(searchString) || s.Email.Contains(searchString));
+                }
+                
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    classRooms = classRooms.OrderByDescending(s => s.GroupName);
+                    break;
+
+                case "Date":
+                    classRooms = classRooms.OrderBy(s => s.CreatedDate);
+                    break;
+
+                case "date_desc":
+                    classRooms = classRooms.OrderByDescending(s => s.CreatedDate);
+                    break;
+
+                default:  // Name ascending
+                    classRooms = classRooms.OrderBy(s => s.GroupName);
+                    break;
+            }
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(classRooms.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: UserGroups/Details/5
@@ -47,7 +96,7 @@ namespace SpeakOutWeb.Controllers
             {
                 return RedirectToAction("Index", "UserGroups");
             }
-            
+
             if (userGroup == null)
             {
                 return HttpNotFound();
@@ -69,7 +118,7 @@ namespace SpeakOutWeb.Controllers
             }
             var currentUser = HttpContext.User.Identity.GetUserName();
             var getCurrentClass = db.UserGroups.Where(x => x.Id == idClass && x.Email == currentUser).Count();
-            if (getCurrentClass >0)
+            if (getCurrentClass > 0)
             {
                 IEnumerable<UserAcceptance> getRequestList = db.UserAcceptances.Where(x => x.GroupId == idClass).ToList();
                 return View(getRequestList);
@@ -145,13 +194,16 @@ namespace SpeakOutWeb.Controllers
                     case "name_desc":
                         vocab = vocab.OrderByDescending(s => s.EngWord);
                         break;
+
                     case "Date":
                         vocab = vocab.OrderBy(s => s.CreatedDate);
                         break;
+
                     case "date_desc":
                         vocab = vocab.OrderByDescending(s => s.CreatedDate);
                         break;
-                    default:  // Name ascending 
+
+                    default:  // Name ascending
                         vocab = vocab.OrderBy(s => s.EngWord);
                         break;
                 }
@@ -162,8 +214,6 @@ namespace SpeakOutWeb.Controllers
             }
             return RedirectToAction("Index", "UserGroups");
         }
-
-
 
         //Hiển thị danh sách các Request
         [HttpGet]
@@ -198,8 +248,5 @@ namespace SpeakOutWeb.Controllers
             var lstRequest = db.UserAcceptances.Where(x => x.UserEmail == currentUser).ToList();
             return Json(lstRequest, JsonRequestBehavior.AllowGet);
         }
-
-       
-       
     }
 }
