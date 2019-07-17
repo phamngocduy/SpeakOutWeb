@@ -5,7 +5,7 @@ $(document).ready(function () {
 function loadDictionary() {
     $.ajax({
         type: "GET",
-        url: "https://cntttest.vanlanguni.edu.vn:18081/SpeakOut/Vocabularies/getVocabularies",
+        url: homeURL,
         dataType: "json",
         success: function (response) {
             console.log(response);

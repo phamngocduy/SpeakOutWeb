@@ -25,6 +25,10 @@ namespace SpeakOutWeb.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<UserAcceptance> UserAcceptances { get; set; }
+        public virtual DbSet<UserGroupDetail> UserGroupDetails { get; set; }
+        public virtual DbSet<UserGroup> UserGroups { get; set; }
         public virtual DbSet<Vocabulary> Vocabularies { get; set; }
+        public virtual DbSet<ManageDictionaryViewModels> ManageDictionaryViewModels { set; get; }
     }
 }

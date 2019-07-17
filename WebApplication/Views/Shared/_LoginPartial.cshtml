@@ -1,18 +1,72 @@
 ﻿@using Microsoft.AspNet.Identity
+<style>
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropbtn {
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content a:hover {
+                background-color: #f1f1f1
+            }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+</style>
+
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-    @Html.AntiForgeryToken()
+    <li>
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
 
-        <li>
-            @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    }
+            @Html.AntiForgeryToken()
+            <div class="dropdown">
+                <button class="dropbtn button radius"><i class="fas fa-user" style="float:left; margin-top:14px"></i> <span id="userName"></span></button>
+                <div class="dropdown-content">
+                    @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                </div>
+            </div>
+
+        }
+    </li>
 }
 else
 {
 
-        <li><a href="#slide=8" class="button radius" title="Button">Đăng nhập</a></li>
+    <li><a href="#slide=8" class="button radius" title="Button">Đăng nhập</a></li>
 }
+
+<script>
+
+    window.onload = function () {
+                var userName ="@User.Identity.GetUserName()";
+        @{
+            string sign = "@";
+        }
+    var user = userName.split("@sign");
+        document.getElementById("userName").textContent=user[0];
+    };
+</script>

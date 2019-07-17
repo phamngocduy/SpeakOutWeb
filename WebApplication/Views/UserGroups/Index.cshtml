@@ -1,0 +1,164 @@
+﻿@model IEnumerable<SpeakOutWeb.Models.UserGroup>
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/css")
+<style>
+    #buttonControl a {
+        text-decoration: none !important;
+        color: white !important;
+    }
+
+    td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    th {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Nhập tên của bạn</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="hiddenNumber" value="@ViewBag.Count" />
+                <input type="text" class="form-control" id="txtName" required/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="submitButton">Go</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<article id="webslides" class="vertical">
+    <section class="bg-white background " style="background-image:url('@Url.Content("~/Library/images/real-estate-background-images-6.jpg")')">
+        <div class="container">
+
+            <div>
+                @Html.ActionLink("Create New", "Create")
+            </div>
+            <table class="table">
+                <tr>
+                    <th>
+                        Tên nhóm
+                    </th>
+                    <th>
+                        Mô tả
+                    </th>
+                    <th>
+                        Người thành lập
+                    </th>
+                    <th>Tham gia</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GroupName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td id="buttonControl">
+                            @{ int accept = item.UserAcceptances.Count;
+                                int count = 0;
+                                if (item.Email == User.Identity.GetUserName())
+                                {
+                                    <button class="btn btn-danger" id="btnJoin"  >@Html.ActionLink("Joined", "Details", new { id = item.Id })</button>
+                                    count++;
+                                    accept = 0;
+                                }
+                                else if (item.UserGroupDetails.Count() > 0)
+                                {
+                                    foreach (var item2 in item.UserGroupDetails)
+                                    {
+                                        if (item2.StudentEmail == User.Identity.GetUserName())
+                                        {
+                                            <button class="btn btn-danger" id="btnJoin">@Html.ActionLink("Joined", "Details", new { id = item.Id })</button>
+                                            count++;
+                                            accept = 0;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (accept > 0)
+                                {
+                                    foreach (var item3 in item.UserAcceptances)
+                                    {
+                                        if (item3.UserEmail == User.Identity.GetUserName() && item3.GroupId == item.Id)
+                                        {
+                                            <button class="btn btn-danger" id="btnJoin">Waiting</button>
+                                            count++;
+                                            break;
+                                        }
+                                    }
+
+                                }
+                                if (count == 0)
+                                {
+                                    <button class="btn btn-danger btnSubmit" data-class="@item.Id" data-toggle="modal" href="#myModal">Join team</button>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </section>
+</article>
+@section Scripts{
+    <script>
+        $('#submitButton').on('click', function () {
+            var idClass = $(".btnSubmit").attr("data-class");
+            var name = $('#txtName').val();
+            $.ajax({
+                type: 'POST',
+                url: '../UserGroupsAcceptance/CreateRequest',
+                dataType: "json",
+                data: { name: name, idClass: idClass },
+                success: function (result, status, xhr) {
+                    console.log("Lưu thành công");
+                    window.location.reload();
+                },
+                error: function (xhr, status, error) {
+                    alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+                }
+            });
+        });
+        @*$(document).ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: '../UserGroups/getListRequestUser',
+                dataType: "json",
+                success: function (result, status, xhr) {
+                    var allList = '';
+                    $.each(response, function (i, item) {
+                        if (@User.Identity.GetUserName()==item.E ) {
+
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+                }
+            });
+        });*@
+    </script>
+}

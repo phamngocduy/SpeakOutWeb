@@ -4,7 +4,37 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SpeakOutModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SpeakOutModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="UserAcceptances">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="125" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UserEmail" Type="nvarchar" MaxLength="125" />
+          <Property Name="GroupId" Type="int" />
+        </EntityType>
+        <EntityType Name="UserGroupDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="StudentName" Type="nvarchar" MaxLength="125" />
+          <Property Name="StudentEmail" Type="nvarchar" MaxLength="125" />
+          <Property Name="GroupId" Type="int" />
+        </EntityType>
+        <EntityType Name="UserGroups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="nvarchar(max)" />
+          <Property Name="Description" Type="text" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Vocabularies">
           <Key>
             <PropertyRef Name="Id" />
@@ -14,17 +44,99 @@
           <Property Name="VnWord" Type="nvarchar(max)" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="Spelling" Type="nvarchar(max)" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="UserId" Type="nvarchar(max)" />
           <Property Name="Bookmark" Type="bit" />
         </EntityType>
+        <Association Name="FK_UserAcceptances_UserGroups">
+          <End Role="UserGroups" Type="Self.UserGroups" Multiplicity="0..1" />
+          <End Role="UserAcceptances" Type="Self.UserAcceptances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserGroups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserAcceptances">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserGroupDetails_UserGroups">
+          <End Role="UserGroups" Type="Self.UserGroups" Multiplicity="0..1" />
+          <End Role="UserGroupDetails" Type="Self.UserGroupDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserGroups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserGroupDetails">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SpeakOutModelStoreContainer">
+          <EntitySet Name="UserAcceptances" EntityType="Self.UserAcceptances" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserGroupDetails" EntityType="Self.UserGroupDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserGroups" EntityType="Self.UserGroups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vocabularies" EntityType="Self.Vocabularies" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_UserAcceptances_UserGroups" Association="Self.FK_UserAcceptances_UserGroups">
+            <End Role="UserGroups" EntitySet="UserGroups" />
+            <End Role="UserAcceptances" EntitySet="UserAcceptances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGroupDetails_UserGroups" Association="Self.FK_UserGroupDetails_UserGroups">
+            <End Role="UserGroups" EntitySet="UserGroups" />
+            <End Role="UserGroupDetails" EntitySet="UserGroupDetails" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SpeakOutModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SpeakOutEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UserAcceptances" EntityType="SpeakOutModel.UserAcceptance" />
+          <EntitySet Name="UserGroupDetails" EntityType="SpeakOutModel.UserGroupDetail" />
+          <EntitySet Name="UserGroups" EntityType="SpeakOutModel.UserGroup" />
+          <EntitySet Name="Vocabularies" EntityType="SpeakOutModel.Vocabulary" />
+          <AssociationSet Name="FK_UserAcceptances_UserGroups" Association="SpeakOutModel.FK_UserAcceptances_UserGroups">
+            <End Role="UserGroup" EntitySet="UserGroups" />
+            <End Role="UserAcceptance" EntitySet="UserAcceptances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGroupDetails_UserGroups" Association="SpeakOutModel.FK_UserGroupDetails_UserGroups">
+            <End Role="UserGroup" EntitySet="UserGroups" />
+            <End Role="UserGroupDetail" EntitySet="UserGroupDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="UserAcceptance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="125" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UserEmail" Type="String" MaxLength="125" FixedLength="false" Unicode="true" />
+          <Property Name="GroupId" Type="Int32" />
+          <NavigationProperty Name="UserGroup" Relationship="SpeakOutModel.FK_UserAcceptances_UserGroups" FromRole="UserAcceptance" ToRole="UserGroup" />
+        </EntityType>
+        <EntityType Name="UserGroupDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="StudentName" Type="String" MaxLength="125" FixedLength="false" Unicode="true" />
+          <Property Name="StudentEmail" Type="String" MaxLength="125" FixedLength="false" Unicode="true" />
+          <Property Name="GroupId" Type="Int32" />
+          <NavigationProperty Name="UserGroup" Relationship="SpeakOutModel.FK_UserGroupDetails_UserGroups" FromRole="UserGroupDetail" ToRole="UserGroup" />
+        </EntityType>
+        <EntityType Name="UserGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UserAcceptances" Relationship="SpeakOutModel.FK_UserAcceptances_UserGroups" FromRole="UserGroup" ToRole="UserAcceptance" />
+          <NavigationProperty Name="UserGroupDetails" Relationship="SpeakOutModel.FK_UserGroupDetails_UserGroups" FromRole="UserGroup" ToRole="UserGroupDetail" />
+        </EntityType>
         <EntityType Name="Vocabulary">
           <Key>
             <PropertyRef Name="Id" />
@@ -34,28 +146,82 @@
           <Property Name="VnWord" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Spelling" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Bookmark" Type="Boolean" />
         </EntityType>
-        <EntityContainer Name="SpeakOutEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Vocabularies" EntityType="Self.Vocabulary" />
-        </EntityContainer>
-      </Schema>
+        <Association Name="FK_UserAcceptances_UserGroups">
+          <End Type="SpeakOutModel.UserGroup" Role="UserGroup" Multiplicity="0..1" />
+          <End Type="SpeakOutModel.UserAcceptance" Role="UserAcceptance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserAcceptance">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserGroupDetails_UserGroups">
+          <End Type="SpeakOutModel.UserGroup" Role="UserGroup" Multiplicity="0..1" />
+          <End Type="SpeakOutModel.UserGroupDetail" Role="UserGroupDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserGroupDetail">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SpeakOutModelStoreContainer" CdmEntityContainer="SpeakOutEntities">
+          <EntitySetMapping Name="UserAcceptances">
+            <EntityTypeMapping TypeName="SpeakOutModel.UserAcceptance">
+              <MappingFragment StoreEntitySet="UserAcceptances">
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserGroupDetails">
+            <EntityTypeMapping TypeName="SpeakOutModel.UserGroupDetail">
+              <MappingFragment StoreEntitySet="UserGroupDetails">
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="StudentEmail" ColumnName="StudentEmail" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserGroups">
+            <EntityTypeMapping TypeName="SpeakOutModel.UserGroup">
+              <MappingFragment StoreEntitySet="UserGroups">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Vocabularies">
             <EntityTypeMapping TypeName="SpeakOutModel.Vocabulary">
               <MappingFragment StoreEntitySet="Vocabularies">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="EngWord" ColumnName="EngWord" />
-                <ScalarProperty Name="VnWord" ColumnName="VnWord" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Spelling" ColumnName="Spelling" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Bookmark" ColumnName="Bookmark" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Spelling" ColumnName="Spelling" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="VnWord" ColumnName="VnWord" />
+                <ScalarProperty Name="EngWord" ColumnName="EngWord" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

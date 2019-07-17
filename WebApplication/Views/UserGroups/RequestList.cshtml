@@ -1,0 +1,79 @@
+﻿@model IEnumerable<SpeakOutWeb.Models.UserAcceptance>
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "RequestList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/css")
+<article id="webslides" class="vertical">
+    <section class="bg-white background" style="background-image:url('@Url.Content("~/Library/images/real-estate-background-images-6.jpg")">
+        <div class="container">
+            <table class="table">
+                <tr>
+                    <th>
+                        Tên người đăng kỳ
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserEmail)
+                        </td>
+                        <td>
+                            <button id="acceptButton" class="btn btn-success" data-id="@item.Id" data-class="@item.GroupId" data-name="@item.UserName" data-email="@item.UserEmail">Chấp nhận</button>
+                            <button id="denyButton" class="btn btn-danger" data-id="@item.Id" data-class="@item.GroupId" data-name="@item.UserName">Từ chối</button>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </section>
+</article>
+@section Scripts{
+    <script>
+        $('#acceptButton').on('click', function () {
+            var idClass = $(this).attr("data-class");
+            var name = $(this).attr("data-name");
+            var id = $(this).attr("data-id");
+            var email = $(this).attr("data-email");
+            $.ajax({
+                type: 'POST',
+                dataType: "json",
+                url: '@Url.Action("../UserGroupDetails/AcceptRequest")',
+                data: { name: name, idClass: idClass, id: id, email: email },
+                success: function (result, status, xhr) {
+                    console.log("Lưu thành công");
+                    window.location.reload();
+                },
+                error: function (xhr, status, error) {
+                    alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+                }
+            });
+        });
+        $('#denyButton').on('click', function () {
+            var idClass = $(this).attr("data-id");
+            $.ajax({
+                type: 'POST',
+                dataType: "json",
+                url: '@Url.Action("../UserGroupDetails/DeleteRequest")',
+                data: {idClass: idClass },
+                success: function (result, status, xhr) {
+                    console.log("Lưu thành công");
+                    window.location.reload();
+                },
+                error: function (xhr, status, error) {
+                    alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+                }
+            });
+        });
+    </script>
+    }

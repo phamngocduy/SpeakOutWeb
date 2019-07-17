@@ -11,19 +11,21 @@
     <section class="bg-white">
         <span class="background bg1" style="background-image:url('@Url.Content("~/Library/images/real-estate-background-images-6.jpg")')"></span>
         <div class="container">
-            @using (Html.BeginForm("Index", "Vocabularies", FormMethod.Get))
+            @using (Html.BeginForm("StudentDetails", "UserGroups", FormMethod.Get))
             {
-                <p class="formSearch">
-                    Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-                    <input type="submit" value="Search" id="submitSearch" />
-                    <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("Sort by Created Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })</button>
-                </p>
+            <p class="formSearch">
+                Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input type="hidden" value="@ViewBag.classId" name="classId" />
+                <input type="hidden" value="@ViewBag.studentId" name="studentId" />
+                <input type="submit" value="Search" id="submitSearch" />
+                <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("Sort by Created Date", "StudentDetails", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter, classId = ViewBag.classId, studentId = ViewBag.studentId })</button>
+            </p>
             }
 
             <table class="table">
                 <tr>
                     <th>
-                        <button id="sortButton" title="Click here to sort following name">@Html.ActionLink("YOUR VOCABULARIES", "Index", new { sortOrder = ViewBag.VocabSortParm, currentFilter = ViewBag.CurrentFilter })</button>
+                        <button id="sortButton" title="Click here to sort following name">@Html.ActionLink("YOUR VOCABULARIES", "StudentDetails", new { sortOrder = ViewBag.VocabSortParm, currentFilter = ViewBag.CurrentFilter,classId = ViewBag.classId, studentId = ViewBag.studentId })</button>
                     </th>
                     <th>
                         Your bookmarks
@@ -56,7 +58,7 @@
             <br />
             Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-            @Html.PagedListPager(Model, page => Url.Action("Index",
+            @Html.PagedListPager(Model, page => Url.Action("StudentDetails",
                 new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
         </div>
     </section>

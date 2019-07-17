@@ -1,0 +1,56 @@
+﻿@model SpeakOutWeb.Models.UserGroup
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/css")
+<article id="webslides" class="vertical">
+    <section  class="bg-white background " style="background-image:url('@Url.Content("~/Library/images/real-estate-background-images-6.jpg")')">
+        <div class="container">
+            <input type="hidden" data-id="@Model.Id" />
+            <table class="table">
+                <tr>
+                    <th>
+                        User name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Ngày tham gia
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.UserGroupDetails)
+                {
+                    <tr>
+                        <td>
+                            @item.StudentName
+                        </td>
+                        <td>
+                            @item.StudentEmail
+                        </td>
+                        <td>
+                            @item.CreatedDate
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" data-id="@item.StudentEmail">@Html.ActionLink("StduentDetails", "StudentDetails", new { classId = item.GroupId, studentId=item.StudentEmail })</button>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <p>
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+
+        </div>
+    </section>
+</article>
+@section Script1{
+    <script>
+
+    </script>
+}
