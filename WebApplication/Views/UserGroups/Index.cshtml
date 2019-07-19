@@ -55,11 +55,12 @@
 
                 @using (Html.BeginForm("Index", "UserGroups", FormMethod.Get, new { @class = "formSearch" }))
                 {
-                    <p class="formSearch">
-                        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-                        <input type="submit" value="Search" id="submitSearch" />
-                        <button id="sortCreatedDateButton">@Html.ActionLink("Create New", "Create", null, new { @class = "createButton" })</button>
-                    </p>
+                <p class="formSearch">
+                    Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                    <input type="submit" value="Search" id="submitSearch" />
+                  
+                    <button id="sortCreatedDateButton">@Html.ActionLink("Create New", "Create", null, new { @class = "createButton" })</button>
+                </p>
                 }
             </div>
 
@@ -85,6 +86,8 @@
 
                 @foreach (var item in Model)
                 {
+                    if (item.Email == User.Identity.GetUserName())
+                    {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Id)
@@ -102,47 +105,10 @@
                             @Html.DisplayFor(modelItem => item.CreatedDate)
                         </td>
                         <td id="buttonControl">
-                            @{ int accept = item.UserAcceptances.Count;
-                                int count = 0;
-                                if (item.Email == User.Identity.GetUserName())
-                                {
-                                    <button class="btn btn-danger" id="btnJoin">@Html.ActionLink("Joined", "Details", new { id = item.Id })</button>
-                                    count++;
-                                    accept = 0;
-                                }
-                                else if (item.UserGroupDetails.Count() > 0)
-                                {
-                                    foreach (var item2 in item.UserGroupDetails)
-                                    {
-                                        if (item2.StudentEmail == User.Identity.GetUserName())
-                                        {
-                                            <button class="btn btn-danger" id="btnJoin">@Html.ActionLink("Joined", "Details", new { id = item.Id })</button>
-                                            count++;
-                                            accept = 0;
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (accept > 0)
-                                {
-                                    foreach (var item3 in item.UserAcceptances)
-                                    {
-                                        if (item3.UserEmail == User.Identity.GetUserName() && item3.GroupId == item.Id)
-                                        {
-                                            <button class="btn btn-danger" id="btnJoin">Waiting</button>
-                                            count++;
-                                            break;
-                                        }
-                                    }
-
-                                }
-                                if (count == 0)
-                                {
-                                    <button class="btn btn-danger btnSubmit" data-class="@item.Id" data-toggle="modal" href="#myModal">Join team</button>
-                                }
-                            }
+                            <button class="btn btn-danger" id="btnJoin">@Html.ActionLink("Joined", "Details", new { id = item.Id })</button>
                         </td>
                     </tr>
+                    }
                 }
             </table>
             <br />
@@ -172,6 +138,7 @@
                 }
             });
         });
+
         @*$(document).ready(function () {
             $.ajax({
                 type: 'GET',

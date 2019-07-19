@@ -16,14 +16,17 @@
                 <p class="formSearch">
                     Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
                     <input type="submit" value="Search" id="submitSearch" />
-                    <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("Sort by Created Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })</button>
+                   
                 </p>
             }
 
             <table class="table">
-                <tr>
+                <tr >
                     <th>
                         <button id="sortButton" title="Click here to sort following name">@Html.ActionLink("YOUR VOCABULARIES", "Index", new { sortOrder = ViewBag.VocabSortParm, currentFilter = ViewBag.CurrentFilter })</button>
+                    </th>
+                    <th style="float:left">
+                        <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("Sort by Created Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })</button>
                     </th>
                     <th>
                         Your bookmarks
@@ -41,6 +44,9 @@
                                 <img src="~/Content/500px-Speaker_Icon.svg.png" />
                             </button><br />
                             <span id="vnWord">@Html.DisplayFor(modelItem => item.VnWord)</span>
+                        </td>
+                        <td>
+                            @item.CreatedDate;
                         </td>
                         <td style="text-align:center;vertical-align: middle;">
                             @if (item.Bookmark == false)

@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "getLinkClasses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/css")
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Nhập tên của bạn</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="hiddenNumber" value="@ViewBag.Count" />
+                <input type="text" class="form-control" id="txtName" required />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="submitButton">Go</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(window).on('load', function () {
+            $('#myModal').modal('show');
+        });
+        $('#submitButton').on('click', function () {
+            var currentUrl = document.URL;;
+            var getIdclass = currentUrl.split("=");
+            var idClass = parseInt(getIdclass[1]);
+            var name = $('#txtName').val();
+            $.ajax({
+                type: 'POST',
+                url: '../UserGroupsAcceptance/CreateRequest',
+                dataType: "json",
+                data: { name: name, idClass: idClass },
+                success: function (result, status, xhr) {
+                    alert(result);
+                },
+                error: function (xhr, status, error) {
+                    alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+                }
+            });
+        });
+       
+    </script>
+}
+

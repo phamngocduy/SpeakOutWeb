@@ -26,8 +26,16 @@
                 <ul class="navBar" id="myTopnav">
                     <li><a href="@Url.Action("../Home/Index")"><strong>Trang chủ</strong></a></li>
                     <li><a href="@Url.Action("../Vocabularies/Index")">Từ điển</a></li>
-                    <li><a href="@Url.Action("../UserGroups/Index")">Mở Lớp</a></li>
+
+                    @*<li><a href="@Url.Action("../UserGroups/Index")">Lớp của tôi</a></li>*@
                     <li><a href="@Url.Action("../Game/Index")">Trò chơi</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">Lớp của tôi</a>
+                        <ul class="dropdown-content">
+                            <li><a href="@Url.Action("../UserGroups/Index")">Lớp đã tạo</a></li>
+                            <li><a href="@Url.Action("../UserGroups/MemberGroups")">Lớp đã tham gia</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#slide=7">Về SpeakOut</a></li>
                     @Html.Partial("_LoginPartial")
                     <li class="icon">
@@ -46,7 +54,14 @@
             <ul class="navBar" id="myTopnav">
                 <li><a href="@Url.Action("../Home/Index")"><strong>Trang chủ</strong></a></li>
                 <li><a href="@Url.Action("../Vocabularies/Index")">Từ điển</a></li>
-                <li><a href="@Url.Action("../UserGroups/Index")">Mở Lớp</a></li>
+                @*<li><a href="@Url.Action("../UserGroups/Index")">Lớp của tôi</a></li>*@
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Lớp của tôi</a>
+                    <ul class="dropdown-content">
+                        <li><a href="@Url.Action("../UserGroups/Index")">Lớp đã tạo</a></li>
+                        <li><a href="@Url.Action("../UserGroups/MemberGroups")">Lớp đã tham gia</a></li>
+                    </ul>
+                </li>
                 <li><a href="@Url.Action("../Game/Index")">Trò chơi</a></li>
                 <li><a href="#slide=7">Về SpeakOut</a></li>
                 @Html.Partial("_LoginPartial")

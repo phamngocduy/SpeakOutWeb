@@ -1,0 +1,169 @@
+﻿@model PagedList.IPagedList<SpeakOutWeb.Models.UserGroup>
+@using Microsoft.AspNet.Identity
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/css")
+}
+<link href="~/Library/css/dictionaryStyle.css" rel="stylesheet" />
+<style>
+    #buttonControl a {
+        text-decoration: none !important;
+        color: white !important;
+    }
+
+    td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    th {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+<article id="webslides" class="vertical">
+    <section class="bg-white  ">
+        <span class="background bg1" style="background-image:url('@Url.Content("~/Library/images/real-estate-background-images-6.jpg")')"></span>
+        <div class="container">
+
+            <div>
+
+                @using (Html.BeginForm("MemberGroups", "UserGroups", FormMethod.Get, new { @class = "formSearch" }))
+                {
+                    <p class="formSearch">
+                        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                        <input type="submit" value="Search" id="submitSearch" />
+                        <button id="sortCreatedDateButton">@Html.ActionLink("Create New", "Create", null, new { @class = "createButton" })</button>
+                    </p>
+                }
+            </div>
+
+            <table class="table">
+                <tr>
+                    <th>
+                        Mã số nhóm
+                    </th>
+                    <th>
+                        <button id="sortButton">@Html.ActionLink("  TÊN NHÓM", "Membergroups", new { sortOrder = ViewBag.VocabSortParm1, currentFilter = ViewBag.CurrentFilter1 }, new { @class = "glyphicon glyphicon-sort-by-alphabet" })</button>
+                    </th>
+                    <th>
+                        Mô tả
+                    </th>
+                    <th>
+                        Người thành lập
+                    </th>
+                    <th>
+                        <button id="sortButton">@Html.ActionLink("   NGÀY TẠO ", "MemberGroups", new { sortOrder = ViewBag.DateSortParm1, currentFilter = ViewBag.CurrentFilter1 }, new { @class = "glyphicon glyphicon-sort-by-alphabet" })</button>
+                    </th>
+                    <th>Tham gia</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    foreach (var item2 in item.UserGroupDetails)
+                    {
+                        if (item2.StudentEmail == User.Identity.GetUserName() && item2.GroupId == item.Id)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.GroupName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                                </td>
+                                <td id="buttonControl">
+                                    <button class="btn btn-danger" id="btnJoin">@Html.ActionLink("Joined", "Details", new { id = item.Id })</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                    foreach (var item3 in item.UserAcceptances)
+                    {
+                        if (item3.UserEmail == User.Identity.GetUserName())
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.GroupName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                                </td>
+                                <td id="buttonControl">
+                                    <button class="btn btn-danger" id="btnJoin">Waiting</button>
+                                </td>
+                            </tr>
+
+                        }
+                    }
+                }
+            </table>
+            <br />
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+    </section>
+</article>
+@section Scripts{
+    <script>
+        @*$('#submitButton').on('click', function () {
+            var idClass = $(".btnSubmit").attr("data-class");
+            var name = $('#txtName').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("../UserGroupsAcceptance/CreateRequest")',
+                dataType: "json",
+                data: { name: name, idClass: idClass },
+                success: function (result, status, xhr) {
+                    console.log("Lưu thành công");
+                    window.location.reload();
+                },
+                error: function (xhr, status, error) {
+                    alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+                }
+            });
+        });*@
+        @*$(document).ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: '../UserGroups/getListRequestUser',
+                dataType: "json",
+                success: function (result, status, xhr) {
+                    var allList = '';
+                    $.each(response, function (i, item) {
+                        if (@User.Identity.GetUserName()==item.E ) {
+
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+                }
+            });
+        });*@
+    </script>
+}

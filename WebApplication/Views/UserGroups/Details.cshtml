@@ -1,4 +1,5 @@
 ﻿@model SpeakOutWeb.Models.UserGroup
+@using Microsoft.AspNet.Identity;
 
 @{
     ViewBag.Title = "Details";
@@ -6,68 +7,102 @@
 }
 @Styles.Render("~/Content/css")
 <style>
-    .studenInfo{
-        text-decoration:none !important;
-        color:white!important;
+    .studenInfo {
+        text-decoration: none !important;
+        color: white !important;
     }
+
     tr th {
         color: white;
         text-align: center;
         vertical-align: middle;
     }
+
     tr {
         background-color: black;
-        text-align:center;
-        vertical-align:middle;
+        text-align: center;
+        vertical-align: middle;
     }
 </style>
+
 <article id="webslides" class="vertical">
-    <section class="bg-white background " style="background-image:url('@Url.Content("~/Library/images/backgroundSignIn.png")')">
-        @Html.Partial("_SidebarPartial");
+    <section class="bg-white">
+        <span class="background bg1" style="background-image:url('@Url.Content("~/Library/images/real-estate-background-images-6.jpg")')"></span>
+        @Html.Partial("_SidebarPartial")
         <div class="container">
-            <input type="hidden" data-id="@Model.Id" />
-            <table class="table">
-                <tr>
-                    <th>
-                        User name
-                    </th>
-                    <th>
-                        Email
-                    </th>
-                    <th>
-                        Ngày tham gia
-                    </th>
-                    <th>
-                    </th>
-                </tr>
+            @if (Model.Email == User.Identity.GetUserName())
+            {
+                <div class="dropdown" style="float:right">
+                    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
+                        Get link class
+                        <span class="caret"></span>
+                    </button>
 
-                @foreach (var item in Model.UserGroupDetails)
-                {
-                    <tr class="active">
-                        <td>
-                            @item.StudentName
-                        </td>
-                        <td>
-                            @item.StudentEmail
-                        </td>
-                        <td>
-                            @item.CreatedDate
-                        </td>
-                        <td>
-                            <button class="btn btn-danger" data-id="@item.StudentEmail">@Html.ActionLink("StduentDetails", "StudentDetails", new { classId = item.GroupId, studentId = item.StudentEmail }, new { @class = "studenInfo" })</button>
-                        </td>
+                    <ul class="dropdown-menu">
+                        <li><button onclick="myFunction()">Copy text</button><input type="text" value="@Url.Action("../UserGroups/GetLinkClass")" id="txtLink" /></li>
+                    </ul>
+                    
+                </div>
+            }
+                <input type="hidden" data-id="@Model.Id" />
+                <table class="table">
+                    <tr>
+                        <th>
+                            User name
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Ngày tham gia
+                        </th>
+                        <th>
+                        </th>
                     </tr>
-                }
-            </table>
-            <p>
-                @Html.ActionLink("Back to List", "Index")
-            </p>
 
-        </div>
-    </section>
-</article>
-@section Script1{
-    <script>
+                    @foreach (var item in Model.UserGroupDetails)
+                    {
+                        <tr class="active">
+                            <td>
+                                @item.StudentName
+                            </td>
+                            <td>
+                                @item.StudentEmail
+                            </td>
+                            <td>
+                                @item.CreatedDate
+                            </td>
+                            @if (Model.Email == User.Identity.GetUserName())
+                            {
+                                <td>
+                                    <button class="btn btn-danger" data-id="@item.StudentEmail">@Html.ActionLink("Chi tiết", "StudentDetails", new { classId = item.GroupId, studentId = item.StudentEmail }, new { @class = "studenInfo" })</button>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </table>
+                <p>
+                    @Html.ActionLink("Back to List", "Index")
+                </p>
+            </div>
+        </section>
+    </article>
+    @section Script1{
+        <script>
+                var full = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+        $("#txtLink").val(full + "/UserGroups/GetLinkClasses?classId=" +@Model.Id);
+        function myFunction() {
+            /* Get the text field */
+            var copyText = document.getElementById("txtLink");
 
-    </script>
-}
+            /* Select the text field */
+            copyText.select();
+
+            /* Copy the text inside the text field */
+            document.execCommand("copy");
+
+            /* Alert the copied text */
+            alert("Copied the text: " + copyText.value);
+        }
+        </script>
+    }

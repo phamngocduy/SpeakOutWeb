@@ -30,8 +30,8 @@
                             @Html.DisplayFor(modelItem => item.UserEmail)
                         </td>
                         <td>
-                            <button id="acceptButton" class="btn btn-success" data-id="@item.Id" data-class="@item.GroupId" data-name="@item.UserName" data-email="@item.UserEmail">Chấp nhận</button>
-                            <button id="denyButton" class="btn btn-danger" data-id="@item.Id" data-class="@item.GroupId" data-name="@item.UserName">Từ chối</button>
+                            <button id="acceptButton" class="btn btn-success acceptButton" data-id="@item.Id" data-class="@item.GroupId" data-name="@item.UserName" data-email="@item.UserEmail">Chấp nhận</button>
+                            <button id="denyButton" class="btn btn-danger denyButton" data-id="@item.Id" data-class="@item.GroupId" data-name="@item.UserName">Từ chối</button>
                         </td>
                     </tr>
                 }
@@ -41,7 +41,7 @@
 </article>
 @section Scripts{
     <script>
-        $('#acceptButton').on('click', function () {
+        $('.acceptButton').on('click', function () {
             var idClass = $(this).attr("data-class");
             var name = $(this).attr("data-name");
             var id = $(this).attr("data-id");
@@ -60,7 +60,7 @@
                 }
             });
         });
-        $('#denyButton').on('click', function () {
+        $('.denyButton').on('click', function () {
             var idClass = $(this).attr("data-id");
             $.ajax({
                 type: 'POST',

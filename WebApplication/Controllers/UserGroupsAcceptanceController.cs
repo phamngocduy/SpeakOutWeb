@@ -30,6 +30,21 @@ namespace SpeakOutWeb.Controllers
             }
             else
             {
+                var getUser = db.UserAcceptances.Where(x => x.UserEmail == currentUser && x.GroupId == idClass).Count();
+                if (getUser > 0)
+                {
+                    return Json("Bạn đã gửi lời mời tham gia nhóm", JsonRequestBehavior.AllowGet);
+                }
+                var getUserinClass = db.UserGroupDetails.Where(x => x.StudentEmail == currentUser && x.GroupId == idClass).Count();
+                if (getUserinClass > 0)
+                {
+                    return Json("Bạn đã tham gia nhóm", JsonRequestBehavior.AllowGet);
+                }
+                var getUserOwner = db.UserGroups.Where(x => x.Email == currentUser && x.Id == idClass).Count();
+                if (getUserOwner > 0)
+                {
+                    return Json("Bạn đã là người tạo nhóm", JsonRequestBehavior.AllowGet);
+                }
                 UserAcceptance userAcceptance = new UserAcceptance();
                 userAcceptance.Id = 0;
                 if (userAcceptance.Id == 0)
