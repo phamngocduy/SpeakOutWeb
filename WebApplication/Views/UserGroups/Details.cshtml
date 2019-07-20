@@ -89,8 +89,10 @@
     </article>
     @section Script1{
         <script>
-                var full = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
-        $("#txtLink").val(full + "/UserGroups/GetLinkClasses?classId=" +@Model.Id);
+            var fullPath = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+            //console.log(window.location.pathname);
+            var full = window.location.pathname.split("/Details");
+        $("#txtLink").val(fullPath+full[0] + "/GetLinkClasses?classId=" +@Model.Id);
         function myFunction() {
             /* Get the text field */
             var copyText = document.getElementById("txtLink");

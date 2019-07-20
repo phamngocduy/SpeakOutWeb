@@ -56,7 +56,7 @@
                 @using (Html.BeginForm("Index", "UserGroups", FormMethod.Get, new { @class = "formSearch" }))
                 {
                 <p class="formSearch">
-                    Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                    Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter2 as string)
                     <input type="submit" value="Search" id="submitSearch" />
                   
                     <button id="sortCreatedDateButton">@Html.ActionLink("Create New", "Create", null, new { @class = "createButton" })</button>
@@ -70,7 +70,7 @@
                         Mã số nhóm
                     </th>
                     <th>
-                        <button id="sortButton">@Html.ActionLink("  TÊN NHÓM", "Index", new { sortOrder = ViewBag.VocabSortParm1, currentFilter = ViewBag.CurrentFilter1 },new {@class= "glyphicon glyphicon-sort-by-alphabet" })</button>
+                        <button id="sortButton">@Html.ActionLink("  TÊN NHÓM", "Index", new { sortOrder = ViewBag.VocabSortParm2, currentFilter = ViewBag.CurrentFilter2 },new {@class= "glyphicon glyphicon-sort-by-alphabet" })</button>
                     </th>
                     <th>
                         Mô tả
@@ -79,7 +79,7 @@
                         Người thành lập
                     </th>
                     <th>
-                        <button id="sortButton">@Html.ActionLink("   NGÀY TẠO ", "Index", new { sortOrder = ViewBag.DateSortParm1, currentFilter = ViewBag.CurrentFilter1 }, new { @class = "glyphicon glyphicon-sort-by-alphabet" })</button>
+                        <button id="sortButton">@Html.ActionLink("   NGÀY TẠO ", "Index", new { sortOrder = ViewBag.DateSortParm2, currentFilter = ViewBag.CurrentFilter2 }, new { @class = "glyphicon glyphicon-sort-by-alphabet" })</button>
 </th>
                     <th>Tham gia</th>
                 </tr>
@@ -115,7 +115,7 @@
             Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
             @Html.PagedListPager(Model, page => Url.Action("Index",
-                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                new { page, sortOrder = ViewBag.CurrentSort2, currentFilter = ViewBag.CurrentFilter2 }))
         </div>
     </section>
 </article>

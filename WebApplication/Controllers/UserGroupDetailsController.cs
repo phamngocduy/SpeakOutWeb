@@ -45,6 +45,10 @@ namespace SpeakOutWeb.Controllers
         [HttpPost]
         public ActionResult AcceptRequest(string name, int idClass, int id, string email)
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var currentUser = HttpContext.User.Identity.GetUserName();
             db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)

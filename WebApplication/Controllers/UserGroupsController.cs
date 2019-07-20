@@ -21,9 +21,9 @@ namespace SpeakOutWeb.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            ViewBag.CurrentSort1 = sortOrder;
-            ViewBag.VocabSortParm1 = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm1 = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.CurrentSort2 = sortOrder;
+            ViewBag.VocabSortParm2 = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm2 = sortOrder == "Date" ? "date_desc" : "Date";
             if (searchString != null)
             {
                 page = 1;
@@ -32,7 +32,7 @@ namespace SpeakOutWeb.Controllers
             {
                 searchString = currentFilter;
             }
-            ViewBag.CurrentFilter1 = searchString;
+            ViewBag.CurrentFilter2 = searchString;
             var userId = HttpContext.User.Identity.GetUserName();
             var classRooms = db.UserGroups.Where(x => x.GroupName != null);
             if (!String.IsNullOrEmpty(searchString))
@@ -69,7 +69,7 @@ namespace SpeakOutWeb.Controllers
                     break;
             }
 
-            int pageSize = 5;
+            int pageSize = 10000;
             int pageNumber = (page ?? 1);
             return View(classRooms.ToPagedList(pageNumber, pageSize));
         }
@@ -127,7 +127,7 @@ namespace SpeakOutWeb.Controllers
                     break;
             }
 
-            int pageSize = 5;
+            int pageSize = 10000;
             int pageNumber = (page ?? 1);
             return View(classRooms.ToPagedList(pageNumber, pageSize));
         }
@@ -172,6 +172,10 @@ namespace SpeakOutWeb.Controllers
         // GET: UserGroups/Create
         public ActionResult Create()
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
