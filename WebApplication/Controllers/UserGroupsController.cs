@@ -199,6 +199,10 @@ namespace SpeakOutWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,GroupName,Description,Email,CreatedDate")] UserGroup userGroup)
         {
+            if (userGroup.GroupName.Trim() == "")
+            {
+                return Content("<script language='javascript' type='text/javascript'>alert('Tên nhóm không được toàn kí tự khoảng trắng!');</script>");
+            }
             if (ModelState.IsValid)
             {
                 var currentUser = User.Identity.GetUserName();

@@ -38,19 +38,19 @@
 @if (Request.IsAuthenticated)
 {
     <li>
-        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-        {
 
-            @Html.AntiForgeryToken()
-            <div class="dropdown">
-                <button class="dropbtn button radius"><i class="fas fa-user" style="float:left; margin-top:14px"></i> <span id="userName"></span></button>
-                <div class="dropdown-content">
-                    @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        <div class="dropdown">
+            <button class="dropbtn button radius"><i class="fas fa-user" style="float:left; margin-top:14px"></i> <span id="userName"></span></button>
+            <div class="dropdown-content">
+                @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                {
+
+                    @Html.AntiForgeryToken()
                     <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-                </div>
+                }
             </div>
-
-        }
+        </div>
     </li>
 }
 else
