@@ -246,6 +246,7 @@ namespace SpeakOutWeb.Controllers
                 ViewBag.CurrentSort = sortOrder;
                 ViewBag.VocabSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+                ViewBag.BookmarkSortParm = sortOrder == "Bookmark" ? "bookmark_true" : "Bookmark";
                 if (searchString != null)
                 {
                     page = 1;
@@ -275,6 +276,12 @@ namespace SpeakOutWeb.Controllers
                     case "date_desc":
                         vocab = vocab.OrderByDescending(s => s.CreatedDate);
                         break;
+                    case "Bookmark":
+                        vocab = vocab.OrderByDescending(s => s.EngWord).Where(x => x.Bookmark == false);
+                        break;
+                    case "bookmark_true":
+                        vocab = vocab.OrderByDescending(s => s.EngWord).Where(x => x.Bookmark == true);
+                        break;
 
                     default:  // Name ascending
                         vocab = vocab.OrderBy(s => s.EngWord);
@@ -284,6 +291,67 @@ namespace SpeakOutWeb.Controllers
                 int pageSize = 5;
                 int pageNumber = (page ?? 1);
                 return View(vocab.ToPagedList(pageNumber, pageSize));
+            }
+            return RedirectToAction("Index", "UserGroups");
+        }
+        [HttpGet]
+        public ActionResult StudentLogs(string studentId, int? classId, string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var currentUser = HttpContext.User.Identity.GetUserName();
+            var getCurrentClass = db.UserGroups.Where(x => x.Id == classId && x.Email == currentUser).SingleOrDefault();
+            if (getCurrentClass != null)
+            {
+                ViewBag.classId = classId;
+                ViewBag.studentId = studentId;
+                if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+                ViewBag.CurrentSort = sortOrder;
+                ViewBag.LogSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+                ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+                if (searchString != null)
+                {
+                    page = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+                ViewBag.CurrentFilter = searchString;
+                var userId = HttpContext.User.Identity.GetUserName();
+                var log = db.UserLogs.Where(s => s.UserId == userId);
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    log = log.Where(s => s.ContentReading.Contains(searchString)
+                                           || s.Type.Contains(searchString));
+                }
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        log = log.OrderByDescending(x => x.UserId);
+                        break;
+                    case "Date":
+                        log = log.OrderBy(s => s.CreateDate);
+                        break;
+                    case "date_desc":
+                        log = log.OrderByDescending(s => s.CreateDate);
+                        break;
+                    case "name_asc":
+                        log = log.OrderByDescending(s => s.Type).Where(x => x.Type == "Bài nói");
+                        break;
+                    default:  // Name ascending 
+                        log = log.OrderByDescending(x => x.UserId);
+                        break;
+                }
+
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+                return View(log.ToPagedList(pageNumber, pageSize));
             }
             return RedirectToAction("Index", "UserGroups");
         }

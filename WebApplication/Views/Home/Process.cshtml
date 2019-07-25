@@ -1,23 +1,44 @@
 ﻿@using System.Text.RegularExpressions
 @model IEnumerable<String>
 @{
-                /**/
+    /**/
 
-                const string speechVoices = "speechVoices";
-                const string speechRate = "speechRate";
-                const string speakButton = "speakButton";
-                const string resumeButton = "resumeButton";
-                const string pauseButton = "pauseButton";
-                const string cancelButton = "cancelButton";
+    const string speechVoices = "speechVoices";
+    const string speechRate = "speechRate";
+    const string speakButton = "speakButton";
+    const string resumeButton = "resumeButton";
+    const string pauseButton = "pauseButton";
+    const string cancelButton = "cancelButton";
 
-                const string playButton = "playButton";
-                const string stopButton = "stopButton";
-                const string saveButton = "saveButton";
+    const string playButton = "playButton";
+    const string stopButton = "stopButton";
+    const string saveButton = "saveButton";
+    const string uploadButton = "uploadButton";
 
 }
-<br />
 <link href="~/Content/style.css" rel="stylesheet" />
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Chọn lớp bạn muốn cập nhật</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="submitButton">Go</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
 <article id="webslides" class="vertical">
     <section class="bg-white">
         <span class="background bg1" style="background-image:url('https://cntttest.vanlanguni.edu.vn:18081/SpeakOut/Library/images/background1.jpg')"></span>
@@ -43,6 +64,7 @@
                     <button id="@playButton" class="btn" title="Replay" data-toggle="popover" data-trigger="hover" data-content="Click to replay your voice" style="display:none"><img class="icon" src="~/Content/rec-play.png"></button>
                     <button id="@stopButton" class="btn" title="Stop" data-toggle="popover" data-trigger="hover" data-content="Click to Stop" style="display:none"><img class="icon" src="~/Content/out-stop.png"></button>
                     <button id="@saveButton" class="btn" title="Download" data-toggle="popover" data-trigger="hover" data-content="Click to Download" style="display:none"><img class="icon" src="~/Content/rec-download.png"></button>
+                    <button id="@uploadButton" class="btn" title="Upload" data-toggle="modal" data-trigger="hover" data-content="Click to Upload" style="display:none" href="#myModal"><img class="icon" src="@Url.Content("~/Content/Network-Upload-icon.png")"></button>
                 </div>
             </div>
 
@@ -265,14 +287,33 @@
         $(@playButton).hide();
         $(@stopButton).hide();
         $(@saveButton).hide();
+        $(@uploadButton).hide();
     }
     function stopRecord() { //mousePressed2
         mic.stop();
         recorder.stop(); // stop recorder, and send the result to soundFile
         //$('#recordingStopButton').hide();
         $.notify("Stopping Recording", "info");
-        $(@playButton).show();
-        $(@saveButton).show();
+        var textRead = $('.wordProcess').html();
+        console.log(textRead);
+        textRead = escape(textRead);
+
+        $.ajax({
+            type: 'POST',
+            url:  '@Url.Action("../Home/SaveLogRecord")',
+            dataType: 'json',
+            data: { textRead:textRead},
+            success: function (result, status, xhr) {
+                console.log(result);
+                $(@playButton).show();
+                $(@saveButton).show();
+                $(@uploadButton).show();
+            },
+            error: function (xhr, status, error) {
+                alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+            }
+        });
+
     }
     $(@playButton).click(function () {
         soundFile.play(); // play the result
@@ -290,6 +331,36 @@
     $(@saveButton).click(function () {
         $.notify("Downloading", "info");
         saveSound(soundFile, 'mySound.wav'); // save file
+                    });
+    $(@uploadButton).click(function () {
+        $.ajax({
+             type: 'GET',
+            url:  '@Url.Action("../Home/getClassesCreated")',
+            dataType: 'json',
+            success: function (result, status, xhr) {
+                console.log(result);
+                $.each(result, function (i, item) {
+                    $('.modal-body').append("<div>" +item.GroupName+"</div><button class='btn btn-danger'>Gửi</button>")
+                }
+                )},
+            error: function (xhr, status, error) {
+                alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+            }
+        });
+         $.ajax({
+             type: 'GET',
+            url:  '@Url.Action("../Home/getClasses")',
+            dataType: 'json',
+             success: function (result, status, xhr) {
+                 console.log(result);
+                 $.each(result, function (i, item) {
+                     $('.modal-body').append("<div>" + item.GroupName + "</div><button class='btn btn-danger'>Gửi</button>")
+                 }
+                 )},
+             error: function (xhr, status, error) {
+                 alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+             }
+        });
     });
     /*
     Run when load
@@ -615,6 +686,7 @@
             stopRecord(recording = false);
             is_final = false;
             recognition.stop();
+
             return;
         } else new_sentence = false;
         final_transcript = '';
@@ -628,6 +700,7 @@
         showInfo('Click the "Allow" button above to enable your microphone.');
         start_timestamp = event.timeStamp;
     }
+
     function showInfo(s) {
         if (s) {
             $('#interim').text(s);

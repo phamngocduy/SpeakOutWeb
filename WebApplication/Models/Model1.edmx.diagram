@@ -11,6 +11,10 @@
         <EntityTypeShape EntityType="SpeakOutModel.Vocabulary" Width="1.5" PointX="5.75" PointY="0.75" />
         <AssociationConnector Association="SpeakOutModel.FK_UserAcceptances_UserGroups" />
         <AssociationConnector Association="SpeakOutModel.FK_UserGroupDetails_UserGroups" />
+        <EntityTypeShape EntityType="SpeakOutModel.UserLog" Width="1.5" PointX="5.375" PointY="4.75" />
+        <EntityTypeShape EntityType="SpeakOutModel.UserAudio" Width="1.5" PointX="0.75" PointY="7.875" />
+        <EntityTypeShape EntityType="SpeakOutModel.UserAudioGroup" Width="1.5" PointX="3" PointY="8" />
+        <AssociationConnector Association="SpeakOutModel.FK_UserAudioGroups_UserAudioes" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

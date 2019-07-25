@@ -15,6 +15,23 @@
           <Property Name="UserEmail" Type="nvarchar" MaxLength="125" />
           <Property Name="GroupId" Type="int" />
         </EntityType>
+        <EntityType Name="UserAudioes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="125" />
+          <Property Name="LinkAudio" Type="text" />
+        </EntityType>
+        <EntityType Name="UserAudioGroups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdGroups" Type="int" />
+          <Property Name="IdAudio" Type="int" />
+        </EntityType>
         <EntityType Name="UserGroupDetails">
           <Key>
             <PropertyRef Name="Id" />
@@ -34,6 +51,16 @@
           <Property Name="Description" Type="text" />
           <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserLogs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ContentReading" Type="text" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="125" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Vocabularies">
           <Key>
@@ -59,6 +86,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserAudioGroups_UserAudioes">
+          <End Role="UserAudioes" Type="Self.UserAudioes" Multiplicity="0..1" />
+          <End Role="UserAudioGroups" Type="Self.UserAudioGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAudioes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserAudioGroups">
+              <PropertyRef Name="IdAudio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserGroupDetails_UserGroups">
           <End Role="UserGroups" Type="Self.UserGroups" Multiplicity="0..1" />
           <End Role="UserGroupDetails" Type="Self.UserGroupDetails" Multiplicity="*" />
@@ -73,12 +112,19 @@
         </Association>
         <EntityContainer Name="SpeakOutModelStoreContainer">
           <EntitySet Name="UserAcceptances" EntityType="Self.UserAcceptances" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAudioes" EntityType="Self.UserAudioes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAudioGroups" EntityType="Self.UserAudioGroups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserGroupDetails" EntityType="Self.UserGroupDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserGroups" EntityType="Self.UserGroups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserLogs" EntityType="Self.UserLogs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vocabularies" EntityType="Self.Vocabularies" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_UserAcceptances_UserGroups" Association="Self.FK_UserAcceptances_UserGroups">
             <End Role="UserGroups" EntitySet="UserGroups" />
             <End Role="UserAcceptances" EntitySet="UserAcceptances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAudioGroups_UserAudioes" Association="Self.FK_UserAudioGroups_UserAudioes">
+            <End Role="UserAudioes" EntitySet="UserAudioes" />
+            <End Role="UserAudioGroups" EntitySet="UserAudioGroups" />
           </AssociationSet>
           <AssociationSet Name="FK_UserGroupDetails_UserGroups" Association="Self.FK_UserGroupDetails_UserGroups">
             <End Role="UserGroups" EntitySet="UserGroups" />
@@ -101,6 +147,13 @@
           <AssociationSet Name="FK_UserGroupDetails_UserGroups" Association="SpeakOutModel.FK_UserGroupDetails_UserGroups">
             <End Role="UserGroup" EntitySet="UserGroups" />
             <End Role="UserGroupDetail" EntitySet="UserGroupDetails" />
+          </AssociationSet>
+          <EntitySet Name="UserLogs" EntityType="SpeakOutModel.UserLog" />
+          <EntitySet Name="UserAudioes" EntityType="SpeakOutModel.UserAudio" />
+          <EntitySet Name="UserAudioGroups" EntityType="SpeakOutModel.UserAudioGroup" />
+          <AssociationSet Name="FK_UserAudioGroups_UserAudioes" Association="SpeakOutModel.FK_UserAudioGroups_UserAudioes">
+            <End Role="UserAudio" EntitySet="UserAudioes" />
+            <End Role="UserAudioGroup" EntitySet="UserAudioGroups" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserAcceptance">
@@ -173,6 +226,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UserLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ContentReading" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="String" MaxLength="125" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserAudio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="String" MaxLength="125" FixedLength="false" Unicode="true" />
+          <Property Name="LinkAudio" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserAudioGroups" Relationship="SpeakOutModel.FK_UserAudioGroups_UserAudioes" FromRole="UserAudio" ToRole="UserAudioGroup" />
+        </EntityType>
+        <EntityType Name="UserAudioGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdGroups" Type="Int32" />
+          <Property Name="IdAudio" Type="Int32" />
+          <NavigationProperty Name="UserAudio" Relationship="SpeakOutModel.FK_UserAudioGroups_UserAudioes" FromRole="UserAudioGroup" ToRole="UserAudio" />
+        </EntityType>
+        <Association Name="FK_UserAudioGroups_UserAudioes">
+          <End Type="SpeakOutModel.UserAudio" Role="UserAudio" Multiplicity="0..1" />
+          <End Type="SpeakOutModel.UserAudioGroup" Role="UserAudioGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAudio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserAudioGroup">
+              <PropertyRef Name="IdAudio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -221,6 +315,36 @@
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="VnWord" ColumnName="VnWord" />
                 <ScalarProperty Name="EngWord" ColumnName="EngWord" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogs">
+            <EntityTypeMapping TypeName="SpeakOutModel.UserLog">
+              <MappingFragment StoreEntitySet="UserLogs">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ContentReading" ColumnName="ContentReading" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAudioes">
+            <EntityTypeMapping TypeName="SpeakOutModel.UserAudio">
+              <MappingFragment StoreEntitySet="UserAudioes">
+                <ScalarProperty Name="LinkAudio" ColumnName="LinkAudio" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAudioGroups">
+            <EntityTypeMapping TypeName="SpeakOutModel.UserAudioGroup">
+              <MappingFragment StoreEntitySet="UserAudioGroups">
+                <ScalarProperty Name="IdAudio" ColumnName="IdAudio" />
+                <ScalarProperty Name="IdGroups" ColumnName="IdGroups" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

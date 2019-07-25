@@ -192,6 +192,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AudioesController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Controllers\UserGroupDetailsController.cs" />
     <Compile Include="Controllers\UserGroupsAcceptanceController.cs" />
     <Compile Include="Controllers\UserGroupsController.cs" />
+    <Compile Include="Controllers\UserLogsController.cs" />
     <Compile Include="Controllers\VocabulariesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -226,10 +228,19 @@
     <Compile Include="Models\UserAcceptance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserAudio.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserAudioGroup.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserGroup.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserGroupDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserLog.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Vocabulary.cs">
@@ -249,6 +260,7 @@
     <Content Include="Content\mic-record.gif" />
     <Content Include="Content\mic-slash.gif" />
     <Content Include="Content\mic.gif" />
+    <Content Include="Content\Network-Upload-icon.png" />
     <Content Include="Content\out-pause.png" />
     <Content Include="Content\out-play.png" />
     <Content Include="Content\out-stop.png" />
@@ -449,9 +461,12 @@
     <Content Include="Views\RSSFeed\Index.cshtml" />
     <Content Include="Views\UserGroups\MemberGroups.cshtml" />
     <Content Include="Views\UserGroups\GetLinkClasses.cshtml" />
+    <Content Include="Views\UserLogs\Index.cshtml" />
+    <Content Include="Views\UserGroups\StudentLogs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Audioes\" />
     <Folder Include="Views\UserGroupsAcceptance\" />
   </ItemGroup>
   <ItemGroup>

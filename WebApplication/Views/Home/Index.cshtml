@@ -1,6 +1,11 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<style>
+    #webslides{
+        height:100vh;
+    }
+</style>
 <!-- class="vertical" -->
 <article id="webslides" class="vertical">
     <section class="bg-white">
@@ -433,5 +438,24 @@
             //e.preventDefault()11;
         }
        
+    </script>
+    <script>
+        $('#nextButton').on('click', function () {
+            var text = $('#Textarea').val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("../UserLogs/SaveLogs")',
+                data: {
+                    text: text,
+                },
+                dataType: "json",
+                success: function (response) {
+             
+                },
+                error: function (xhr, status, error) {
+                    alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+                }
+            });
+        });
     </script>
 }

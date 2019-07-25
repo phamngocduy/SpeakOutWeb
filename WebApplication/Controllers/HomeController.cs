@@ -1,6 +1,7 @@
 ﻿using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using Microsoft.AspNet.Identity;
+using SpeakOutWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace SpeakOutWeb.Controllers
 {
     public class HomeController : Controller
     {
+        private SpeakOutEntities db = new SpeakOutEntities();
         public ActionResult Index()
         {
             ViewBag.Account = HttpContext.User.Identity.GetUserId();
@@ -147,6 +149,53 @@ namespace SpeakOutWeb.Controllers
                 }
                 return foundWord;
             }
+        }
+        [HttpPost]
+        public ActionResult SaveLogRecord(string textRead)
+        {
+            var currentUser = HttpContext.User.Identity.GetUserName();
+            db.Configuration.ProxyCreationEnabled = false;
+            if (!ModelState.IsValid)
+            {
+                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            else
+            {
+                if (currentUser != "" || currentUser != null)
+                {
+                    UserLog userLog = new UserLog();
+
+                    userLog.CreateDate = DateTime.Now;
+                    userLog.ContentReading = textRead;
+                    userLog.UserId = currentUser;
+                    userLog.Type = "Bài nói";
+                    db.UserLogs.Add(userLog);
+                    db.SaveChanges();
+                }
+
+                return Json("Lưu thành công", JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public ActionResult getClasses()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var current = User.Identity.GetUserName();
+            var results = from t1 in db.UserGroups
+                          join t2 in db.UserGroupDetails
+                          on t1.Id equals t2.GroupId
+                          where t2.StudentEmail== current
+                          select new { GroupName = t1.GroupName };
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public JsonResult getClassesCreated()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var current = User.Identity.GetUserName();
+            var results = db.UserGroups.Where(x => x.Email == current).ToList();
+            return Json(results, JsonRequestBehavior.AllowGet);
         }
 
     }

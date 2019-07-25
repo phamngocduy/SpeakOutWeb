@@ -1,6 +1,7 @@
 ﻿@model PagedList.IPagedList<SpeakOutWeb.Models.Vocabulary>
 @using PagedList;
 @using PagedList.Mvc;
+@using Microsoft.AspNet.Identity;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Index";
@@ -28,7 +29,7 @@
                         <button id="sortButton" title="Click here to sort following name">@Html.ActionLink("YOUR VOCABULARIES", "StudentDetails", new { sortOrder = ViewBag.VocabSortParm, currentFilter = ViewBag.CurrentFilter,classId = ViewBag.classId, studentId = ViewBag.studentId })</button>
                     </th>
                     <th>
-                        Your bookmarks
+                        <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("YOUR BOOKMARK", "StudentDetails", new { sortOrder = ViewBag.BookmarkSortParm, currentFilter = ViewBag.CurrentFilter, classId = ViewBag.classId, studentId = ViewBag.studentId })</button>
                     </th>
                 </tr>
 
@@ -59,7 +60,7 @@
             Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
             @Html.PagedListPager(Model, page => Url.Action("StudentDetails",
-                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                new { page, studentId= ViewBag.studentId, classId= ViewBag.classId,sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
         </div>
     </section>
 </article>

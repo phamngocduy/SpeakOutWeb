@@ -1,0 +1,135 @@
+﻿
+@model PagedList.IPagedList<SpeakOutWeb.Models.UserLog>
+@using PagedList;
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/css")
+<style>
+    #buttonControl a {
+        text-decoration: none !important;
+        color: white !important;
+    }
+</style>
+<style>
+    span.line:hover {
+        text-decoration: underline;
+    }
+
+    span.bold {
+        font-weight: bold;
+    }
+
+    span.italic {
+        font-style: italic;
+    }
+
+    span.underline {
+        text-decoration: underline;
+    }
+
+    span.overline {
+        border-top: dashed 1px;
+    }
+
+    span.word {
+        cursor: pointer;
+    }
+
+    span.red {
+        color: red;
+    }
+
+    span.green {
+        color: green;
+    }
+
+    span.blue {
+        color: blue;
+    }
+</style>
+<article id="webslides" class="vertical">
+    <section class="bg-white">
+        <div class="container">
+            @using (Html.BeginForm("Index", "UserLogs", FormMethod.Get))
+            {
+                <p class="formSearch">
+                    Tìm theo đoạn văn và loại: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                    <input type="submit" value="Search" id="submitSearch" style="width:80px" />
+
+                </p>
+            }
+            <table class="table">
+                <tr>
+                    <th>
+                        STT
+                    </th>
+                    <th>
+                        LOẠI
+                    </th>
+                    <th>
+                        @Html.ActionLink("NGÀY TẠO", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        ĐOẠN VĂN
+                    </th>
+                </tr>
+                @{int count = 1;
+                    foreach (var item in Model)
+                    {
+                        <input type="hidden" data-id="@item.Id" />
+                        <tr class="active">
+                            <td>
+                                @count
+                            </td>
+                            <td>
+                                @item.Type
+                            </td>
+                            <td>
+                                @item.CreateDate
+                            </td>
+                            <td id="speechContext1">
+                                <button class="btn btn-info showMore">Hiên thị thêm</button>
+                                <div class="speechContext"> 
+                                    <script>
+                                        document.write(unescape("@item.ContentReading"));
+                                    </script>
+                                </div>
+                                <button class="btn btn-success showAgain" style="width:20px;height:20px;text-align:center;vertical-align:middle">^</button>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                }
+            </table>
+            <br />
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+    </section>
+</article>
+@section Scripts{
+    <script>
+        window.onload = function () {
+            $(".speechContext").hide();
+            $(".showAgain").hide();
+            $(".showMore").show();
+        };
+        $(".showMore").on('click', function () {
+            $(this).parent().find(".speechContext").show();
+            $(this).parent().find(".showAgain").show();
+            $(this).css("display", "none")
+        })
+        $(".showAgain").on('click', function () {
+            $(this).parent().find(".speechContext").css("display", "none");
+            $(this).parent().find(".showMore").css("display", "block");
+            $(this).css("display", "none")
+        })
+    </script>
+}

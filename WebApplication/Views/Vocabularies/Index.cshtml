@@ -26,10 +26,10 @@
                         <button id="sortButton" title="Click here to sort following name">@Html.ActionLink("YOUR VOCABULARIES", "Index", new { sortOrder = ViewBag.VocabSortParm, currentFilter = ViewBag.CurrentFilter })</button>
                     </th>
                     <th style="float:left">
-                        <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("Sort by Created Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })</button>
+                        <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("CREATED DATE", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })</button>
                     </th>
                     <th>
-                        Your bookmarks
+                        <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("YOUR BOOKMARK", "StudentDetails", new { sortOrder = ViewBag.BookmarkSortParm, currentFilter = ViewBag.CurrentFilter, classId = ViewBag.classId, studentId = ViewBag.studentId })</button>
                     </th>
                 </tr>
 

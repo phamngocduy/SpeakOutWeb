@@ -9,7 +9,7 @@
 <style>
     .studenInfo {
         text-decoration: none !important;
-        color: white !important;
+        color: black !important;
     }
 
     tr th {
@@ -41,54 +41,62 @@
                     <ul class="dropdown-menu">
                         <li><button onclick="myFunction()">Copy text</button><input type="text" value="@Url.Action("../UserGroups/GetLinkClass")" id="txtLink" /></li>
                     </ul>
-                    
                 </div>
             }
-                <input type="hidden" data-id="@Model.Id" />
-                <table class="table">
-                    <tr>
-                        <th>
-                            User name
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            Ngày tham gia
-                        </th>
-                        <th>
-                        </th>
-                    </tr>
+            <input type="hidden" data-id="@Model.Id" />
+            <table class="table">
+                <tr>
+                    <th>
+                        User name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Ngày tham gia
+                    </th>
+                    <th>
+                    </th>
+                </tr>
 
-                    @foreach (var item in Model.UserGroupDetails)
-                    {
-                        <tr class="active">
+                @foreach (var item in Model.UserGroupDetails)
+                {
+                    <tr class="active">
+                        <td>
+                            @item.StudentName
+                        </td>
+                        <td>
+                            @item.StudentEmail
+                        </td>
+                        <td>
+                            @item.CreatedDate
+                        </td>
+                        @if (Model.Email == User.Identity.GetUserName())
+                        {
                             <td>
-                                @item.StudentName
+                                <div class="dropdown">
+                                    <button class=" button radius dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Xem thông tin học viên</button>
+
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                        <li style="margin-left:0px">@Html.ActionLink("Từ vựng", "StudentDetails", new { classId = item.GroupId, studentId = item.StudentEmail }, new { @class = "studenInfo" })</li>
+                                        <li style="margin-left:0px">
+                                            @Html.ActionLink("Lịch sử học", "StudentLogs", new { classId = item.GroupId, studentId = item.StudentEmail }, new { @class = "studenInfo" })
+                                        </li>
+                                    </ul>
+                                </div>
                             </td>
-                            <td>
-                                @item.StudentEmail
-                            </td>
-                            <td>
-                                @item.CreatedDate
-                            </td>
-                            @if (Model.Email == User.Identity.GetUserName())
-                            {
-                                <td>
-                                    <button class="btn btn-danger" data-id="@item.StudentEmail">@Html.ActionLink("Chi tiết", "StudentDetails", new { classId = item.GroupId, studentId = item.StudentEmail }, new { @class = "studenInfo" })</button>
-                                </td>
-                            }
-                        </tr>
-                    }
-                </table>
-                <p>
-                    @Html.ActionLink("Back to List", "Index")
-                </p>
-            </div>
-        </section>
-    </article>
-    @section Script1{
-        <script>
+                        }
+                    </tr>
+                }
+            </table>
+            <p>
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+        </div>
+    </section>
+</article>
+@section Script1{
+    <script>
             var fullPath = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
             //console.log(window.location.pathname);
             var full = window.location.pathname.split("/Details");
@@ -106,5 +114,5 @@
             /* Alert the copied text */
             alert("Copied the text: " + copyText.value);
         }
-        </script>
-    }
+    </script>
+}

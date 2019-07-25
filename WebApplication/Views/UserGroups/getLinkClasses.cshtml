@@ -42,7 +42,7 @@
                 data: { name: name, idClass: idClass },
                 success: function (result, status, xhr) {
                     alert(result);
-                    window.location.href=@Url.Action("~/Home/Index");
+                    window.location.href=@Url.Action("Index","Home");
                 },
                 error: function (xhr, status, error) {
                     alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
