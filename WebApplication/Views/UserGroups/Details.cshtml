@@ -82,6 +82,9 @@
                                         <li style="margin-left:0px">
                                             @Html.ActionLink("Lịch sử học", "StudentLogs", new { classId = item.GroupId, studentId = item.StudentEmail }, new { @class = "studenInfo" })
                                         </li>
+                                        <li style="margin-left:0px">
+                                            @Html.ActionLink("AudioStudent", "AudioStudent", new { idClass = item.GroupId, studentName = item.StudentEmail }, new { @class = "studenInfo" })
+                                        </li>
                                     </ul>
                                 </div>
                             </td>

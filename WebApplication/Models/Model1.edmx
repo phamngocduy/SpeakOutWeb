@@ -22,7 +22,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="UserId" Type="nvarchar" MaxLength="125" />
-          <Property Name="LinkAudio" Type="text" />
+          <Property Name="LinkAudio" Type="varbinary(max)" />
+          <Property Name="TextAudio" Type="text" />
         </EntityType>
         <EntityType Name="UserAudioGroups">
           <Key>
@@ -243,7 +244,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UserId" Type="String" MaxLength="125" FixedLength="false" Unicode="true" />
-          <Property Name="LinkAudio" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LinkAudio" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="TextAudio" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UserAudioGroups" Relationship="SpeakOutModel.FK_UserAudioGroups_UserAudioes" FromRole="UserAudio" ToRole="UserAudioGroup" />
         </EntityType>
         <EntityType Name="UserAudioGroup">
@@ -333,6 +335,7 @@
           <EntitySetMapping Name="UserAudioes">
             <EntityTypeMapping TypeName="SpeakOutModel.UserAudio">
               <MappingFragment StoreEntitySet="UserAudioes">
+                <ScalarProperty Name="TextAudio" ColumnName="TextAudio" />
                 <ScalarProperty Name="LinkAudio" ColumnName="LinkAudio" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
@@ -349,7 +352,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

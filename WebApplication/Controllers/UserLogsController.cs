@@ -66,6 +66,7 @@ namespace SpeakOutWeb.Controllers
         [HttpPost]
         public ActionResult SaveLogs(string text)
         {
+            
             var currentUser = HttpContext.User.Identity.GetUserName();
             db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
@@ -78,7 +79,6 @@ namespace SpeakOutWeb.Controllers
                 if (currentUser != "" || currentUser != null)
                 {
                     UserLog userLog = new UserLog();
-
                     userLog.CreateDate = DateTime.Now;
                     userLog.ContentReading = text;
                     userLog.UserId = currentUser;

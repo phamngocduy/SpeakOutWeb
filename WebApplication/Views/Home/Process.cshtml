@@ -333,6 +333,7 @@
         saveSound(soundFile, 'mySound.wav'); // save file
                     });
     $(@uploadButton).click(function () {
+
         $.ajax({
              type: 'GET',
             url:  '@Url.Action("../Home/getClassesCreated")',
@@ -340,9 +341,9 @@
             success: function (result, status, xhr) {
                 console.log(result);
                 $.each(result, function (i, item) {
-                    $('.modal-body').append("<div>" +item.GroupName+"</div><button class='btn btn-danger'>Gửi</button>")
-                }
-                )},
+                    $('.modal-body').append("<div>" + item.GroupName + "</div><button class='btn btn-danger submitClass'data-id='" + item.Id +"'>Gửi</button>")
+                })     
+            },
             error: function (xhr, status, error) {
                 alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
             }
@@ -354,17 +355,54 @@
              success: function (result, status, xhr) {
                  console.log(result);
                  $.each(result, function (i, item) {
-                     $('.modal-body').append("<div>" + item.GroupName + "</div><button class='btn btn-danger'>Gửi</button>")
+                     $('.modal-body').append("<div>" + item.GroupName + "</div><button class='btn btn-danger submitClass' data-id='"+item.GroupId+"'>Gửi</button>")
                  }
-                 )},
+                 )
+                 
+             },
+
              error: function (xhr, status, error) {
                  alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
              }
         });
     });
+                           
     /*
     Run when load
     */
+                    $('body').on('click', '.submitClass', function () {
+                        let textAudio = $('.wordProcess').html();
+                        textAudio = escape(textAudio);
+                        // Now we can send the blob to a server...
+                        var serverUrl = "../Home/UploadAudio?groupId=" + $(this).attr('data-id');
+                        var soundBlob = soundFile.getBlob();
+                        var postData = new FormData();
+                        postData.append('soundBlob', soundBlob);
+                        var httpRequestOptions = {
+                            method: 'POST',
+                            body: postData,
+                            headers: new Headers({
+                                'Content-Type': 'multipart/form-data'
+                            })
+                        };
+                        //httpDo(serverUrl, httpRequestOptions);
+                        
+                        $.ajax({
+                            processData: false,
+                            contentType: false,
+                            type: 'POST',
+                            url: serverUrl,
+                            data: postData,
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(jqXHR);
+                                console.log(errorThrown);
+                                alert(textStatus);
+                            },
+                            success: function (data, textStatus, jqXHR) {
+                                alert('OK');
+                            }
+                        });
+                    });                         
     $(document).ready(function () {
         $(@speechRate).slider();
         $('[data-toggle="popover"]').attr('unselectable', 'on');
@@ -525,8 +563,8 @@
 
                 <script src="~/Scripts/notify.js"></script>
 
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/p5.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/addons/p5.sound.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
 
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css" rel="stylesheet" />

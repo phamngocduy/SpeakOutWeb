@@ -9,6 +9,9 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Transactions;
+using System.IO;
+using static System.Net.WebRequestMethods;
 
 namespace SpeakOutWeb.Controllers
 {
@@ -172,6 +175,7 @@ namespace SpeakOutWeb.Controllers
                     userLog.Type = "Bài nói";
                     db.UserLogs.Add(userLog);
                     db.SaveChanges();
+                    Session["TextAudio"] = textRead;
                 }
 
                 return Json("Lưu thành công", JsonRequestBehavior.AllowGet);
@@ -186,7 +190,7 @@ namespace SpeakOutWeb.Controllers
                           join t2 in db.UserGroupDetails
                           on t1.Id equals t2.GroupId
                           where t2.StudentEmail== current
-                          select new { GroupName = t1.GroupName };
+                          select new { GroupName = t1.GroupName, GroupId= t1.Id };
             return Json(results, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
@@ -196,6 +200,31 @@ namespace SpeakOutWeb.Controllers
             var current = User.Identity.GetUserName();
             var results = db.UserGroups.Where(x => x.Email == current).ToList();
             return Json(results, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult UploadAudio(int groupId)
+        {
+            var audio = new byte[Request.Files[0].ContentLength];
+            Request.Files[0].InputStream.Read(audio, 0, audio.Length);
+            using (var scope = new TransactionScope())
+            {
+                var model = new UserAudioGroup();
+                model.IdGroups = groupId;
+                model.UserAudio = new UserAudio
+                {
+                    CreateDate = DateTime.Now,
+                    UserId = User.Identity.GetUserName(),
+                    LinkAudio = audio,
+                    TextAudio = Session["TextAudio"].ToString()
+
+                };
+
+                db.UserAudioGroups.Add(model);
+                db.SaveChanges();
+                scope.Complete(); // approve for transaction
+
+                return RedirectToAction("Index");
+            }
         }
 
     }

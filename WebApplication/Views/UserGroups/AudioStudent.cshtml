@@ -1,0 +1,86 @@
+﻿@model IEnumerable<SpeakOutWeb.Models.UserAudioGroup>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    span.line:hover {
+        text-decoration: underline;
+    }
+
+    span.bold {
+        font-weight: bold;
+    }
+
+    span.italic {
+        font-style: italic;
+    }
+
+    span.underline {
+        text-decoration: underline;
+    }
+
+    span.overline {
+        border-top: dashed 1px;
+    }
+
+    span.word {
+        cursor: pointer;
+    }
+
+    span.red {
+        color: red;
+    }
+
+    span.green {
+        color: green;
+    }
+
+    span.blue {
+        color: blue;
+    }
+</style>
+<table class="table">
+    <tr>
+        <th>
+            STT
+        </th>
+        <th>
+            Ngày tạo
+        </th>
+        <th>
+            Bài nghe
+        </th>
+        <th>
+            Kết quả
+        </th>
+        <th></th>
+    </tr>
+    @{
+        int count = 1;
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>@count</td>
+                <td>
+                    @item.UserAudio.CreateDate
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    <audio controls src="@Url.Action("LoadAudio", new { id = item.UserAudio.Id })" ) />
+                </td>
+                <td>
+                    <script>
+                    document.write(unescape("@item.UserAudio.TextAudio"));
+                    </script>
+                </td>
+            </tr>
+            count++;
+        }
+
+    }
+</table>

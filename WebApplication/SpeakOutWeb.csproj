@@ -76,6 +76,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -192,7 +193,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AudioesController.cs" />
+    <Compile Include="Controllers\UserAudioesController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -463,6 +464,8 @@
     <Content Include="Views\UserGroups\GetLinkClasses.cshtml" />
     <Content Include="Views\UserLogs\Index.cshtml" />
     <Content Include="Views\UserGroups\StudentLogs.cshtml" />
+    <Content Include="Views\UserGroups\AudioStudent.cshtml" />
+    <Content Include="Views\UserAudioes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

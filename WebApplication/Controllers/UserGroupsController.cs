@@ -389,5 +389,27 @@ namespace SpeakOutWeb.Controllers
             var lstRequest = db.UserAcceptances.Where(x => x.UserEmail == currentUser).ToList();
             return Json(lstRequest, JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        public ActionResult AudioStudent(string studentName, int idClass)
+        {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var currentUser = HttpContext.User.Identity.GetUserName();
+            var user = db.UserGroups.Where(x => x.Email == currentUser && x.Id == idClass).Count();
+            if (user > 0)
+            {
+                IEnumerable<UserAudioGroup> infor = db.UserAudioGroups.Where(x => x.IdGroups == idClass && x.UserAudio.UserId == studentName).ToList();
+                return View(infor);
+            }
+            return RedirectToAction("Index", "UserGroups");
+
+        }
+        public ActionResult LoadAudio(int id)
+        {
+            var audioBytes = db.UserAudioes.Where(w => w.Id == id).Single();
+            return base.File(audioBytes.LinkAudio, "audio/wav");
+        }
     }
 }
