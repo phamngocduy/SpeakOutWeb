@@ -56,10 +56,10 @@
                 @using (Html.BeginForm("Index", "UserGroups", FormMethod.Get, new { @class = "formSearch" }))
                 {
                 <p class="formSearch">
-                    Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter2 as string)
-                    <input type="submit" value="Search" id="submitSearch" />
+                    Tìm kiếm theo tên nhóm: @Html.TextBox("SearchString", ViewBag.CurrentFilter2 as string)
+                    <input type="submit" value="Tìm Kiếm" id="submitSearch" />
                   
-                    <button id="sortCreatedDateButton">@Html.ActionLink("Create New", "Create", null, new { @class = "createButton" })</button>
+                    <button id="sortCreatedDateButton">@Html.ActionLink("Tạo Nhóm Mới", "Create", null, new { @class = "createButton" })</button>
                 </p>
                 }
             </div>
@@ -105,14 +105,14 @@
                             @Html.DisplayFor(modelItem => item.CreatedDate)
                         </td>
                         <td id="buttonControl">
-                            <button class="btn btn-danger" id="btnJoin">@Html.ActionLink("Joined", "Details", new { id = item.Id })</button>
+                            <button class="btn btn-danger" id="btnJoin">@Html.ActionLink("Chi Tiết", "Details", new { id = item.Id })</button>
                         </td>
                     </tr>
                     }
                 }
             </table>
             <br />
-            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            Số trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
 
             @Html.PagedListPager(Model, page => Url.Action("Index",
                 new { page, sortOrder = ViewBag.CurrentSort2, currentFilter = ViewBag.CurrentFilter2 }))

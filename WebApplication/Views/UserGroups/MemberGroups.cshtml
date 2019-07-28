@@ -35,9 +35,9 @@
                 @using (Html.BeginForm("MemberGroups", "UserGroups", FormMethod.Get, new { @class = "formSearch" }))
                 {
                     <p class="formSearch">
-                        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-                        <input type="submit" value="Search" id="submitSearch" />
-                        <button id="sortCreatedDateButton">@Html.ActionLink("Create New", "Create", null, new { @class = "createButton" })</button>
+                        Tìm nhóm theo tên: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                        <input type="submit" value="Tìm kiếm" id="submitSearch" />
+                        <button id="sortCreatedDateButton">@Html.ActionLink("Tạo nhóm mới", "Create", null, new { @class = "createButton" })</button>
                     </p>
                 }
             </div>
@@ -121,7 +121,7 @@
                 }
             </table>
             <br />
-            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
 
             @Html.PagedListPager(Model, page => Url.Action("Index",
                 new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

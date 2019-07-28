@@ -14,8 +14,8 @@
             @using (Html.BeginForm("Index", "Vocabularies", FormMethod.Get))
             {
                 <p class="formSearch">
-                    Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-                    <input type="submit" value="Search" id="submitSearch" />
+                    Tìm nhóm theo tên: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                    <input type="submit" value="Tìm kiếm" id="submitSearch" />
                    
                 </p>
             }
@@ -23,13 +23,13 @@
             <table class="table">
                 <tr >
                     <th>
-                        <button id="sortButton" title="Click here to sort following name">@Html.ActionLink("YOUR VOCABULARIES", "Index", new { sortOrder = ViewBag.VocabSortParm, currentFilter = ViewBag.CurrentFilter })</button>
+                        <button id="sortButton" title="Click here to sort following name">@Html.ActionLink("Từ vựng của bạn", "Index", new { sortOrder = ViewBag.VocabSortParm, currentFilter = ViewBag.CurrentFilter })</button>
                     </th>
                     <th style="float:left">
-                        <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("CREATED DATE", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })</button>
+                        <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("Ngày đã tạo", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })</button>
                     </th>
                     <th>
-                        <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("YOUR BOOKMARK", "StudentDetails", new { sortOrder = ViewBag.BookmarkSortParm, currentFilter = ViewBag.CurrentFilter, classId = ViewBag.classId, studentId = ViewBag.studentId })</button>
+                        <button id="sortCreatedDateButton" title="Click here to sort following created date">@Html.ActionLink("Đánh dấu đã thuộc", "StudentDetails", new { sortOrder = ViewBag.BookmarkSortParm, currentFilter = ViewBag.CurrentFilter, classId = ViewBag.classId, studentId = ViewBag.studentId })</button>
                     </th>
                 </tr>
 
@@ -60,7 +60,7 @@
                 }
             </table>
             <br />
-            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
 
             @Html.PagedListPager(Model, page => Url.Action("Index",
                 new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
