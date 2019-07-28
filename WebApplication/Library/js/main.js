@@ -1,5 +1,5 @@
 ﻿//Function Load Dictionary
-$(document).ready(function () {
+$(window).bind("load",function () {
     loadDictionary();
 });
 function loadDictionary() {
@@ -22,7 +22,7 @@ function loadDictionary() {
             
         },
         error: function (xhr, status, error) {
-            alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+            window.location.reload();
         }
     });
 }

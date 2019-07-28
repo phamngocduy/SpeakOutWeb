@@ -18,7 +18,7 @@ namespace SpeakOutWeb.Controllers
                 return RedirectToAction("Login", "Account");
             }
             var userID = HttpContext.User.Identity.GetUserName();
-            ViewBag.Count = db.Vocabularies.Where(x => x.UserId == userID).Count();
+            ViewBag.Count = db.Vocabularies.Where(x => x.UserId == userID && x.Bookmark==false).Count();
             return View();
         }
         public ActionResult MatchingGame()
@@ -54,9 +54,9 @@ namespace SpeakOutWeb.Controllers
         public ActionResult GetRandomCard()
         {
             var currentUser = User.Identity.GetUserName();
-            var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser).ToList();
+            var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser && x.Bookmark==false).ToList();
             var newCard = lstCard.Take(8).ToList();
-            var countCard = db.Vocabularies.Where(x => x.UserId == currentUser).Count();
+            var countCard = db.Vocabularies.Where(x => x.UserId == currentUser && x.Bookmark == false).Count();
             
             if (countCard >= 9)
             {
@@ -92,8 +92,8 @@ namespace SpeakOutWeb.Controllers
         public ActionResult GetListCard(int number)
         {
             var currentUser = User.Identity.GetUserName();
-            var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser).ToList();
-            var countCard = db.Vocabularies.Where(x => x.UserId == currentUser).Count();
+            var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser && x.Bookmark == false).ToList();
+            var countCard = db.Vocabularies.Where(x => x.UserId == currentUser && x.Bookmark == false).Count();
             ViewBag.CountWord = countCard;
             var newCard = lstCard.Take(number).ToList();
             if (countCard < number)

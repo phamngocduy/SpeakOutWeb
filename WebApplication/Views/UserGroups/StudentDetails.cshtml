@@ -48,7 +48,7 @@
                         <td style="text-align:center;vertical-align: middle;">
                             @if (item.Bookmark == false)
                             {
-                                <button class="btn" type="submit" id="bookmarkedButton" data-id="@item.Id"><i class="far fa-bookmark"></i></button>
+                                <button class="btn" type="submit" id="bookmarkedButton"><i class="far fa-bookmark"></i></button>
                             }
 
                         </td>
@@ -66,20 +66,6 @@
 </article>
 @section Script1{
     <script>
-        $('#bookmarkedButton').on('click', function () {
-            $.ajax({
-            type: 'POST',
-            url: '@Url.Action("../Vocabularies/UpdateBookmark")',
-            contentType: "application/json; charset=utf-8",
-            data: '{ "Id": "' + $(this).attr("data-id") + '" }',
-                success: function (result, status, xhr) {
-                    window.location.reload();
-            },
-            error: function (xhr, status, error) {
-                alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
-            }
-        });
-        });
         $('.speakButton').on('click', function () {
             var synth = window.speechSynthesis;
             var utterThis = new SpeechSynthesisUtterance($(this).attr("data-speak"));

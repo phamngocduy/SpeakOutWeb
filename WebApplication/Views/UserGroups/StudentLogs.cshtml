@@ -21,11 +21,13 @@
         <div class="container">
             @using (Html.BeginForm("StudentLogs", "UserGroups", FormMethod.Get))
             {
-                <p class="formSearch">
-                    Tìm theo đoạn văn và loại: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-                    <input type="submit" value="Search" id="submitSearch" style="width:80px" />
+            <p class="formSearch">
+                Tìm theo đoạn văn và loại: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input type="hidden" value="@ViewBag.classId" name="classId" />
+                <input type="hidden" value="@ViewBag.studentId" name="studentId" />
+                <input type="submit" value="Search" id="submitSearch" style="width:80px" />
 
-                </p>
+            </p>
             }
             <table class="table">
                 <tr>

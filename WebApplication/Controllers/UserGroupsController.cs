@@ -34,7 +34,7 @@ namespace SpeakOutWeb.Controllers
             }
             ViewBag.CurrentFilter2 = searchString;
             var userId = HttpContext.User.Identity.GetUserName();
-            var classRooms = db.UserGroups.Where(x => x.GroupName != null);
+            var classRooms = db.UserGroups.Where(x => x.Email== userId);
             if (!String.IsNullOrEmpty(searchString))
             {
                 var search = searchString;
@@ -69,7 +69,7 @@ namespace SpeakOutWeb.Controllers
                     break;
             }
 
-            int pageSize = 10000;
+            int pageSize = 5;
             int pageNumber = (page ?? 1);
             return View(classRooms.ToPagedList(pageNumber, pageSize));
         }
@@ -305,8 +305,7 @@ namespace SpeakOutWeb.Controllers
             var getCurrentClass = db.UserGroups.Where(x => x.Id == classId && x.Email == currentUser).SingleOrDefault();
             if (getCurrentClass != null)
             {
-                ViewBag.classId = classId;
-                ViewBag.studentId = studentId;
+
                 if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
                 {
                     return RedirectToAction("Login", "Account");
@@ -390,7 +389,7 @@ namespace SpeakOutWeb.Controllers
             return Json(lstRequest, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
-        public ActionResult AudioStudent(string studentName, int idClass)
+        public ActionResult AudioStudent(string studentName, int? idClass, string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
             {
@@ -400,8 +399,36 @@ namespace SpeakOutWeb.Controllers
             var user = db.UserGroups.Where(x => x.Email == currentUser && x.Id == idClass).Count();
             if (user > 0)
             {
-                IEnumerable<UserAudioGroup> infor = db.UserAudioGroups.Where(x => x.IdGroups == idClass && x.UserAudio.UserId == studentName).ToList();
-                return View(infor);
+                ViewBag.classId = idClass;
+                ViewBag.studentId = studentName;
+                ViewBag.CurrentSort5 = sortOrder;
+                ViewBag.DateSortParm5 = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+                if (searchString != null)
+                {
+                    page = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+                ViewBag.CurrentFilter5 = searchString;
+                var infor = db.UserAudioGroups.Where(x => x.IdGroups == idClass && x.UserAudio.UserId == studentName);
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    infor = infor.Where(s => s.UserAudio.TextAudio.Contains(searchString));
+                }
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        infor = infor.OrderBy(s => s.UserAudio.CreateDate);
+                        break;
+                    default:  // Name ascending 
+                        infor = infor.OrderByDescending(s => s.UserAudio.CreateDate);
+                        break;
+                }
+                int pageSize = 1;
+                int pageNumber = (page ?? 1);
+                return View(infor.ToPagedList(pageNumber, pageSize));
             }
             return RedirectToAction("Index", "UserGroups");
 

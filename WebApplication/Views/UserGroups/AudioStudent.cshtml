@@ -1,10 +1,12 @@
-﻿@model IEnumerable<SpeakOutWeb.Models.UserAudioGroup>
-
+﻿@model PagedList.IPagedList<SpeakOutWeb.Models.UserAudioGroup>
+@using Microsoft.AspNet.Identity
+@using PagedList;
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@Styles.Render("~/Content/css")
 <style>
     span.line:hover {
         text-decoration: underline;
@@ -42,45 +44,62 @@
         color: blue;
     }
 </style>
-<table class="table">
-    <tr>
-        <th>
-            STT
-        </th>
-        <th>
-            Ngày tạo
-        </th>
-        <th>
-            Bài nghe
-        </th>
-        <th>
-            Kết quả
-        </th>
-        <th></th>
-    </tr>
-    @{
-        int count = 1;
-        foreach (var item in Model)
-        {
-            <tr>
-                <td>@count</td>
-                <td>
-                    @item.UserAudio.CreateDate
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    <audio controls src="@Url.Action("LoadAudio", new { id = item.UserAudio.Id })" ) />
-                </td>
-                <td>
-                    <script>
-                    document.write(unescape("@item.UserAudio.TextAudio"));
-                    </script>
-                </td>
-            </tr>
-            count++;
-        }
+<article id="webslides" class="vertical">
+    <section class="bg-white  ">
+        <div class="container">
+            <div>
 
-    }
-</table>
+                @using (Html.BeginForm("AudioStudent", "UserGroups", FormMethod.Get, new { @class = "formSearch" }))
+                {
+                <p class="formSearch">
+                    Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter5 as string)
+                    <input type="hidden" value="@ViewBag.classId" name="idClass" />
+                    <input type="hidden" value="@ViewBag.studentId" name="studentName" />
+                    <input type="submit" value="Search" id="submitSearch" />
+                </p>
+                }
+            </div>
+            <table class="table">
+                <tr>
+                    <th>
+                        STT
+                    </th>
+                    <th>
+                        <button id="sortButton">@Html.ActionLink("   NGÀY TẠO ", "AudioStudent", new { sortOrder = ViewBag.DateSortParm5, studentName= ViewBag.studentId, idClass=ViewBag.classId }, new { @class = "glyphicon glyphicon-sort-by-alphabet" })</button>
+                    </th>
+                    <th>
+                        Bài nghe
+                    </th>
+                    <th>
+                        Kết quả
+                    </th>
+                    <th></th>
+                </tr>
+                @{
+                    int count = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@count</td>
+                            <td>
+                                @item.UserAudio.CreateDate
+                            </td>
+                            <td>
+                                <audio controls src="@Url.Action("LoadAudio", new { id = item.UserAudio.Id })" ) />
+                            </td>
+                            <td>
+                                <script>
+                    document.write(unescape("@item.UserAudio.TextAudio"));
+                                </script>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+
+                }
+            </table>
+            @Html.PagedListPager(Model, page => Url.Action("AudioStudent",
+               new { page, sortOrder = ViewBag.CurrentSort5, currentFilter = ViewBag.CurrentFilter5, studentName = ViewBag.studentId, idClass = ViewBag.classId }))
+        </div>
+    </section>
+</article>

@@ -1,56 +1,111 @@
-﻿@model IEnumerable<SpeakOutWeb.Models.UserAudio>
-
+﻿@model PagedList.IPagedList<SpeakOutWeb.Models.UserAudio>
+@using Microsoft.AspNet.Identity
+@using PagedList;
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            STT
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LinkAudio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TextAudio)
-        </th>
-        <th></th>
-    </tr>
-    @{
-        int count = 1;
-        foreach (var item in Model)
-        {
-            <tr>
-                <td>@count</td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreateDate)
-                </td>
-                <td>
-                    <audio controls src="@Url.Action("LoadAudio", new { id = item.Id })" ) />
-                </td>
-                <td>
-                    <script>
-                    document.write(unescape("@item.TextAudio"));
-                    </script>
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-          
-            </tr>
-            count++;
-        }
+@Styles.Render("~/Content/css")
+<style>
+    #buttonControl a {
+        text-decoration: none !important;
+        color: white !important;
     }
-</table>
+</style>
+<style>
+    span.line:hover {
+        text-decoration: underline;
+    }
+
+    span.bold {
+        font-weight: bold;
+    }
+
+    span.italic {
+        font-style: italic;
+    }
+
+    span.underline {
+        text-decoration: underline;
+    }
+
+    span.overline {
+        border-top: dashed 1px;
+    }
+
+    span.word {
+        cursor: pointer;
+    }
+
+    span.red {
+        color: red;
+    }
+
+    span.green {
+        color: green;
+    }
+
+    span.blue {
+        color: blue;
+    }
+</style>
+<article id="webslides" class="vertical">
+    <section class="bg-white  ">
+        <div class="container">
+            <div>
+
+                @using (Html.BeginForm("Index", "UserAudioes", FormMethod.Get, new { @class = "formSearch" }))
+                {
+                    <p class="formSearch">
+                        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter1 as string)
+                        <input type="submit" value="Search" id="submitSearch" />
+                    </p>
+                }
+            </div>
+            <table class="table">
+                <tr>
+                    <th>
+                        STT
+                    </th>
+                    <th>
+                        <button id="sortButton">@Html.ActionLink("   NGÀY TẠO ", "Index", new { sortOrder = ViewBag.DateSort }, new { @class = "glyphicon glyphicon-sort-by-alphabet" })</button>
+                    </th>
+                    <th>
+                        Bài nghe
+                    </th>
+                    <th>
+                        Đoạn văn
+                    </th>
+                    <th></th>
+                </tr>
+                @{
+                    int count = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@count</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreateDate)
+                            </td>
+                            <td>
+                                <audio controls src="@Url.Action("LoadAudio", new { id = item.Id })" ) />
+                            </td>
+                            <td>
+                                <script>
+                    document.write(unescape("@item.TextAudio"));
+                                </script>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                }
+            </table>
+            <br />
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort1, currentFilter = ViewBag.CurrentFilter1 }))
+        </div>
+    </section>
+</article>
