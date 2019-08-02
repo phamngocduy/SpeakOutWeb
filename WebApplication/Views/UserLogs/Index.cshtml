@@ -75,6 +75,12 @@
                         @Html.ActionLink("NGÀY TẠO", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
                     </th>
                     <th>
+                        KẾT THÚC
+                    </th>
+                    <th>
+                        THỜI GIAN
+                    </th>
+                    <th>
                         ĐOẠN VĂN
                     </th>
                 </tr>
@@ -92,9 +98,19 @@
                             <td>
                                 @item.CreateDate
                             </td>
+                            <td>
+                                @item.EndDate
+                            </td>
+                            <td>
+                                @if (item.EndDate != null)
+                                {
+                                    @(item.EndDate - item.CreateDate);
+                                }
+
+                            </td>
                             <td id="speechContext1">
                                 <button class="btn btn-info showMore">Hiên thị thêm</button>
-                                <div class="speechContext"> 
+                                <div class="speechContext">
                                     <script>
                                         document.write(unescape("@item.ContentReading"));
                                     </script>
@@ -116,11 +132,9 @@
 </article>
 @section Scripts{
     <script>
-        window.onload = function () {
-            $(".speechContext").hide();
-            $(".showAgain").hide();
-            $(".showMore").show();
-        };
+        $(".speechContext").hide();
+        $(".showAgain").hide();
+        $(".showMore").show();
         $(".showMore").on('click', function () {
             $(this).parent().find(".speechContext").show();
             $(this).parent().find(".showAgain").show();

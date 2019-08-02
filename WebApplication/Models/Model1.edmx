@@ -62,6 +62,7 @@
           <Property Name="ContentReading" Type="text" />
           <Property Name="UserId" Type="nvarchar" MaxLength="125" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="EndDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Vocabularies">
           <Key>
@@ -149,13 +150,13 @@
             <End Role="UserGroup" EntitySet="UserGroups" />
             <End Role="UserGroupDetail" EntitySet="UserGroupDetails" />
           </AssociationSet>
-          <EntitySet Name="UserLogs" EntityType="SpeakOutModel.UserLog" />
           <EntitySet Name="UserAudioes" EntityType="SpeakOutModel.UserAudio" />
           <EntitySet Name="UserAudioGroups" EntityType="SpeakOutModel.UserAudioGroup" />
           <AssociationSet Name="FK_UserAudioGroups_UserAudioes" Association="SpeakOutModel.FK_UserAudioGroups_UserAudioes">
             <End Role="UserAudio" EntitySet="UserAudioes" />
             <End Role="UserAudioGroup" EntitySet="UserAudioGroups" />
           </AssociationSet>
+          <EntitySet Name="UserLogs" EntityType="SpeakOutModel.UserLog" />
         </EntityContainer>
         <EntityType Name="UserAcceptance">
           <Key>
@@ -227,16 +228,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="UserLog">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="ContentReading" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="UserId" Type="String" MaxLength="125" FixedLength="false" Unicode="true" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="UserAudio">
           <Key>
             <PropertyRef Name="Id" />
@@ -269,6 +260,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UserLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ContentReading" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="String" MaxLength="125" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -321,17 +323,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserLogs">
-            <EntityTypeMapping TypeName="SpeakOutModel.UserLog">
-              <MappingFragment StoreEntitySet="UserLogs">
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ContentReading" ColumnName="ContentReading" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserAudioes">
             <EntityTypeMapping TypeName="SpeakOutModel.UserAudio">
               <MappingFragment StoreEntitySet="UserAudioes">
@@ -348,6 +339,18 @@
               <MappingFragment StoreEntitySet="UserAudioGroups">
                 <ScalarProperty Name="IdAudio" ColumnName="IdAudio" />
                 <ScalarProperty Name="IdGroups" ColumnName="IdGroups" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogs">
+            <EntityTypeMapping TypeName="SpeakOutModel.UserLog">
+              <MappingFragment StoreEntitySet="UserLogs">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ContentReading" ColumnName="ContentReading" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

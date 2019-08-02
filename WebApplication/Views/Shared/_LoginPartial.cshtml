@@ -62,11 +62,11 @@ else
 <script>
 
     window.onload = function () {
-                var userName ="@User.Identity.GetUserName()";
+        var userName ="@User.Identity.GetUserName()";
         @{
             string sign = "@";
         }
-    var user = userName.split("@sign");
-        document.getElementById("userName").textContent=user[0];
+        var user = userName.split("@sign");
+        document.getElementById("userName").textContent = user[0].toUpperCase();
     };
 </script>

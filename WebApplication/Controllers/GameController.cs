@@ -53,6 +53,10 @@ namespace SpeakOutWeb.Controllers
         [HttpGet]
         public ActionResult GetRandomCard()
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var currentUser = User.Identity.GetUserName();
             var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser && x.Bookmark==false).ToList();
             var newCard = lstCard.Take(8).ToList();
@@ -91,6 +95,10 @@ namespace SpeakOutWeb.Controllers
         [HttpGet]
         public ActionResult GetListCard(int number)
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var currentUser = User.Identity.GetUserName();
             var lstCard = db.Vocabularies.Where(x => x.UserId == currentUser && x.Bookmark == false).ToList();
             var countCard = db.Vocabularies.Where(x => x.UserId == currentUser && x.Bookmark == false).Count();

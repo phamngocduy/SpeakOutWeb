@@ -1,5 +1,6 @@
 ﻿@using System.Text.RegularExpressions
 @model IEnumerable<String>
+@using Microsoft.AspNet.Identity;
 @{
     /**/
 
@@ -31,8 +32,8 @@
             <div class="modal-body">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="submitButton">Go</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="submitButton">Lưu vào của riêng tôi</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
             </div>
         </div>
     </div>
@@ -64,7 +65,10 @@
                     <button id="@playButton" class="btn" title="Replay" data-toggle="popover" data-trigger="hover" data-content="Click to replay your voice" style="display:none"><img class="icon" src="~/Content/rec-play.png"></button>
                     <button id="@stopButton" class="btn" title="Stop" data-toggle="popover" data-trigger="hover" data-content="Click to Stop" style="display:none"><img class="icon" src="~/Content/out-stop.png"></button>
                     <button id="@saveButton" class="btn" title="Download" data-toggle="popover" data-trigger="hover" data-content="Click to Download" style="display:none"><img class="icon" src="~/Content/rec-download.png"></button>
-                    <button id="@uploadButton" class="btn" title="Upload" data-toggle="modal" data-trigger="hover" data-content="Click to Upload" style="display:none" href="#myModal"><img class="icon" src="@Url.Content("~/Content/Network-Upload-icon.png")"></button>
+                    @if (User.Identity.GetUserName() != null || User.Identity.GetUserName() != "")
+                    {
+                        <button id="@uploadButton" class="btn" title="Upload" data-toggle="modal" data-trigger="hover" data-content="Click to Upload" style="display:none" href="#myModal"><img class="icon" src="@Url.Content("~/Content/Network-Upload-icon.png")"></button>
+                    }
                 </div>
             </div>
 
@@ -186,7 +190,10 @@
     /*
      Handle function to read Text
      */
-     let isSpeaking = false;
+    let isSpeaking = false;
+    let allText = "";
+    let beginTime = "";
+    let endTime = "";
     function speakText2(text) {
         utterThis = new SpeechSynthesisUtterance(text);
         utterThis.onend = function () {
@@ -198,6 +205,8 @@
                 $(@cancelButton).hide();
                 $('.line').removeClass('blue');
                 spanContent = textContent.slice(0);
+                endTime = moment().format();
+                saveLogs(allText, beginTime, endTime);
             }
             if (isSpeaking && spanContent.length > 0)
                 speakText1();
@@ -247,26 +256,50 @@
         isSpeaking = false;
         $('.line').removeClass('blue');
         spanContent = textContent.slice(0);
+        endTime = moment().format();
+        saveLogs(allText, beginTime, endTime);
     });
     // handle play button
         $("#@speakButton").click(function () {
+        allText = "";
         if (spanContent.length > 0) {
             $(this).hide();
             speakText1();
         }
     });
+    function saveLogs(text, createDate, endDate) {
+         $.ajax({
+         type: "POST",
+         url: '@Url.Action("../UserLogs/SaveLogDetails")',
+         data: {
+             text: text,
+             createDate: createDate,
+             endDate: endDate
+         },
+         dataType: "json",
+         success: function (response) {
+
+         },
+         error: function (xhr, status, error) {
+                alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
+            }
+         });
+     }
     function speakText1() {
+        beginTime = moment().format();
         isSpeaking = true;
         $('.line').removeClass('blue');
         $(spanContent[0]).addClass('blue');
         //$(spanContent[0]).parent().find('span.bold').removeClass('bold').parent('span.line').removeClass('underline');
         let speakText = $(spanContent[0]).children('span').removeAttr('data-content');
-            speakText2($(speakText).text());
-            spanContent.reverse();
-            spanContent.pop();
-            spanContent.reverse();
-
+        speakText2($(speakText).text());
+        allText += $(speakText).text();
+        spanContent.reverse();
+        spanContent.pop();
+        spanContent.reverse();
+        console.log(allText);
     }
+
     isOnclick = false; //to set run play
     function setup() { //Setup mic onload
         mic = new p5.AudioIn();
@@ -332,8 +365,8 @@
         $.notify("Downloading", "info");
         saveSound(soundFile, 'mySound.wav'); // save file
                     });
-    $(@uploadButton).click(function () {
-
+     $(@uploadButton).click(function () {
+        $('.modal-body').html('');
         $.ajax({
              type: 'GET',
             url:  '@Url.Action("../Home/getClassesCreated")',
@@ -342,7 +375,7 @@
                 console.log(result);
                 $.each(result, function (i, item) {
                     $('.modal-body').append("<div>" + item.GroupName + "</div><button class='btn btn-danger submitClass'data-id='" + item.Id +"'>Gửi</button>")
-                })     
+                })
             },
             error: function (xhr, status, error) {
                 alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
@@ -358,7 +391,7 @@
                      $('.modal-body').append("<div>" + item.GroupName + "</div><button class='btn btn-danger submitClass' data-id='"+item.GroupId+"'>Gửi</button>")
                  }
                  )
-                 
+
              },
 
              error: function (xhr, status, error) {
@@ -366,7 +399,8 @@
              }
         });
     });
-                           
+    //Only save to my dictionary
+
     /*
     Run when load
     */
@@ -386,7 +420,7 @@
                             })
                         };
                         //httpDo(serverUrl, httpRequestOptions);
-                        
+
                         $.ajax({
                             processData: false,
                             contentType: false,
@@ -402,7 +436,7 @@
                                 alert('OK');
                             }
                         });
-                    });                         
+                    });
     $(document).ready(function () {
         $(@speechRate).slider();
         $('[data-toggle="popover"]').attr('unselectable', 'on');
@@ -560,9 +594,6 @@
         $('[data-toggle="popover"]').popover();
     });
                 </script>
-
-                <script src="~/Scripts/notify.js"></script>
-
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
 

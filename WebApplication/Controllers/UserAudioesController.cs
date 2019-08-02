@@ -45,14 +45,14 @@ namespace SpeakOutWeb.Controllers
                     userAudios = userAudios.OrderByDescending(s => s.CreateDate);
                 break;
             }
-            int pageSize = 1;
+            int pageSize = 5;
             int pageNumber = (page ?? 1);
             return View(userAudios.ToPagedList(pageNumber, pageSize));
         }
         public ActionResult LoadAudio(int id)
         {
             var audioBytes = db.UserAudioes.Where(w => w.Id == id).Single();
-            return base.File(audioBytes.LinkAudio, "audio/wav");
+            return base.File(audioBytes.LinkAudio, "audio/mp3");
         }
     }
 }

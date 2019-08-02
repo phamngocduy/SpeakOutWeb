@@ -1,5 +1,4 @@
-﻿
-@model PagedList.IPagedList<SpeakOutWeb.Models.UserLog>
+﻿@model PagedList.IPagedList<SpeakOutWeb.Models.UserLog>
 @using PagedList;
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
@@ -14,6 +13,42 @@
         text-decoration: none !important;
         color: white !important;
     }
+
+    span.line:hover {
+        text-decoration: underline;
+    }
+
+    span.bold {
+        font-weight: bold;
+    }
+
+    span.italic {
+        font-style: italic;
+    }
+
+    span.underline {
+        text-decoration: underline;
+    }
+
+    span.overline {
+        border-top: dashed 1px;
+    }
+
+    span.word {
+        cursor: pointer;
+    }
+
+    span.red {
+        color: red;
+    }
+
+    span.green {
+        color: green;
+    }
+
+    span.blue {
+        color: blue;
+    }
 </style>
 
 <article id="webslides" class="vertical">
@@ -21,91 +56,95 @@
         <div class="container">
             @using (Html.BeginForm("StudentLogs", "UserGroups", FormMethod.Get))
             {
-            <p class="formSearch">
-                Tìm theo đoạn văn và loại: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-                <input type="hidden" value="@ViewBag.classId" name="classId" />
-                <input type="hidden" value="@ViewBag.studentId" name="studentId" />
-                <input type="submit" value="Search" id="submitSearch" style="width:80px" />
-
-            </p>
+                <p class="formSearch">
+                    Tìm theo đoạn văn và loại: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                    <input type="hidden" value="@ViewBag.classId" name="classId" />
+                    <input type="hidden" value="@ViewBag.studentId" name="studentId" />
+                    <input type="submit" value="Search" id="submitSearch" style="width:80px" />
+                </p>
             }
-            <table class="table">
-                <tr>
-                    <th>
-                        STT
-                    </th>
-                    <th>
-                        LOẠI
-                    </th>
-                    <th>
-                        @Html.ActionLink("NGÀY TẠO", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter, classId = ViewBag.classId, studentId = ViewBag.studentId })
-                    </th>
-                    <th>
-                        ĐOẠN VĂN
-                    </th>
-                </tr>
-                @{int count = 1;
-                    foreach (var item in Model)
-                    {
-                        <input type="hidden" data-id="@item.Id" />
-                        <tr class="active">
-                            <td>
-                                @count
-                            </td>
-                            <td>
-                                @item.Type
-                            </td>
-                            <td>
-                                @item.CreateDate
-                            </td>
-                            <td id="speechContext1">
-                                <button class="btn btn-info" id="showMore">Hiên thị thêm</button>
-                                <div style="display:none" id="speechContext">@Html.Raw(item.ContentReading)</div>
-                                <button class="btn btn-success" id="showAgain" style="width:20px;height:20px;display:none; text-align:center">^</button>
-                            </td>
-                        </tr>
+                <table class="table">
+                    <tr>
+                        <th>
+                            STT
+                        </th>
+                        <th>
+                            LOẠI
+                        </th>
+                        <th>
+                            @Html.ActionLink("NGÀY TẠO", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+                        </th>
+                        <th>
+                            KẾT THÚC
+                        </th>
+                        <th>
+                            THỜI GIAN
+                        </th>
+                        <th>
+                            ĐOẠN VĂN
+                        </th>
+                    </tr>
+                    @{int count = 1;
+                        foreach (var item in Model)
+                        {
+                            <input type="hidden" data-id="@item.Id" />
+                            <tr class="active">
+                                <td>
+                                    @count
+                                </td>
+                                <td>
+                                    @item.Type
+                                </td>
+                                <td>
+                                    @item.CreateDate
+                                </td>
+                                <td>
+                                    @item.EndDate
+                                </td>
+                                <td>
+                                    @if (item.EndDate != null)
+                                    {
+                                        @(item.EndDate - item.CreateDate);
+                                    }
+
+                                </td>
+                                <td id="speechContext1">
+                                    <button class="btn btn-info showMore">Hiên thị thêm</button>
+                                    <div class="speechContext">
+                                        <script>
+                                        document.write(unescape("@item.ContentReading"));
+                                        </script>
+                                    </div>
+                                    <button class="btn btn-success showAgain" style="width:20px;height:20px;text-align:center;vertical-align:middle">^</button>
+                                </td>
+                            </tr>
+                            count++;
+                        }
                     }
-                }
-            </table>
+                </table>
             <br />
             Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-            @Html.PagedListPager(Model, page => Url.Action("Index",
+            @Html.PagedListPager(Model, page => Url.Action("StudentLogs",
                 new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, classId = ViewBag.classId, studentId = ViewBag.studentId }))
         </div>
     </section>
 </article>
 @section Script1{
     <script>
-        $('#showMore').on('click', function () {
-            var x = document.getElementById("speechContext");
-            var y = document.getElementById("showMore");
-            var z = document.getElementById("showAgain");
-            if (x.style.display == "none") {
-                x.style.display = "block";
-                y.style.display = "none";
-                z.style.display = "block";
 
-            } else {
-                x.style.display = "none";
-                y.style.display = "block";
-                z.style.display = "none";
-            }
+        $(".speechContext").hide();
+        $(".showAgain").hide();
+        $(".showMore").show();
+        $(".showMore").on('click', function () {
+            $(this).parent().find(".speechContext").show();
+            $(this).parent().find(".showAgain").show();
+            $(this).css("display", "none")
         })
-        $('#showAgain').on('click', function () {
-            var x = document.getElementById("speechContext");
-            var y = document.getElementById("showMore");
-            var z = document.getElementById("showAgain");
-            if (x.style.display == "none") {
-                x.style.display = "block";
-                y.style.display = "none";
-                z.style.display = "block";
-
-            } else {
-                x.style.display = "none";
-                y.style.display = "block";
-                z.style.display = "none";
-            }
+        $(".showAgain").on('click', function () {
+            $(this).parent().find(".speechContext").css("display", "none");
+            $(this).parent().find(".showMore").css("display", "block");
+            $(this).css("display", "none")
         })
     </script>
 }

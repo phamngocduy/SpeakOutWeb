@@ -184,6 +184,10 @@ namespace SpeakOutWeb.Controllers
         [HttpGet]
         public ActionResult getClasses()
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             db.Configuration.ProxyCreationEnabled = false;
             var current = User.Identity.GetUserName();
             var results = from t1 in db.UserGroups
@@ -194,8 +198,12 @@ namespace SpeakOutWeb.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
-        public JsonResult getClassesCreated()
+        public ActionResult getClassesCreated()
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             db.Configuration.ProxyCreationEnabled = false;
             var current = User.Identity.GetUserName();
             var results = db.UserGroups.Where(x => x.Email == current).ToList();
@@ -204,6 +212,10 @@ namespace SpeakOutWeb.Controllers
         [HttpPost]
         public ActionResult UploadAudio(int groupId)
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var audio = new byte[Request.Files[0].ContentLength];
             Request.Files[0].InputStream.Read(audio, 0, audio.Length);
             using (var scope = new TransactionScope())

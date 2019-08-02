@@ -4,17 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="012a0661a0b54612a46835a3030e504a" Name="Diagram1">
+      <Diagram DiagramId="012a0661a0b54612a46835a3030e504a" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="SpeakOutModel.UserAcceptance" Width="1.5" PointX="3" PointY="1.125" />
         <EntityTypeShape EntityType="SpeakOutModel.UserGroupDetail" Width="1.5" PointX="3" PointY="4" />
         <EntityTypeShape EntityType="SpeakOutModel.UserGroup" Width="1.5" PointX="0.75" PointY="2.5" />
         <EntityTypeShape EntityType="SpeakOutModel.Vocabulary" Width="1.5" PointX="5.75" PointY="0.75" />
         <AssociationConnector Association="SpeakOutModel.FK_UserAcceptances_UserGroups" />
         <AssociationConnector Association="SpeakOutModel.FK_UserGroupDetails_UserGroups" />
-        <EntityTypeShape EntityType="SpeakOutModel.UserLog" Width="1.5" PointX="5.375" PointY="4.75" />
         <EntityTypeShape EntityType="SpeakOutModel.UserAudio" Width="1.5" PointX="0.75" PointY="7.875" />
         <EntityTypeShape EntityType="SpeakOutModel.UserAudioGroup" Width="1.5" PointX="3" PointY="8.125" />
         <AssociationConnector Association="SpeakOutModel.FK_UserAudioGroups_UserAudioes" />
+        <EntityTypeShape EntityType="SpeakOutModel.UserLog" Width="1.5" PointX="5.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

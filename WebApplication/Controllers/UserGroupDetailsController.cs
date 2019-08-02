@@ -19,11 +19,19 @@ namespace SpeakOutWeb.Controllers
         // GET: UserGroupDetails
         public ActionResult Index()
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var userGroupDetails = db.UserGroupDetails.Include(u => u.UserGroup);
             return View(userGroupDetails.ToList());
         }
-        public JsonResult getCurrentUser(string email, int groupId)
+        public ActionResult getCurrentUser(string email, int groupId)
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var currentUser = HttpContext.User.Identity.GetUserName();
             var checkAttend = db.UserGroupDetails.Where(x => x.GroupId == groupId && x.StudentEmail == email).Count();
             if (checkAttend == 0)
@@ -32,8 +40,12 @@ namespace SpeakOutWeb.Controllers
             }
             return Json("Detail", JsonRequestBehavior.AllowGet);
         }
-        public JsonResult getAllUser(string email, int groupId)
+        public ActionResult getAllUser(string email, int groupId)
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var currentUser = HttpContext.User.Identity.GetUserName();
             var checkAttend = db.UserGroupDetails.Where(x => x.GroupId == groupId && x.StudentEmail == email).Count();
             if (checkAttend == 0)
@@ -45,6 +57,10 @@ namespace SpeakOutWeb.Controllers
         [HttpPost]
         public ActionResult AcceptRequest(string name, int idClass, int id, string email)
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
             {
                 return RedirectToAction("Login", "Account");
@@ -80,12 +96,17 @@ namespace SpeakOutWeb.Controllers
         //Xử lý xóa request sau khi chấp nhận hoặc sau khi lưu
         public ActionResult DeleteRequest(int idClass)
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             db.Configuration.ProxyCreationEnabled = false;
             var userAcceptance = db.UserAcceptances.Find(idClass);
             db.UserAcceptances.Remove(userAcceptance);
             db.SaveChanges();
             return Json("Gửi thành công", JsonRequestBehavior.AllowGet);
         }
-       
+        
+
     }
 }

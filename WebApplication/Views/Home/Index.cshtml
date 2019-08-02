@@ -1,9 +1,10 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@{
     ViewBag.Title = "Home Page";
 }
 <style>
-    #webslides{
-        height:100vh;
+    #webslides {
+        height: 100vh;
     }
 </style>
 <!-- class="vertical" -->
@@ -17,7 +18,7 @@
                 <h4>
                     Luyện tập tiếng anh của bạn với
                     <strong>
-                        <a href="">
+                        <a >
                             Speak Out
                             <svg class="fa-play-circle"><use xlink:href="#fa-play-circle"></use></svg>
                         </a>
@@ -33,7 +34,7 @@
     <!-- Slide 1 -->
     <section>
         <span class="background-right-bottom" style="background-image:url('@Url.Content("~/Library/images/closeCheckbg2.png")')"></span>
-       
+
         <!--.wrap = container (width: 90%) -->
         <div class="wrap">
             <div class="content-left slideInLeft">
@@ -81,7 +82,7 @@
     <!--end slide 1-->
     <!--Slide 2-->
     <section>
-        <span class="background-right-top" style="background-image:url('@Url.Content("/Library/images/closeCheckbg.png")')"></span> 
+        <span class="background-right-top" style="background-image:url('@Url.Content("/Library/images/closeCheckbg.png")')"></span>
         <div class="wrap">
             <div class="content-left fadeIn">
                 <h3 class="textContentVLU">
@@ -240,7 +241,7 @@
     <section>
         <div class="wrap fadeInUp">
             <img class="alignleft size-50" src="@Url.Content("~/Library/images/VanLang2.png")" alt="iPhone">
-            
+
             <h2>Công nghệ SpeakOut</h2>
             <p>Sử dụng công nghệ nhận diện giọng nói của google, giọng đọc văn bản Microsoft và được tích hợp hàng loạt từ điển nổi tiếng như Cambridge, Việt-Anh...nhằm phục vụ người dùng một cách hiệu quả nhất.</p>
             <p><strong>Xây dựng trang web ngày càng tiện lợi và hữu ích hơn</strong>:<br> Phù hợp với đa ngành, đa bậc học, đảm bảo chất lượng đáng tin cậy đối với người học tiếng anh không chuyên có sự tiếng bộ về khả năng nghe nói đọc viết.</p>
@@ -283,7 +284,7 @@
     <!-- Start Game -->
     <section>
         <span class="background light" style="background-image:url('@Url.Content("~/Library/images/game.jpg")')"></span>
-        
+
         <div class="wrap fadeInUp">
             <h2>Trò chơi</h2>
             <p><code>Vừa học vừa chơi</code></p>
@@ -319,7 +320,7 @@
     <!-- start dang nhap form -->
     <section class="aligncenter">
         <span class="background" style="background-image:url('@Url.Content("~/Library/images/backgroundSignIn.png")')"></span>
-        
+
         <!--.wrap = container (width: 90%) -->
         <div class="wrap aligncenter">
             <h2><strong>Lên kế hoạch cho lớp học</strong></h2>
@@ -338,19 +339,26 @@
     <!-- Start Dang ky form -->
     <section class="aligncenter">
         <span class="background" style="background-image:url('@Url.Content("~/Library/images/backgroundSignIn.png")')"></span>
-        
+
         <!--.wrap = container (width: 90%) -->
         <div class="wrap">
             <div class="grid vertical-align">
                 <div class="column slideInLeft">
                     <fieldset>
                         <legend>Đăng Nhập</legend>
-                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        @if (!User.Identity.IsAuthenticated)
                         {
-                            @Html.AntiForgeryToken()
-                            <p><input type="email" tabindex="2" name="Email" placeholder="your@email.com" required></p>
-                            <p><input type="password" tabindex="3" name="Password" placeholder="Password" required></p>
-                            <p><button type="submit" tabindex="4" title="Sign Up">Đăng Nhập </button></p>
+                            using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <p><input type="email" tabindex="2" name="Email" placeholder="your@email.com" required></p>
+                                <p><input type="password" tabindex="3" name="Password" placeholder="Password" required></p>
+                                <p><button type="submit" tabindex="4" title="Sign Up">Đăng Nhập </button></p>
+                            }
+                        }
+                        else
+                        {
+                            <p style="color:steelblue">Chào mừng bạn đã đăng nhập @User.Identity.GetUserName()</p>
                         }
                     </fieldset>
                 </div>
@@ -430,14 +438,14 @@
     <script>
         //$(function () {
         //    $('#Textarea').autogrow();
-            
+
         //});
         //$('#nextButton').on('click', function () {
         function Practice(e, type) {
             $(Type).val(type);
             //e.preventDefault()11;
         }
-       
+
     </script>
     <script>
         $('#nextButton').on('click', function () {
@@ -450,7 +458,7 @@
                 },
                 dataType: "json",
                 success: function (response) {
-             
+
                 },
                 error: function (xhr, status, error) {
                     alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)

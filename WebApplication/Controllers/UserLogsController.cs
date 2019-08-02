@@ -54,7 +54,7 @@ namespace SpeakOutWeb.Controllers
                     log = log.OrderByDescending(s => s.Type).Where(x => x.Type == "Bài nói");
                     break;
                 default:  // Name ascending 
-                    log = log.OrderByDescending(x=>x.UserId);
+                    log = log.OrderByDescending(x=>x.CreateDate);
                     break;
             }
 
@@ -66,7 +66,10 @@ namespace SpeakOutWeb.Controllers
         [HttpPost]
         public ActionResult SaveLogs(string text)
         {
-            
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var currentUser = HttpContext.User.Identity.GetUserName();
             db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
@@ -90,8 +93,39 @@ namespace SpeakOutWeb.Controllers
                 return Json("Lưu thành công", JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        public ActionResult SaveLogDetails(string text, DateTime createDate, DateTime endDate)
+        {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var currentUser = HttpContext.User.Identity.GetUserName();
+            db.Configuration.ProxyCreationEnabled = false;
+            if (!ModelState.IsValid)
+            {
+                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            else
+            {
+                if (currentUser != "" || currentUser != null)
+                {
+                    UserLog userLog = new UserLog();
+                    userLog.CreateDate = createDate;
+                    userLog.EndDate = endDate;
+                    userLog.ContentReading = text;
+                    userLog.UserId = currentUser;
+                    userLog.Type = "Đoạn văn";
+                    db.UserLogs.Add(userLog);
+                    db.SaveChanges();
+                }
+
+                return Json("Lưu thành công", JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
-       
+
     }
 }

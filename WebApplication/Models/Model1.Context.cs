@@ -29,8 +29,8 @@ namespace SpeakOutWeb.Models
         public virtual DbSet<UserGroupDetail> UserGroupDetails { get; set; }
         public virtual DbSet<UserGroup> UserGroups { get; set; }
         public virtual DbSet<Vocabulary> Vocabularies { get; set; }
-        public virtual DbSet<UserLog> UserLogs { get; set; }
         public virtual DbSet<UserAudio> UserAudioes { get; set; }
         public virtual DbSet<UserAudioGroup> UserAudioGroups { get; set; }
+        public virtual DbSet<UserLog> UserLogs { get; set; }
     }
 }

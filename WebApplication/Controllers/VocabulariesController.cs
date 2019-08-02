@@ -72,7 +72,7 @@ namespace SpeakOutWeb.Controllers
 
 
         [HttpGet]
-        public JsonResult getVocabularies()
+        public ActionResult getVocabularies()
         {
             db.Configuration.ProxyCreationEnabled = false;
             var userName = User.Identity.GetUserName();
@@ -86,6 +86,10 @@ namespace SpeakOutWeb.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult SaveEntity(Vocabulary vocabulary)
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var currentUser = HttpContext.User.Identity.GetUserName();
             db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
@@ -133,6 +137,10 @@ namespace SpeakOutWeb.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult UpdateBookmark(int Id)
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             Vocabulary vocabulary = db.Vocabularies.Single(x => x.Id == Id);
             vocabulary.Bookmark = true;
             db.Entry(vocabulary).State = EntityState.Modified;
@@ -143,6 +151,10 @@ namespace SpeakOutWeb.Controllers
         [HttpGet]
         public ActionResult CheckAvailable(string checkWord)
         {
+            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var currentUser = User.Identity.GetUserName();
             var listVocab = db.Vocabularies.Where(x => x.UserId == currentUser).ToList();
             var countWord = 0;
