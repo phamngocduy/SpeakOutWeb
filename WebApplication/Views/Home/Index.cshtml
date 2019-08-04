@@ -328,8 +328,8 @@
             <form action="/" method="post" class="bg-white shadow">
                 <ul class="flexblock">
                     <li><input type="email" tabindex="1" name="email" placeholder="your@email.com" required></li>
-                    <li><input type="password" tabindex="2" name="password" placeholder="Password" required></li>
-                    <li><button type="submit" class="radius" tabindex="3" title="Sign Up">Đăng Nhập</button></li>
+                    <li><input type="password" tabindex="1" name="password" placeholder="Password" required></li>
+                    <li><button type="submit" class="radius" tabindex="1" title="Sign Up">Đăng Nhập</button></li>
                 </ul>
             </form>
         </div>
@@ -351,9 +351,9 @@
                             using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                             {
                                 @Html.AntiForgeryToken()
-                                <p><input type="email" tabindex="2" name="Email" placeholder="your@email.com" required></p>
-                                <p><input type="password" tabindex="3" name="Password" placeholder="Password" required></p>
-                                <p><button type="submit" tabindex="4" title="Sign Up">Đăng Nhập </button></p>
+                                <p><input type="email" tabindex="1" name="Email" placeholder="your@email.com" required></p>
+                                <p><input type="password" tabindex="1" name="Password" placeholder="Password" required></p>
+                                <p><button type="submit" tabindex="1" title="Sign Up">Đăng Nhập </button></p>
                             }
                         }
                         else
@@ -407,15 +407,19 @@
             <hr>
             <div class="grid">
                 <div class="column">
-                    <h3>.column 1</h3>
+                    <h4>Triệu Đức Huy</h4>
                     <img class="avatar-300" src="~/Library/images/hung.png" alt="Avatar">
                 </div>
                 <div class="column">
-                    <h3>.column 2</h3>
+                    <h4>Huỳnh Thị Mỹ Linh</h4>
                     <img class="avatar-300" src="~/Library/images/hung.png" alt="Avatar">
                 </div>
                 <div class="column">
-                    <h3>.column 3</h3>
+                    <h4>Nguyễn Mạnh Hùng</h4>
+                    <img class="avatar-300" src="~/Library/images/hung.png" alt="Avatar">
+                </div>
+                <div class="column">
+                    <h4>Nguyễn Thanh Tuấn</h4>
                     <img class="avatar-300" src="~/Library/images/hung.png" alt="Avatar">
                 </div>
             </div>
