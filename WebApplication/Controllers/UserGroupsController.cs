@@ -208,12 +208,14 @@ namespace SpeakOutWeb.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            if (userGroup.GroupName.Trim() == "")
+            if (userGroup.GroupName.Trim() == "" || userGroup.Description.Trim() == "")
             {
-                return Content("<script language='javascript' type='text/javascript'>alert('Tên nhóm không được toàn kí tự khoảng trắng!');</script>");
+                ViewBag.GetUserTrim = "Ok";
+                return View();
             }
             if (ModelState.IsValid)
             {
+                ViewBag.GetUserTrim = "No";
                 var currentUser = User.Identity.GetUserName();
                 userGroup.CreatedDate = DateTime.Now;
                 userGroup.Email = currentUser;

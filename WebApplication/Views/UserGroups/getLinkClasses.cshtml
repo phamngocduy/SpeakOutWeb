@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "getLinkClasses";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -35,7 +34,10 @@
             var getIdclass = currentUrl.split("=");
             var idClass = parseInt(getIdclass[1]);
             var name = $('#txtName').val();
-            $.ajax({
+            if ($('#txtName').val().trim() == "") {
+                alert("Tên người dùng không được để trống");
+            } else {
+                 $.ajax({
                 type: 'POST',
                 url: '../UserGroupsAcceptance/CreateRequest',
                 dataType: "json",
@@ -47,9 +49,8 @@
                 error: function (xhr, status, error) {
                     alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)
                 }
-            });
+               });
+            }
         });
-       
     </script>
 }
-

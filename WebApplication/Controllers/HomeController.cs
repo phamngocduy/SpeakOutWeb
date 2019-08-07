@@ -40,6 +40,7 @@ namespace SpeakOutWeb.Controllers
         [HttpPost, ActionName("Index")]
         public ActionResult Process(string text = "", string type = null)
         {
+            ViewBag.GetUserName = User.Identity.GetUserName();
             if (text.Trim() == "")
             {
                 return View();

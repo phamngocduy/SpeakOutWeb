@@ -201,7 +201,7 @@
         $('#updateButton').on('click', function () {
             var userGroup = { Id: idClass, GroupName: $('#nameUpdate').val(), Description: $('#desUpdate').val(), Email: email, CreatedDate: date };
             if ($('#nameUpdate').val().trim() === "" || $('#desUpdate').val().trim() === "") {
-                alert("Không được bỏ trống ");
+                alert("'Tên nhóm hoặc mô tả không được chứa toàn bộ kí tự khoảng trắng");
             } else {
                 $.ajax({
                     type: 'POST',

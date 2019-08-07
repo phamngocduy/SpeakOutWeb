@@ -47,6 +47,7 @@
         <div class="container body-content pageProcess">
             <div class="row">
                 <div class="col-sm-3 form-inline">
+                    <input type="hidden" value="@ViewBag.GetUserName" id="getUserName"/>
                     <select class="form-control" id="@speechVoices"></select>
                     <input type="range" data-slider-min="0.5" data-slider-max="2" data-slider-value="1" data-slider-step="0.1" id="@speechRate">
                 </div>
@@ -309,6 +310,7 @@
         soundFile = new p5.SoundFile();
     }
     function startRecord() { //mousePressed1
+        getAudioContext().resume();
         mic.start();
         //if (mic.enabled) {//set state to hide or show and state
         recorder.record(soundFile);
@@ -340,7 +342,10 @@
                 console.log(result);
                 $(@playButton).show();
                 $(@saveButton).show();
-                $(@uploadButton).show();
+                if ($('#getUserName').val() != "") {
+                     $(@uploadButton).show();
+                }
+               
             },
             error: function (xhr, status, error) {
                 alert('Result: ' + status + ' ' + error + ' ' + xhr.status + ' ' + xhr.statusText)

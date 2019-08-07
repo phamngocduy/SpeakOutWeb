@@ -16,6 +16,7 @@
                 <div class="form-horizontal">
                     <h4>Tạo nhóm</h4>
                     <hr />
+                    <input type="hidden" value="@ViewBag.GetUserTrim" id="getAlertTrim" />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         <label class="control-label col-md-2">Tên nhóm</label>
@@ -47,3 +48,14 @@
         </div>
     </section>
 </article>
+
+@section Script1 {
+    <script>
+        $(function () {
+            if ($('#getAlertTrim').val() == "Ok") {
+                alert('Tên nhóm hoặc mô tả không được chứa toàn bộ kí tự khoảng trắng');
+            }
+        });
+    </script>
+
+}
