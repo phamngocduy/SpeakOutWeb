@@ -37,7 +37,8 @@
             <p><code>Vừa học vừa chơi</code></p>
             <ul class="flexblock clients">
                 <li>
-                    <a href="~/Views/Game/Index.cshtml" title="Client">
+                   
+                    <a href="@Url.Action("../Game/MatchingGame")" title="Client">
                         <figure>
                             <img class="blacklogo" src="~/Library/images/game1.png" alt="Memory Game">
                             <figcaption>
@@ -48,7 +49,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="~/Views/Game/Index.cshtml" title="Client" data-toggle="modal">
+                    <a href="@Url.Action("../Game/WritingGame")" title="Client" data-toggle="modal">
                         <figure>
                             <img class="blacklogo" src="~/Library/images/game2.png" alt="Word">
                             <figcaption>

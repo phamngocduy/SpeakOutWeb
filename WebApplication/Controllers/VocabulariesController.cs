@@ -86,10 +86,7 @@ namespace SpeakOutWeb.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult SaveEntity(Vocabulary vocabulary)
         {
-            if (HttpContext.User.Identity.GetUserName() == "" || HttpContext.User.Identity.GetUserName() == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+
             var currentUser = HttpContext.User.Identity.GetUserName();
             db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
@@ -99,7 +96,6 @@ namespace SpeakOutWeb.Controllers
             }
             else
             {
-
                 if (vocabulary.Id == 0)
                 {
                     if(vocabulary.Spelling==null || (vocabulary.Spelling == "" && vocabulary.VnWord==""))
@@ -119,9 +115,9 @@ namespace SpeakOutWeb.Controllers
                     vocabulary.CreatedDate = DateTime.Now;
                     vocabulary.Bookmark = false;
                     vocabulary.UserId = currentUser;
-                    if (vocabulary.UserId == null)
+                    if (vocabulary.UserId == null || vocabulary.UserId == "")
                     {
-                        return Json("Check your login!", JsonRequestBehavior.AllowGet);
+                        return Json("Kiểm tra đặng nhập của bạn!", JsonRequestBehavior.AllowGet);
                     }
                     db.Vocabularies.Add(vocabulary);
                 }

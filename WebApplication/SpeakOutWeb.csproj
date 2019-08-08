@@ -256,6 +256,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\cogainv.jpg" />
+    <Content Include="Content\cr7.png" />
     <Content Include="Content\logo-readout.png" />
     <Content Include="Content\logo-vlu-6.png" />
     <Content Include="Content\mic-animate.gif" />
@@ -273,6 +274,8 @@
     <Content Include="Content\style.css" />
     <Content Include="Content\uk.png" />
     <Content Include="Content\us.png" />
+    <Content Include="Content\vienthuy.jpg" />
+    <Content Include="Content\vlu.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
