@@ -446,7 +446,7 @@ namespace SpeakOutWeb.Controllers
                         infor = infor.OrderByDescending(s => s.UserAudio.CreateDate);
                         break;
                 }
-                int pageSize = 1;
+                int pageSize = 5;
                 int pageNumber = (page ?? 1);
                 return View(infor.ToPagedList(pageNumber, pageSize));
             }

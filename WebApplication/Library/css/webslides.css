@@ -4039,10 +4039,12 @@ a,
 article header a {
     color: inherit;
 }
-
-@media (min-width: 300px) {
+form p{
+    margin-top:-50px !important;
+}
+@media (min-width: 1024px) {
     article {
-        margin-top: 100px;
+        margin-top: 60px;
     }
 }    
 
@@ -4085,6 +4087,7 @@ pre {
     -webkit-box-shadow: 0 8px 16px rgba(0, 20, 80, 0.04), 0 4px 16px rgba(0, 0, 0, 0.08);
     box-shadow: 0 8px 16px rgba(0, 20, 80, 0.04), 0 4px 16px rgba(0, 0, 0, 0.08);
 }
+
 
     pre:hover {
         -webkit-box-shadow: 0 8px 16px rgba(0, 40, 160, 0.08), 0 8px 24px rgba(0, 0, 0, 0.08);
