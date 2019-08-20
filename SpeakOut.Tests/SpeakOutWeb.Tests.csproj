@@ -102,7 +102,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\GamesControllerTest.cs" />
     <Compile Include="Controllers\UserGroupsControllerTest.cs" />
+    <Compile Include="Controllers\UserLogsControllerTest.cs" />
+    <Compile Include="Controllers\VocabulariesControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
