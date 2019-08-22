@@ -121,9 +121,7 @@
                     <th>
                         Mô tả
                     </th>
-                    <th>
-                        Người thành lập
-                    </th>
+
                     <th>
                         <button id="sortButton">@Html.ActionLink("   NGÀY TẠO ", "Index", new { sortOrder = ViewBag.DateSortParm2, currentFilter = ViewBag.CurrentFilter2 }, new { @class = "glyphicon glyphicon-sort-by-alphabet" })</button>
                     </th>
@@ -144,9 +142,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Description)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Email)
-                            </td>
+
                             <td>
                                 @Html.DisplayFor(modelItem => item.CreatedDate)
                             </td>

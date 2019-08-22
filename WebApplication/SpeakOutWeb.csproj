@@ -361,6 +361,7 @@
     <Content Include="Library\Assets\Fonts\Lunacy.woff" />
     <Content Include="Library\Assets\Fonts\Lunacy.woff2" />
     <None Include="Properties\PublishProfiles\CNTTTEST.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
