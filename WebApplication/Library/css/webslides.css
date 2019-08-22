@@ -4039,8 +4039,8 @@ a,
 article header a {
     color: inherit;
 }
-form p{
-    margin-top:-50px !important;
+form #paragraphButton {
+    margin-top: -50px !important;
 }
 @media (min-width: 1024px) {
     article {
